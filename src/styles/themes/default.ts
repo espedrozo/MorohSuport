@@ -2,6 +2,7 @@ export const defaultTheme = {
   white: '#fff',
 
   'bg-primary': '#005693',
+  'color-secondary': '#00aabb',
 
 
   'gray-100': '#E1E1E6',

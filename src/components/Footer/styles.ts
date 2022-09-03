@@ -6,7 +6,7 @@ export const ContainerFooter = styled.div`
   align-items: center;
   position:absolute;
   bottom:0;
-  height: 5vh;
+  height: 3rem;
   width: 100vw;
   background-color: #005693;
   color: #fff;

@@ -1,38 +1,32 @@
 import styled from "styled-components";
 
 export const ContainerHeader = styled.div`
-  display: flex;
-  align-items: center;
-  height: 4rem;
-  justify-content: space-between;
-  padding: 0 1rem;
-  background-color: ${({ theme }) => theme["bg-primary"]};
   gap: 1rem;
-
-  img{
-    width: 150px;
-    border-radius: 50px;
-  }
+  height: 4rem;
+  display: flex;
+  padding: 0 1rem;
+  align-items: center;
+  background-color: ${({ theme }) => theme["bg-primary"]};
 
   form{
-    width: 100%;
+    flex: 1;
     display: flex;
     
     input{
       flex: 1;
-      padding: 0 1rem;
       border: none;
+      padding: 0 1rem;
       border-radius: 6px 0 0 6px;
     }
 
     button{
       width: 100px;
       height: 40px;
-      border: 1px solid ${({ theme }) => theme["green-500"]};
+      cursor: pointer;
       border-radius: 0 6px 6px 0;
       color: ${({ theme }) => theme.white};
+      border: 1px solid ${({ theme }) => theme["green-500"]};
       background-color: ${({ theme }) => theme["green-500"]};
-      cursor: pointer;
 
       &:hover{
         transition: background-color 0.2s;
@@ -42,19 +36,55 @@ export const ContainerHeader = styled.div`
   }
 `;
 
-export const ButtonLogin = styled.button`
+export const AreaLogo = styled.div`
+  width: 250px;
+  display: flex;
+  justify-content: center;
+
+  img{
+    width: 150px;
+    border-radius: 50px;
+  }
+`;
+
+export const BaseButton = styled.button`
   width: 100px;
   height: 40px;
-  border: 1px solid ${({ theme }) => theme.white};
-  border-radius: 6px;
-  color: ${({ theme }) => theme.white};
-  background-color: transparent;
   cursor: pointer;
+  border-radius: 6px;
+  background-color: transparent;
+  color: ${({ theme }) => theme.white};
+  border: 1px solid ${({ theme }) => theme.white};
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+  border-radius: 6px;
+  background-color: transparent;
+  color: ${({ theme }) => theme.white};
+  border: 1px solid ${({ theme }) => theme.white};
+`;
 
+export const ButtonLogin = styled(BaseButton)`
   &:hover{
+    transition: background-color 0.3s;
     color: ${({ theme }) => theme["bg-primary"]};
     background-color: ${({ theme }) => theme.white};
-    transition: background-color 0.3s;
   }
+`;
 
+export const ButtonCreatePost = styled(BaseButton)`
+  &:hover{
+    transition: background-color 0.3s;
+    color: ${({ theme }) => theme.white};  
+    border: 1px solid ${({ theme }) => theme["red-300"]};
+    background-color: ${({ theme }) => theme["red-300"]};
+  }
+`;
+
+export const ButtonLogout = styled(BaseButton)`
+  &:hover{
+    transition: background-color 0.3s;
+    color: ${({ theme }) => theme["bg-primary"]};
+    background-color: ${({ theme }) => theme.white};
+  }
 `;

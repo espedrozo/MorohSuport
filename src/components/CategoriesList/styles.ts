@@ -1,0 +1,76 @@
+import styled from "styled-components";
+
+export const Container = styled.div`
+  padding: 5px;
+
+  ul {
+    list-style: none;
+  } 
+`;
+
+
+export const Li = styled.li`
+
+  margin: 5px 0;
+
+  a{
+    text-decoration: none;
+    color: ${({ theme }) => theme["color-secondary"]};
+   
+    &:hover {
+      padding: 2px;
+      border-radius: 2px;
+      color: ${({ theme }) => theme.white};
+      background-color: ${({ theme }) => theme["color-secondary"]};
+    }
+  }
+
+  a.open {
+    font-weight: normal;
+  }
+
+  a:not(.open){
+    font-weight: normal;
+  }
+
+  &.has-children {
+    cursor: pointer;
+    position: relative;  
+  }
+  
+  &.has-children.open {
+    font-weight: bold;
+    color: ${({ theme }) => theme["bg-primary"]};
+  }
+
+  &.has-children:not(.open) {
+    font-weight: normal;
+    color: ${({ theme }) => theme["bg-primary"]};
+  }
+
+  &.has-children::before {
+    content: "+";
+    font-size: 20px;
+    margin-right: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: ${({ theme }) => theme["bg-primary"]};
+  }
+
+  &.has-children.open::before {
+    content: "-";
+    font-size: 20px;
+    margin-right: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: ${({ theme }) => theme["bg-primary"]};
+  }
+
+  & > ul {
+    display: none;
+    margin: 5px 0;
+  }
+  
+  &.open > ul {
+    display: block;
+    margin-left: 20px;
+  }
+`;

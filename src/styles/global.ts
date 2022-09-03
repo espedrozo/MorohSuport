@@ -9,11 +9,10 @@ export const GlobalStyle = createGlobalStyle`
   
   :focus{
     outline: 0;
-    box-shadow: 0 0 2px ${({ theme }) => theme['green-500']};
   }
   body {
     -webkit-font-smoothing: antialiased;
-    color: ${({ theme }) => theme['gray-100']};
+    color: ${({ theme }) => theme['gray-700']};
     background-color: ${({ theme }) => theme.white};
   }
   body, input, textarea, button {
