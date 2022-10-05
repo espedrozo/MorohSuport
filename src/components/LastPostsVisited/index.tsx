@@ -23,13 +23,11 @@ export function LastPostsVisited() {
   return (
     <Container>
       {
-        listaPosts?.map((post) => {
-          return (
-            <NavLink key={post.id_post} to={`/postdetails/${post.id_post}`} className="lista">
-              {post.titulo}
-            </NavLink>
-          );
-        })
+        listaPosts?.map((post, k) =>
+          <NavLink key={post.id_post} to={`/postdetails/${post.id_post}`} className="lista">
+            {post.titulo}
+          </NavLink>
+        )
       }
     </Container>
   )

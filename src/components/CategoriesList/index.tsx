@@ -51,7 +51,7 @@ export function CategoriesList() {
   useEffect(() => {
     async function getAllCategoires() {
 
-      const categories = await api.getAllCategories()
+      const categories = await api.getAllCategories();
 
       //console.log(categories)
 
@@ -115,6 +115,8 @@ export function CategoriesList() {
       }
     }
   };
+
+  // console.log("CAT: ", listOfIdOfCategories);
 
   return (
     <Container>

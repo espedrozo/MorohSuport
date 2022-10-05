@@ -13,6 +13,7 @@ export function Router() {
         <Route path="/login" element={<Login />} />
         <Route path="/postdetails/:id_post" element={<PostDetails />} />
         <Route path="/postcreate" element={<PostCreate />} />
+        <Route path="*" element={<h1>Not Found</h1>} />
       </Route>
     </Routes>
   )

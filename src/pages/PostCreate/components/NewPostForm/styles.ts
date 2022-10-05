@@ -42,6 +42,14 @@ export const AreaCategory = styled(BaseAreaContainer)`
   align-items: center;
   justify-content: space-between;
 
+  .category-pai{
+    font-weight: bold;
+  }
+
+  .subcategory{
+    font-style: italic;
+  }
+
   > div{
     display: flex;
     flex-direction: column;
@@ -72,8 +80,8 @@ export const AreaButtonPassos = styled.div`
 
   span{
     display: flex;
-    align-items: center;
     cursor: pointer;
+    align-items: center;
 
     svg.remover_passo{
       color: ${({ theme }) => theme["red-300"]};
@@ -97,6 +105,28 @@ export const AreaPostsRelacionados = styled.div`
       display: flex;
       padding-bottom: 5px;
       align-items: center;
+
+      svg{
+        color: ${({ theme }) => theme["color-secondary"]};
+      }
+
+      span{
+        margin: 0 5px;
+      }
+
+      .trash-link{
+        width: 22px;
+        height: 22px;
+        cursor:pointer;
+        border-radius: 2px;
+        border: 1px solid transparent;
+        color: ${({ theme }) => theme['red-500']};
+
+        &:hover{
+          color: ${({ theme }) => theme["red-300"]};
+          border: 1px solid ${({ theme }) => theme["red-300"]};
+        }
+      }
     }
   }
 `;
@@ -194,4 +224,35 @@ export const ImageDetails = styled.img`
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme["bg-primary"]};
   box-shadow: 0px 0px 1px 0.2px ${({ theme }) => theme["bg-primary"]};
+`;
+
+
+export const LinkImagemInput = styled.input`
+    width: 100%;
+    border: 1px solid ${({ theme }) => theme["gray-200"]};
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px 0;
+    font-size: 14px;
+    outline: 0;
+        
+    &:focus{
+        border: 1px solid ${({ theme }) => theme['color-secondary']};
+        box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme['color-secondary']};
+    }
+`;
+
+export const LinkVideoInput = styled.input`
+    width: 100%;
+    border: 1px solid ${({ theme }) => theme["gray-200"]};
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px 0;
+    font-size: 14px;
+    outline: 0;
+        
+    &:focus{
+        border: 1px solid ${({ theme }) => theme['color-secondary']};
+        box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme['color-secondary']};
+    }
 `;

@@ -22,27 +22,6 @@ export const Container = styled.div`
     margin: 10px 0;
   }
 
-  .btn-editar{
-    width: 100px;
-    background-color: #005696;
-    color: #fff;
-  }
-
-  .btn-editar:hover{
-    background-color: #005680;
-  }
-
-  .btn-excluir{
-    width: 100px;
-    color: #fff;
-    background-color: #dc3545;
-  }  
-
-  .btn-excluir:hover{
-    background-color: #b21f2d;
-    color: #fff;
-  }
-
   p{
     margin: 10px 0;
     text-align: justify;
@@ -73,15 +52,34 @@ export const FormPost = styled.form`
 `;
 
 export const FormGroup = styled.div`
+  display: flex;
+  flex-direction: column;
 
+  a{
+    display: flex;
+    margin: 5px 0;
+    align-items: center;
+
+    &:hover{
+      cursor: pointer;
+      color: ${({ theme }) => theme["color-secondary"]};
+    }
+
+    svg{
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+  }
 `;
 
 export const ImageDetails = styled.img`
-    margin: 5px;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #005693;
-    box-shadow: 0px 0px 1px 0.2px #005693;
+  margin: 5px;
+  padding: 5px;
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #005693;
+  box-shadow: 0px 0px 1px 0.2px #005693;
 `;
 
 export const TextPostItem = styled.p`
@@ -89,19 +87,19 @@ export const TextPostItem = styled.p`
 `;
 
 export const ObservationArea = styled.div`
-    width: 100%;
-    padding: 5px;
-    line-height: 1.5;
-    font-style: italic;
-    border-radius: 5px;
-    white-space: pre-wrap;
-    background-color: #Fff574;
+  width: 100%;
+  padding: 5px;
+  line-height: 1.5;
+  font-style: italic;
+  border-radius: 5px;
+  white-space: pre-wrap;
+  background-color: #Fff574;
 `;
 
 export const AreaButton = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;  
 `;
 
 export const BackButton = styled.button`
@@ -110,11 +108,43 @@ export const BackButton = styled.button`
   padding: 5px;
   border-radius: 5px;
   border: none;
-  background-color: #00aabb;
-  color: #fff;
+  background-color: ${({ theme }) => theme["color-secondary"]};
+  color: ${({ theme }) => theme.white};
+  cursor: pointer;
 
   &:hover{
-    cursor: pointer;
     background-color: #00bbbb;
+  }
+`;
+
+export const EditeButton = styled.button`
+  width: 100px;
+  height: 40px;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  background-color: #005696;
+  color: ${({ theme }) => theme.white};
+  padding: 6px;
+  cursor: pointer;
+  
+  &:hover{
+    background-color: #005680;
+  }
+`;
+
+export const DeleteButton = styled.button`
+  width: 100px;
+  height: 40px;
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+  color: ${({ theme }) => theme.white};
+  background-color: #dc3545;
+  padding: 6px;
+  cursor: pointer;
+
+  &:hover{
+    background-color: #b21f2d;
   }
 `;

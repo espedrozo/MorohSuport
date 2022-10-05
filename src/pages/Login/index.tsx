@@ -15,6 +15,7 @@ import {
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { fazerLogin } from "../../lib/authHandler";
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Digite um email válido!" }),
@@ -40,19 +41,21 @@ export function Login() {
   });
 
   async function handleLogin(data: loginFormInputs) {
-
-    const { email, password, rememberPassword } = data
-
     setErrorLogin('');
 
-    try {
-      await api.login(email, password, rememberPassword);
-      navigate("/home");
-    } catch (error) {
-      setErrorLogin("ERROR: E-mail ou Senha inválidos!");
-    }
+    const { email, password, rememberPassword } = data;
 
-    reset()
+    const response = await api.login(email, password, rememberPassword);
+
+    // setUsuario(response);
+
+    if (response.status === 'error') {
+      setErrorLogin(response.message);
+    } else {
+      fazerLogin(response.token, rememberPassword); // falta implementar o token na API
+      navigate("/home");
+    }
+    //reset(); os dados do formulário
   }
 
   return (

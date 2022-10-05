@@ -3,37 +3,39 @@ import styled from "styled-components";
 export const ContainerPagination = styled.div`
 
   display: flex;
-  justify-content: center;
-  align-items: center;
   margin-top: 10px;
+  align-items: center;
+  justify-content: center;
   
   a{
-    text-decoration: none;
+    width: 7vh;
+    height: 7vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    color:#fff;
+    cursor: pointer;
     padding: 8px 14px;
     margin-right: 5px;
-    height: 7vh;
-    width: 7vh;
     border-radius: 50%;
+    align-items: center;
     text-decoration: none;
-    background-color: #00aabb;
+    text-decoration: none;
+    justify-content: center;
     transition: background-color .2s;
-    border: 1px solid #00aabb;
-    cursor: pointer;
+    color: ${({ theme }) => theme.white};
+    background-color: ${({ theme }) => theme["color-secondary"]};
+    border: 1px solid ${({ theme }) => theme["color-secondary"]};
   }
 
  a.active {
-    background-color: #005693 ;
-    color: white;
-    border: 1px solid #7cbddb;
+   border: 1px solid #7cbddb;
+   color: ${({ theme }) => theme.white};
+   background-color: ${({ theme }) => theme["bg-primary"]};
   }
    a.disabled { 
     opacity: 0.2;
   }
-   a:hover:not(.active) {background-color: #00aabb; box-shadow: 0px 0px 5px 0.5px #005693;
+   a:hover:not(.active) {
+    background-color: ${({ theme }) => theme["color-secondary"]}; 
+    box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["bg-primary"]};
   }
 
 `;

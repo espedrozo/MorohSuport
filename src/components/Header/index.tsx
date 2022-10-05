@@ -11,9 +11,14 @@ export function Header() {
 
   const handleLogout = () => {
     fazerLogout();
+    localStorage.removeItem('idRecentes');
+    localStorage.removeItem('postRecentes');
+
     sessionStorage.removeItem('allCategories');
     sessionStorage.removeItem('listOfIdOfCategories');
-    navigate('/home')
+
+    window.location.href = "/home";
+    //navigate('/home');
   }
 
   return (

@@ -1,9 +1,11 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useParams } from 'react-router-dom';
 import {
   AreaButton,
   BackButton,
   Container,
+  DeleteButton,
+  EditeButton,
   FormGroup,
   FormPost,
   ImageDetails,
@@ -18,6 +20,11 @@ import { api } from '../../lib/Api';
 
 import { isLogged } from "../../lib/authHandler";
 
+import * as Dialog from '@radix-ui/react-dialog';
+import { DeleteModal } from "../DeleteModal";
+import { Player } from "video-react";
+import { LinkSimple } from "phosphor-react";
+
 var idRecentes = JSON.parse(localStorage.getItem('idRecentes')) || [];
 var postRecentes = JSON.parse(localStorage.getItem('postRecentes')) || [];
 
@@ -26,7 +33,9 @@ interface PostItemProps {
   titulo_passo: string;
   conteudo: string;
   imagem: string;
+  url_imagem: string;
   video: string;
+  url_video: string;
   observacao: string;
 }
 
@@ -48,7 +57,7 @@ export function Post() {
 
   let logado = isLogged();
   const { id_post } = useParams();
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   // Sessão de States ou estados
   const [postInfo, setPostInfo] = useState({} as PostDetailsProps);
@@ -115,209 +124,163 @@ export function Post() {
 
   // Função que exclui um post pelo ID
   const handleDetele = () => {
-    /*    const deletePosts = async (id) => {
-           let json = await api.deletePosts(id);
-       }
-       deletePosts(id);
- 
-       var index = idRecentes.indexOf(id);
- 
-       if (index > -1) {
-           idRecentes.splice(index, 1);
-       }
- 
-       // Salvando a Lista de IDs no localStorage
-       localStorage.setItem('idRecentes', JSON.stringify(idRecentes));
-       idRecentes = JSON.parse(localStorage.getItem('idRecentes'));
- 
-       // Localizando objeto dentro do Array de PostsRecentes
-       const postRecentEncontrado = postRecentes.find(element => element.id_post == id);
- 
-       if (postRecentEncontrado) {
-           var indexPostRecente = postRecentes.indexOf(postRecentEncontrado);
-           if (indexPostRecente > -1) {
-               postRecentes.splice(indexPostRecente, 1);
-           }
-           localStorage.setItem('postRecentes', JSON.stringify(postRecentes.slice(-5)));
-       }
-       sessionStorage.removeItem('categorias');
-       sessionStorage.removeItem('idCategorias')
-       window.location.href = "/"; */
+
+    if (id_post) {
+      const deletePosts = async (id_post: string) => {
+        const response = await api.deletePosts(id_post);
+
+        console.log("DELETE: ", response);
+      }
+      deletePosts(id_post);
+    }
+
+    var index = idRecentes.indexOf(id_post);
+
+    if (index > -1) {
+      idRecentes.splice(index, 1);
+    }
+
+    // Salvando a Lista de IDs no localStorage
+    localStorage.setItem('idRecentes', JSON.stringify(idRecentes));
+    idRecentes = JSON.parse(localStorage.getItem('idRecentes'));
+
+    // Localizando objeto dentro do Array de PostsRecentes
+    const postRecentEncontrado = postRecentes.find((element: { id_post: string | undefined; }) => element.id_post == id_post);
+
+    if (postRecentEncontrado) {
+      var indexPostRecente = postRecentes.indexOf(postRecentEncontrado);
+      if (indexPostRecente > -1) {
+        postRecentes.splice(indexPostRecente, 1);
+      }
+      localStorage.setItem('postRecentes', JSON.stringify(postRecentes.slice(-5)));
+    }
+
+    localStorage.removeItem('idRecentes');
+    localStorage.removeItem('postRecentes');
+
+    sessionStorage.removeItem('allCategories');
+    sessionStorage.removeItem('listOfIdOfCategories');
+
+    window.location.href = "/home";
+
+    //window.location.href = '/';
+    //navigate("/home");
   }
 
-
+  console.log(postInfo);
 
   return (
     <Container>
 
-      {logado ?
+      <FormPost onSubmit={handleDetele}>
+        <h2 className="text-center">{postInfo.titulo}</h2>
+        <Resume>
+          <strong>Resumo: </strong>{postInfo.resumo}
+        </Resume>
 
-        <FormPost onSubmit={handleDetele}>
-          <h2 className="text-center">{postInfo.titulo}</h2>
-          <Resume>
-            <strong>Resumo: </strong>{postInfo.resumo}
-          </Resume>
+        {postInfo.obs &&
+          <ObservationArea>
+            <strong>OBS: </strong>{postInfo.obs}
+          </ObservationArea>
+        }
 
-          {postInfo.obs &&
-            <ObservationArea>
-              <strong>OBS: </strong>{postInfo.obs}
-            </ObservationArea>
-          }
-
-          {postInfo.postitem &&
-            <div>
-              {postInfo.postitem.map((postItem) =>
-                <div key={postItem.id_post_item}>
-                  <TextPostItem>
-                    <strong>Passo: &nbsp; {postItem.titulo_passo} - &nbsp; </strong> {postItem.conteudo}
-                  </TextPostItem>
-                  {postItem.imagem &&
-                    <div className="d-flex justify-content-center">
-                      <ImageDetails src={postItem.imagem} />
-                    </div>
-                  }
-                  {postItem.video &&
-                    <div className="d-flex justify-content-center">
-                      <Player
-                        playsInline
-                        src={postItem.video}
-                        fluid={false}
-                        width={300}
-                        height={300}
-                      />
-                    </div>
-                  }
-                  {postItem.observacao &&
-                    <ObservationArea>
-                      <p><strong>OBS: </strong> {postItem.observacao}</p>
-                    </ObservationArea>
-                  }
-                </div>
-              )}
-            </div>
-          }
-
-          {postInfo.relacao &&
-            <>
-              <h4>Tópicos Relacionados: </h4>
-              {postInfo.relacao.map((item, index) =>
-                <FormGroup key={index}>
-                  <ul>
-                    <a href={`/detalhe/${item.id_relacao}`}>
-                      <li className="link-relacao" >
-                        {item.titulo}
-                      </li>
-                    </a>
-                  </ul>
-                </FormGroup>
-              )}
-            </>
-          }
-
-          <Spacer />
-
-          <div className="row">
-            <div className="col justify-content-center text-center">
-              <BackButton className='btn btn-voltar' onClick={() => history('/')}>Voltar</BackButton>
-            </div>
-            <div className="col justify-content-center text-center">
-              <Link to={`/atualizar/${id_post}`} className="btn btn-editar">Editar Post</Link>
-            </div>
-            <div className="col justify-content-center text-center">
-              <button type="button" className="btn btn-excluir" data-toggle="modal" data-target="#ModalCentralizado">Excluir Post</button>
-              <div className="modal fade bd-modal-sm" id="ModalCentralizado" role="dialog" aria-labelledby="TituloModalCentralizado" aria-hidden="true">
-                <div className="modal-dialog modal-dialog-centered modal-sm" role="document">
-                  <div className="modal-content">
-                    <div className="modal-header bg-danger">
-                      <h5 className="modal-title text-white pl-3 ml-5" id="TituloModalCentralizado">EXCLUIR POST</h5>
-                      <button type="button" className="close" data-dismiss="modal" aria-label="Fechar">
-                        <span className="text-white" aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div className="modal-body">Deseja realmente excluir este Post?</div>
-                    <div className="modal-footer">
-                      <button type="button" className="btn btn-secondary mx-auto" data-dismiss="modal">Cancelar</button>
-                      <button onClick={() => handleDetele()} className="btn btn-primary mx-auto" data-dismiss="modal">Confirmar</button>
-                    </div>
+        {postInfo.postitem &&
+          <div>
+            {postInfo.postitem.map((postItem) =>
+              <div key={postItem.id_post_item}>
+                <TextPostItem>
+                  <strong>Passo: &nbsp; {postItem.titulo_passo} - &nbsp; </strong> {postItem.conteudo}
+                </TextPostItem>
+                {postItem.imagem &&
+                  <div>
+                    <ImageDetails src={postItem.imagem} alt="" />
                   </div>
-                </div>
+                }
+                {postItem.url_imagem &&
+                  <div>
+                    <img src={postItem.url_imagem} className="img-fluid img-detalhes" alt="" />
+                  </div>
+                }
+                {postItem.video &&
+                  <div>
+                    <Player
+                      playsInline
+                      src={postItem.video}
+                      fluid={false}
+                      width={400}
+                      height={300}
+                    />
+
+                  </div>
+
+                }
+                {postItem.url_video &&
+                  <div>
+                    <iframe
+                      id="player"
+                      title="video"
+                      width="400"
+                      height="300"
+                      frameBorder="0"
+                      src={postItem.url_video}
+                      allow="fullscreen"
+                    >
+                    </iframe>
+                  </div>
+                }
+                {postItem.observacao &&
+                  <ObservationArea>
+                    <p><strong>OBS: </strong> {postItem.observacao}</p>
+                  </ObservationArea>
+                }
               </div>
-            </div>
+            )}
           </div>
-        </FormPost>
+        }
 
-        :
+        {
+          postInfo.relacao &&
 
-        <FormPost onSubmit={handleDetele}>
-          <h2>{postInfo.titulo}</h2>
-          <Resume>
-            <strong>Resumo: </strong>{postInfo.resumo}
-          </Resume>
-          {postInfo.obs &&
-            <ObservationArea>
-              <strong>OBS: </strong>{postInfo.obs}
-            </ObservationArea>
-          }
+          <FormGroup>
+            <h4>Tópicos Relacionados: </h4>
+            {
+              postInfo.relacao.map((item) =>
+                <NavLink
+                  key={item.id_relacao}
+                  to={`/postdetails/${item.id_relacao}`}
+                >
+                  <LinkSimple /><span>{item.titulo}</span>
+                </NavLink>
+              )
+            }
+          </FormGroup>
+        }
 
-          {postInfo.postitem &&
-            <>
-              {postInfo.postitem.map((postItem) =>
-                <Fragment key={postItem.id_post_item}>
-                  <TextPostItem>
-                    <strong>Passo: &nbsp;{postItem.titulo_passo} - &nbsp; </strong> {postItem.conteudo}
-                  </TextPostItem>
-                  {postItem.imagem &&
-                    <div>
-                      <ImageDetails src={postItem.imagem} />
-                    </div>
-                  }
-                  {postItem.video &&
-                    <div>
-                      <Player
-                        playsInline
-                        src={postItem.video}
-                        fluid={false}
-                        width={300}
-                        height={300}
-                      />
-                    </div>
-                  }
-                  {postItem.observacao &&
-                    <ObservationArea>
-                      <p>
-                        <strong>OBS: </strong> {postItem.observacao}
-                      </p>
-                    </ObservationArea>
-                  }
-                </Fragment>
-              )}
-            </>
-          }
+        <Spacer />
 
-          {postInfo.relacao &&
-            <Fragment>
-              <h4>Tópicos Relacionados: </h4>
-              {postInfo.relacao.map((item, index) =>
-                <FormGroup key={index}>
-                  <ul>
-                    <a href={`/postdetails/${item.id_relacao}`}>
-                      <li className="post_rela">
-                        {item.titulo}
-                      </li>
-                    </a>
-                  </ul>
-                </FormGroup>
-              )}
-            </Fragment>
-          }
-
-          <Spacer />
+        {logado ?
 
           <AreaButton>
-            <BackButton onClick={() => history('/home')}>Voltar</BackButton>
+
+            <BackButton onClick={() => navigate('/home')}>Voltar</BackButton>
+            {/*  <button onClick={() => navigate(-1)}>Go 1 pages back</button> */}
+
+            <Link to={`/atualizar/${id_post}`}>
+              <EditeButton>Editar Post</EditeButton>
+            </Link>
+
+            {/* MODAL Context RADIX-UI */}
+            <Dialog.Root>
+              <DeleteModal handleDetele={handleDetele} />
+            </Dialog.Root>
+
           </AreaButton>
-        </FormPost>
-      }
+          :
+          <AreaButton>
+            <BackButton onClick={() => navigate('/home')}>Voltar</BackButton>
+          </AreaButton>
+        }
+      </FormPost>
     </Container>
   );
 }
