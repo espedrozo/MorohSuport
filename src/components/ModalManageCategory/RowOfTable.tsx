@@ -1,13 +1,18 @@
-import { Fragment, useState } from 'react';
-
-import * as Dialog from '@radix-ui/react-dialog';
-import { ModalDeleteCategory } from '../ModalDeleteCategory';
-
-import { ClipboardText, FloppyDisk, Trash } from 'phosphor-react';
-
-//Importando dados da API
 import { api } from '../../lib/Api';
+import * as Dialog from '@radix-ui/react-dialog';
+import { ChangeEvent, Fragment, useState } from 'react';
+import { ClipboardText, FloppyDisk } from 'phosphor-react';
+import { ModalDeleteCategory } from '../ModalDeleteCategory';
 import { LinhaTableButton, LinhaTB, LinhaTR } from './styles';
+import { useContextSelector } from 'use-context-selector';
+import { PostesContext } from '../../contexts/PostsContext';
+
+interface EditeCategoryProps {
+  id: string;
+  id_pai?: string;
+  descricao: string;
+  categoria_pai?: string;
+}
 
 interface SubCategoriesProps {
   id: string;
@@ -17,50 +22,51 @@ interface SubCategoriesProps {
 
 interface ListaDeCategoriesProps {
   id: string;
+  id_pai?: string;
   descricao: string;
+  categoria_pai?: string;
   sub?: SubCategoriesProps[];
 }
 
 interface ManageCategoryModalProps {
-
-  idCategoriaPai: string;
-  setIdCategoriaPai: (id: string) => void;
-  handleIdCategoryDelete: (id: string) => void;
   listaDeCategorias: ListaDeCategoriesProps[];
   listaDeCategoriasPai: ListaDeCategoriesProps[];
+  handleIdCategoryDelete: (id: string) => void;
 }
 
 export function RowOfTable(
   {
-    idCategoriaPai,
-    setIdCategoriaPai,
-    handleIdCategoryDelete,
     listaDeCategorias,
-    listaDeCategoriasPai
+    listaDeCategoriasPai,
+    handleIdCategoryDelete,
   }: ManageCategoryModalProps
 ) {
 
+  const {
+    reloadContext,
+    setReloadContext,
+  } = useContextSelector(PostesContext, (context) => {
+    return context
+  });
+
+
+  const [nenhuma] = useState('');
   const [idAtualizarCategoriaPai, setIdAtualizarCategoriaPai] = useState('');
   const [atualizarCategoria, setAtualizarCategoria] = useState<ListaDeCategoriesProps[]>([]);
-  const [nenhuma] = useState('');
 
-  // Função que atualiza uma categoria pelo ID clicado
-  function fucAtualizarCat(e) {
-    setAtualizarCategoria(e);
+  function handleEditeCategory(category: ListaDeCategoriesProps) {
+    setAtualizarCategoria([category]);
   }
 
-  // Captura o valor do input dentro o MODAL para editar as categorias
-  const handleChangeInputEditarCategoria = async (event) => {
+  const handleChangeInputEditeCategory = async (event: ChangeEvent<HTMLInputElement>) => {
     const val = [...atualizarCategoria];
     val[0].descricao = event.target.value;
   }
 
-  // Função que vai atualizar as CATEGORIAS
-  async function AtualizarUmaCategoria(index) {
+  async function handleSaveUpdatedOneCategory(categoryEdite: EditeCategoryProps[]) {
 
-
-    const id_cat = atualizarCategoria[0]?.id;
-    const descricao = atualizarCategoria[0]?.descricao;
+    const id_cat = categoryEdite[0]?.id;
+    const descricao = categoryEdite[0]?.descricao;
 
     var id_pai = null;
 
@@ -74,25 +80,23 @@ export function RowOfTable(
     }
 
     var valoresDaCategoria = null;
+
     valoresDaCategoria = { id_cat, descricao, id_pai }
 
-    const json = await api.updateCategories(
-      id_cat,
-      valoresDaCategoria
-    );
+    await api.updateCategories(id_cat, valoresDaCategoria);
 
-    sessionStorage.removeItem('categorias');
-    sessionStorage.removeItem('idCategorias');
-    window.location.reload();
+    localStorage.removeItem('idRecentes');
+    localStorage.removeItem('postRecentes');
+
+    sessionStorage.removeItem('allCategories');
+    sessionStorage.removeItem('listOfIdOfCategories');
+
+    setReloadContext(!reloadContext);
+
   }
 
-  //  console.log("Categoria: ", listaDeCategorias);
-  // console.log("Categorias PAI: ", listaDeCategoriasPai);
-  console.log("categoria_atualizada : ", atualizarCategoria);
-
-
   return (
-    <>
+    <Fragment>
       {
         listaDeCategorias?.map((categoria) => (
           <Fragment key={categoria.id}>
@@ -100,35 +104,35 @@ export function RowOfTable(
               <LinhaTB>
                 {atualizarCategoria.length === 0 ? categoria?.descricao :
                   atualizarCategoria?.map((categoria_atualizada) => (
-                    <>
+                    <Fragment>
                       {categoria_atualizada.id === categoria.id
                         ?
                         <input
                           type="text"
                           name="descricao"
                           defaultValue={categoria_atualizada.descricao}
-                          onChange={event => handleChangeInputEditarCategoria(event)}
+                          onChange={event => handleChangeInputEditeCategory(event)}
                           className="form-control" id="descricao" placeholder="Digite a nova categoria"
                         />
                         : categoria.descricao
                       }
-                    </>
+                    </Fragment>
                   ))
                 }
               </LinhaTB>
               <LinhaTB>
                 {atualizarCategoria.length === 0 ? 'NENHUMA' :
 
-                  atualizarCategoria?.map((categ_pai) => (
-                    <>
-                      {categ_pai?.id === categoria.id
+                  atualizarCategoria?.map((categoryUpdate) => (
+                    <Fragment>
+                      {categoryUpdate?.id === categoria.id
                         ?
                         <select
                           className="select-category"
                           value={idAtualizarCategoriaPai}
                           onChange={(e) => setIdAtualizarCategoriaPai(e.target.value)} >
                           <option value=''>
-                            {categoria.categ_pai || 'NENHUMA'}
+                            {categoria.categoria_pai || 'NENHUMA'}
                           </option>
                           <option>
                             NENHUMA
@@ -139,30 +143,26 @@ export function RowOfTable(
                             )
                           }
                         </select>
-
                         : 'NENHUMA'
                       }
-                    </>
+                    </Fragment>
                   ))
                 }
               </LinhaTB>
               <LinhaTableButton>
-                <button onClick={() => fucAtualizarCat([categoria])}>
+                <button onClick={() => handleEditeCategory(categoria)}>
                   <ClipboardText className="update-category" alt="Atualizar" />
                 </button>
-                <button onClick={() => AtualizarUmaCategoria(atualizarCategoria)}>
+                <button onClick={() => handleSaveUpdatedOneCategory(atualizarCategoria)}>
                   <FloppyDisk className="save-category" alt="Salvar" />
                 </button>
                 <button >
-                  {/* MODAL Context RADIX-UI */}
                   <Dialog.Root>
                     <ModalDeleteCategory
                       idCategoryDelete={categoria.id}
                       handleIdCategoryDelete={handleIdCategoryDelete}
                     />
                   </Dialog.Root>
-
-                  {/*  <Trash className="trash-category" alt="Deletar" /> */}
                 </button>
               </LinhaTableButton>
             </LinhaTR>
@@ -173,19 +173,19 @@ export function RowOfTable(
                   <LinhaTB>
                     {atualizarCategoria.length === 0 ? subcategoria?.descricao :
                       atualizarCategoria?.map((atualizar_cat) => (
-                        <>
+                        <Fragment>
                           {atualizar_cat?.id === subcategoria?.id
                             ?
                             <input
                               type="text"
                               name="descricao"
                               defaultValue={subcategoria.descricao}
-                              onChange={event => handleChangeInputEditarCategoria(event)}
+                              onChange={event => handleChangeInputEditeCategory(event)}
                               className="form-control" id="descricao" placeholder="Digite o nome da subcategoria"
                             />
                             : subcategoria?.descricao
                           }
-                        </>
+                        </Fragment>
                       ))
                     }
                   </LinhaTB>
@@ -221,14 +221,15 @@ export function RowOfTable(
                     }
                   </LinhaTB>
                   <LinhaTableButton>
-                    <button onClick={() => fucAtualizarCat([{ ...subcategoria, "categoria_pai": categoria.descricao }])}>
+                    <button onClick={() => handleEditeCategory({ ...subcategoria, "categoria_pai": categoria.descricao })}>
                       <ClipboardText className="update-category" alt="Atualizar" />
                     </button>
-                    <button onClick={() => AtualizarUmaCategoria(atualizarCategoria)}>
+
+                    <button onClick={() => handleSaveUpdatedOneCategory(atualizarCategoria)}>
                       <FloppyDisk className="save-category" alt="Salvar" />
                     </button>
 
-                    {/* MODAL Context RADIX-UI */}
+                    {/* BUTTON OF MODAL OF DELETE ONE CATEGORY */}
                     <button>
                       <Dialog.Root >
                         <ModalDeleteCategory
@@ -237,7 +238,7 @@ export function RowOfTable(
                         />
                       </Dialog.Root>
                     </button>
-
+                    {/* BUTTON OF MODAL OF DELETE ONE CATEGORY */}
                   </LinhaTableButton>
                 </LinhaTR>
               </Fragment>
@@ -245,8 +246,7 @@ export function RowOfTable(
             }
           </Fragment>
         ))
-
       }
-    </>
+    </Fragment>
   )
 }

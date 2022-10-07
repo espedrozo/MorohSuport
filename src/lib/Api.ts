@@ -200,7 +200,7 @@ export const api = {
     return response;
   },
 
-  updateCategories: async (id_cat: any, valoresDaCategoria: any) => {
+  updateCategories: async (id_cat: string, valoresDaCategoria: any) => {
     const response = await apiAxiosUpdate(`/categoria/${id_cat}`, valoresDaCategoria);
     return response;
   },

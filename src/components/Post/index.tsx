@@ -21,12 +21,17 @@ import { api } from '../../lib/Api';
 import { isLogged } from "../../lib/authHandler";
 
 import * as Dialog from '@radix-ui/react-dialog';
-import { DeleteModal } from "../DeleteModal";
+import { ModalDelete } from "../ModalDelete";
 import { Player } from "video-react";
 import { LinkSimple } from "phosphor-react";
+import { useContextSelector } from "use-context-selector";
+import { PostesContext } from "../../contexts/PostsContext";
 
-var idRecentes = JSON.parse(localStorage.getItem('idRecentes')) || [];
-var postRecentes = JSON.parse(localStorage.getItem('postRecentes')) || [];
+var idRecentesLocal = localStorage.getItem('idRecentes');
+var idRecentes = idRecentesLocal !== null ? JSON.parse(idRecentesLocal) : [];
+
+var postRecentesLocal = localStorage.getItem('postRecentes');
+var postRecentes = postRecentesLocal !== null ? JSON.parse(postRecentesLocal) : [];
 
 interface PostItemProps {
   id_post_item: string;
@@ -55,6 +60,16 @@ interface PostDetailsProps {
 
 export function Post() {
 
+  const {
+    reloadContext,
+    setReloadContext,
+    reloadContextPostsVisited,
+    setReloadContextPostsVisited,
+  } = useContextSelector(PostesContext, (context) => {
+    return context
+  });
+
+
   let logado = isLogged();
   const { id_post } = useParams();
   const navigate = useNavigate();
@@ -78,7 +93,9 @@ export function Post() {
           idRecentes.push(id_post)
 
           localStorage.setItem('idRecentes', JSON.stringify(idRecentes));
-          idRecentes = JSON.parse(localStorage.getItem('idRecentes'));
+
+          const idRecentesLocal = localStorage.getItem('idRecentes');
+          idRecentes = idRecentesLocal !== null ? JSON.parse(idRecentesLocal) : [];
 
           const idPostRecentEncontrado = postRecentes.find((element: { id_post: string; }) => element.id_post === id_post);
 
@@ -101,7 +118,9 @@ export function Post() {
           idRecentes.push(id_post)
 
           localStorage.setItem('idRecentes', JSON.stringify(idRecentes));
-          idRecentes = JSON.parse(localStorage.getItem('idRecentes'));
+
+          const idRecentesLocal = localStorage.getItem('idRecentes');
+          idRecentes = idRecentesLocal !== null ? JSON.parse(idRecentesLocal) : [];
 
           const postRecentEncontrado = postRecentes.find((element: { id_post: string; }) => element.id_post === id_post);
 
@@ -118,20 +137,19 @@ export function Post() {
           }
         }
       }
+      setReloadContextPostsVisited(!reloadContextPostsVisited);
     }
+
     getOnePostForIdInfo(id_post);
+
   }, [id_post]);
 
   // Função que exclui um post pelo ID
-  const handleDetele = () => {
+  async function handleDetele() {
 
     if (id_post) {
-      const deletePosts = async (id_post: string) => {
-        const response = await api.deletePosts(id_post);
-
-        console.log("DELETE: ", response);
-      }
-      deletePosts(id_post);
+      const response = await api.deletePosts(id_post);
+      console.log("USAR TOST INFORMATIVO PRA EXIBIR NA TELA ", response);
     }
 
     var index = idRecentes.indexOf(id_post);
@@ -142,7 +160,9 @@ export function Post() {
 
     // Salvando a Lista de IDs no localStorage
     localStorage.setItem('idRecentes', JSON.stringify(idRecentes));
-    idRecentes = JSON.parse(localStorage.getItem('idRecentes'));
+
+    const idRecentesLocal = localStorage.getItem('idRecentes');
+    idRecentes = idRecentesLocal !== null ? JSON.parse(idRecentesLocal) : [];
 
     // Localizando objeto dentro do Array de PostsRecentes
     const postRecentEncontrado = postRecentes.find((element: { id_post: string | undefined; }) => element.id_post == id_post);
@@ -153,21 +173,22 @@ export function Post() {
         postRecentes.splice(indexPostRecente, 1);
       }
       localStorage.setItem('postRecentes', JSON.stringify(postRecentes.slice(-5)));
+
+      postRecentesLocal = localStorage.getItem('postRecentes');
+      postRecentes = postRecentesLocal !== null ? JSON.parse(postRecentesLocal) : [];
     }
 
     localStorage.removeItem('idRecentes');
-    localStorage.removeItem('postRecentes');
+    //localStorage.removeItem('postRecentes');
 
-    sessionStorage.removeItem('allCategories');
-    sessionStorage.removeItem('listOfIdOfCategories');
+    setReloadContext(!reloadContext);
+    setReloadContextPostsVisited(!reloadContextPostsVisited);
 
-    window.location.href = "/home";
+    //window.location.href = "/home";
 
     //window.location.href = '/';
-    //navigate("/home");
+    navigate("/home");
   }
-
-  console.log(postInfo);
 
   return (
     <Container>
@@ -269,10 +290,11 @@ export function Post() {
               <EditeButton>Editar Post</EditeButton>
             </Link>
 
-            {/* MODAL Context RADIX-UI */}
+            {/* BUTTON DE DELETE ONE MODAL */}
             <Dialog.Root>
-              <DeleteModal handleDetele={handleDetele} />
+              <ModalDelete handleDetele={handleDetele} />
             </Dialog.Root>
+            {/* FIM OF BUTTON DE DELETE ONE MODAL */}
 
           </AreaButton>
           :

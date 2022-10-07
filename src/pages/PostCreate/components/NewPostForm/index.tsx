@@ -1,14 +1,18 @@
+import { Player } from "video-react";
+import { api } from "../../../../lib/Api";
+import * as Dialog from '@radix-ui/react-dialog';
+import { Fragment, useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { ModalAddNewCategory } from "../../../../components/ModalAddNewCategory";
+import { ModalAddLinkRelation } from "../../../../components/ModalAddLinkRelation";
 import {
   ArrowCircleDown,
   ArrowCircleUp,
-  Check,
   LinkSimple,
   MinusCircle,
   PlusCircle,
   Trash
 } from "phosphor-react";
-import { ChangeEvent, Fragment, useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
 import {
   AreaCategory,
   Container,
@@ -25,15 +29,6 @@ import {
   LinkVideoInput,
   LinkImagemInput
 } from "./styles";
-
-
-import { Player } from "video-react";
-import { api } from "../../../../lib/Api";
-
-import * as Dialog from '@radix-ui/react-dialog';
-import { AddLinkRelationModal } from "../../../../components/AddLinkRelationModal";
-import { AddNewCategoryModal } from "../../../../components/AddNewCategoryModal";
-
 
 /* TIPAGENS */
 interface RelacaoProps {
@@ -65,18 +60,27 @@ interface ListaDeCategoriesPaiProps {
   descricao: string;
 }
 
+
+import { useContextSelector } from "use-context-selector";
+import { PostesContext } from "../../../../contexts/PostsContext";
+
 export function NewPostForm() {
 
   let navigate = useNavigate();
 
-  const [reload, setReload] = useState(false);
+  const {
+    reloadContext,
+    setReloadContext,
+  } = useContextSelector(PostesContext, (context) => {
+    return context
+  });
+
   const [videos, setVideos] = useState([""]);
   const [urlsVideos, setUrlsVideos] = useState([""]);
   const [urlsVideosFormated, setUrlsVideosFormated] = useState([""]);
   const [urlsImagens, setUrlsImagens] = useState([""]);
   const [categoria, setCategoria] = useState('');
   const [idCategoriaPai, setIdCategoriaPai] = useState('');
-  const [idCategoriaExluir, setIdCategoriaExluir] = useState('');
   const [listaDeCategorias, setListaDeCategorias] = useState<ListCategoriesProps[]>([]);
   const [listaDeCategoriasPai, setListaDeCategoriasPai] = useState<ListaDeCategoriesPaiProps[]>([]);
 
@@ -88,30 +92,16 @@ export function NewPostForm() {
     }
   ]);
 
-  const [nomeDaNovaCategoria, setNomeDaNovaCategoria] = useState([
-    {
-      id_cat: '',
-      descricao: '',
-      id_pai: idCategoriaPai
-    }
-  ]);
-
   const [relacao, setRelacao] = useState<RelacaoProps[]>([]);
-  const [mostrarLinksRelacionados, setMostrarLinksRelacionados] = useState(true);
   const [listOfLinksWithRelations, setListOfLinksWithRelations] = useState([]);
 
-  //Criando states para pegar os dados vindos dos inputs, para serem enviados para a API.
   const [id_post, setId_Post] = useState('');
   const [titulo, setTitulo] = useState('');
   const [resumo, setResumo] = useState('');
   const [obs, setObs] = useState('');
   const [data_publicacao, setData_Publicacao] = useState('');
-
-  // Desabilita os inputs quando houver erro e mostra os erros
   const [disabled, setDisabled] = useState(false);
   const [error, setError] = useState('');
-
-  // String a ser pesquisada
   const [palavra, setPalavra] = useState('');
   const [valorInput, setValorInput] = useState('');
 
@@ -134,22 +124,6 @@ export function NewPostForm() {
 
   const [imagem2, setImagem2] = useState([{ name: "" }]);
 
-  // Captura o ID para ser excluido
-  /*   const handleIdCategoria = (e) => {
-      setIdCategoriaExluir(e)
-    }
-   */
-  // Excluir uma categoria pelo ID
-  const handleExcluirCategora = () => {
-    const deleteCategoria = async (idCategoriaExluir: string) => {
-      //let json = await api.deleteCategoria(idCategoriaExluir);
-    }
-    deleteCategoria(idCategoriaExluir);
-    sessionStorage.removeItem('categorias');
-    sessionStorage.removeItem('idCategorias');
-    window.location.reload();
-  }
-
   useEffect(() => {
     const getAllPostsForLinksRelations = async () => {
       if (palavra) {
@@ -171,7 +145,7 @@ export function NewPostForm() {
       }
     }
     getAllCategories();
-  }, [categoria, reload]);
+  }, [categoria, reloadContext]);
 
   const handleChangeInputPostItem = async (index: number, event: any) => {
     const values = [...postitem];
@@ -461,7 +435,6 @@ export function NewPostForm() {
     setRelacao(values);
   }
 
-  // Função que vai enviar os dados do formulario pelo método (POST) e salvar no banco de dados
   const handleSubmitCreateNewPost = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     setDisabled(true);
@@ -502,20 +475,10 @@ export function NewPostForm() {
       setError(error)
       setDisabled(false)
     } else {
-      localStorage.removeItem('idRecentes');
-      localStorage.removeItem('postRecentes');
-
-      sessionStorage.removeItem('allCategories');
-      sessionStorage.removeItem('listOfIdOfCategories');
-
-      window.location.href = "/home";
-      //navigate("/home");
+      setReloadContext(!reloadContext);
+      navigate("/home");
     }
   }
-
-  /*   console.log(listaDeCategorias);
-    console.log(reload);
-   */
 
   return (
     <Container>
@@ -534,7 +497,7 @@ export function NewPostForm() {
                       category.sub?.map((subcategory) => (
                         <option key={subcategory.id}
                           value={subcategory.id}
-                          onChange={e => setCategoria(e.target.value)}
+                          onChange={() => setCategoria}
                           className="subcategory"
                         >
                           &nbsp;&nbsp;&nbsp;&nbsp; {subcategory.descricao && subcategory.descricao}
@@ -546,16 +509,15 @@ export function NewPostForm() {
             </select>
           </div>
 
-          {/* MODAL OF ADD NEW CATEGORY */}
+          {/* BUTTON OF MODAL OF ADD NEW CATEGORY */}
           <Dialog.Root>
-            <AddNewCategoryModal
+            <ModalAddNewCategory
               idCategoriaPai={idCategoriaPai}
               setIdCategoriaPai={setIdCategoriaPai}
               listaDeCategoriasPai={listaDeCategoriasPai}
-              reload={reload}
-              setReload={setReload}
             />
           </Dialog.Root>
+          {/* FIM OF MODAL OF ADD NEW CATEGORY */}
 
         </AreaCategory>
 
@@ -750,11 +712,10 @@ export function NewPostForm() {
             <PlusCircle size={34} weight="fill" className="add_passos" /> Passos
           </span>
 
+          {/* BUTTON OF MODAL OF ADD LINKS RELATIONS */}
           <span>
-
-            {/* MODAL Context RADIX-UI */}
             <Dialog.Root>
-              <AddLinkRelationModal
+              <ModalAddLinkRelation
                 palavra={palavra}
                 listOfLinksWithRelations={listOfLinksWithRelations}
                 handleSearchOfLinksWithRelations={handleSearchOfLinksWithRelations}
@@ -763,12 +724,15 @@ export function NewPostForm() {
               />
             </Dialog.Root>
           </span>
+          {/* FIM OF MODAL OF ADD LINKS RELATIONS */}
 
           <ButtonCancel type="button">
             <NavLink to="/home">Cancelar</NavLink>
           </ButtonCancel>
 
-          <ButtonSave type="button" onClick={handleSubmitCreateNewPost}>Salvar</ButtonSave>
+          <ButtonSave type="button" onClick={handleSubmitCreateNewPost}>
+            Salvar
+          </ButtonSave>
 
         </AreaOfPassos>
       </form>

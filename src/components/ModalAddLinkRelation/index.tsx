@@ -2,11 +2,7 @@ import { styled, keyframes } from '@stitches/react';
 import { blackA, red, mauve } from '@radix-ui/colors';
 import { MagnifyingGlass, PlusCircle, X } from "phosphor-react"
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
-import { InputSearchResults, AreaLinsRealations, LiAddLink, UlLink, AreaAddNewCategories, CancelButton, ConfirmationButton, ManegerButton, AreaButtonsAddNewCategories, TableOfCategories } from "./styles";
-import { Fragment, useEffect, useState } from 'react';
-import { api } from '../../lib/Api';
-import { RowOfTable } from './RowOfTable';
-
+import { InputSearchResults, AreaLinsRealations, LiAddLink, UlLink } from "./styles";
 
 const overlayShow = keyframes({
   '0%': { opacity: 0 },
@@ -35,8 +31,8 @@ const StyledContent = styled(AlertDialogPrimitive.Content, {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '900px',
-  /*  maxWidth: '450px',
+  /*   width: '900px',
+    maxWidth: '450px',
     maxHeight: '350px', */
   padding: 20,
   '@media (prefers-reduced-motion: no-preference)': {
@@ -96,7 +92,7 @@ const Button = styled('button', {
 
   variants: {
     variant: {
-      addNewCategory: {
+      addLink: {
         backgroundColor: 'transparent',
         color: '#005693',
         '&:hover': { cursor: 'pointer' },
@@ -124,74 +120,34 @@ const Button = styled('button', {
   },
 });
 
-
-interface ListaDeCategoriesPaiProps {
-  id: string;
-  descricao: string;
+interface DeleteModalProps {
+  palavra: string;
+  listOfLinksWithRelations: any[];
+  handleAddNewRelationOfLinks: (linkRelation: any) => void;
+  handleSearchOfLinksWithRelations: (event: any) => Promise<void>;
+  handleChangeInputOfLinksWithRelations: (palavraPesquizada: string) => void;
 }
 
-interface AddNewCategoryModalProps {
-  reload: boolean;
-  setReload: (value: boolean) => void;
-
-  idCategoriaPai: string;
-  listaDeCategoriasPai: ListaDeCategoriesPaiProps[];
-  setIdCategoriaPai: (id: string) => void;
-}
-
-export function ManageCategoryModal() {
-
-  const [idCategoriaPai, setIdCategoriaPai] = useState('');
-  const [listaDeCategorias, setListaDeCategorias] = useState([]);
-  const [listaDeCategoriasPai, setListaDeCategoriasPai] = useState([]);
-  const [reload, setReload] = useState(false);
-
-  // Exibi as categorias e subcategorias da aplicação
-  useEffect(() => {
-    const getAllCategories = async () => {
-
-      const response = await api.getNewCategories();
-
-      if (response) {
-        setListaDeCategorias(response);
-        setListaDeCategoriasPai(response);
-      }
-    }
-
-    getAllCategories();
-  }, [reload]);
-
-
-  async function handleIdCategoryDelete(id: string) {
-
-    if (id) {
-      const response = await api.deleteCategory(id);
-      console.log("RESPONSE: USAR TOSKT INFORMATIVO ", response);
-
-      localStorage.removeItem('idRecentes');
-      localStorage.removeItem('postRecentes');
-
-      sessionStorage.removeItem('allCategories');
-      sessionStorage.removeItem('listOfIdOfCategories');
-
-      setReload(!reload);
-
-      //window.location.href = "/home";
-      //window.location.reload();
-    } else {
-      console.log('Error: Não foi possível excluir categoria!')
-    }
-  }
+export function ModalAddLinkRelation(
+  {
+    palavra,
+    listOfLinksWithRelations,
+    handleAddNewRelationOfLinks,
+    handleSearchOfLinksWithRelations,
+    handleChangeInputOfLinksWithRelations,
+  }: DeleteModalProps) {
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <ManegerButton>Gerenciar</ManegerButton>
+        <Button variant="addLink">
+          <PlusCircle size={34} weight="fill" className="add_links" /> Links
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent >
-
         <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
-          <AlertDialogTitle>EDITAR CATEGORIAS</AlertDialogTitle>
+
+          <AlertDialogTitle>ADICIONAR TÓPICOS RELACIONADOS</AlertDialogTitle>
           <Flex css={{ cursor: 'pointer' }}>
             <AlertDialogCancel asChild>
               <Button variant="cancel">
@@ -201,37 +157,36 @@ export function ManageCategoryModal() {
           </Flex>
         </Flex>
 
-        <Flex css={
-          {
-            marginTop: '15px',
-            marginBottom: '10px',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }
-        }
-        >
+        <Flex css={{ justifyContent: 'space-between', alignItems: 'center', marginTop: '15px' }} >
+          <InputSearchResults
+            type="search"
+            name="search"
+            id="search"
+            placeholder="Digite sua pesquisa..."
+            onChange={(e) => handleChangeInputOfLinksWithRelations(e.target.value)}
+          />
 
-          <TableOfCategories>
-            <thead>
-              <tr>
-                <th>DESCRIÇÃO</th>
-                <th>CATEGORIAS PAI</th>
-                <th>EDITAR</th>
-              </tr>
-            </thead>
-            <tbody>
-              <RowOfTable
-                listaDeCategorias={listaDeCategorias}
-                handleIdCategoryDelete={handleIdCategoryDelete}
-                idCategoriaPai={idCategoriaPai}
-                setIdCategoriaPai={setIdCategoriaPai}
-                listaDeCategoriasPai={listaDeCategoriasPai}
-              />
-            </tbody>
-          </TableOfCategories>
+          <Button variant="search" onClick={handleSearchOfLinksWithRelations}>
+            <MagnifyingGlass size={34} />
+          </Button>
 
         </Flex>
 
+        {palavra &&
+          <AreaLinsRealations>
+            <UlLink>
+              {listOfLinksWithRelations?.map((linkRelation) => (
+                <LiAddLink
+                  key={linkRelation.id_post}
+                  value={linkRelation.id_post}
+                  onClick={() => handleAddNewRelationOfLinks(linkRelation)}
+                >
+                  <PlusCircle /><span>{linkRelation.titulo}</span>
+                </LiAddLink>
+              ))}
+            </UlLink>
+          </AreaLinsRealations>
+        }
       </AlertDialogContent>
     </AlertDialog>
   );

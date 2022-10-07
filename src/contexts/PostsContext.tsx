@@ -35,29 +35,47 @@ type Category = {
 
 interface CreatePostInput {
   id_post: string;
-  titulo: string
+  titulo: string;
   resumo: string;
-  data_publicacao: string
+  data_publicacao: string;
 }
 
 interface PostContextType {
-  totalDePosts: Post[]
-  totalPaginas: number
-  limitePaginacao: number
-  limiteApi: number
-  paginaAtual: number
+  totalDePosts: Post[];
+  totalPaginas: number;
+  limitePaginacao: number;
+  limiteApi: number;
+  paginaAtual: number;
   setPaginaAtual: (item: number) => void;
-  paginaAtualDaPaginacao: number
+  paginaAtualDaPaginacao: number;
   setPaginaAtualDaPaginacao: (item: number) => void;
   setLimiteApi: (item: number) => void;
-  paginacaoDePosts: Post[] | undefined
-  paginacaoDePostsComBusca: Post[] | undefined
+  paginacaoDePosts: Post[] | undefined;
+  paginacaoDePostsComBusca: Post[] | undefined;
   palavra: string | null
-  handleSubmit: (e: any) => Promise<void>
-  handleChange: (e: any) => void
+  handleSubmit: (e: any) => Promise<void>;
+  handleChange: (e: any) => void;
 
-  posts: Post[]
-  categories: Category[]
+  posts: Post[];
+  categories: Category[];
+
+  listOfCategories: Category[];
+  setListOfCategories: (newCategory: Category[]) => void;
+
+  reloadContext: boolean;
+  setReloadContext: (reload: boolean) => void;
+
+  reloadContextPostsVisited: boolean;
+  setReloadContextPostsVisited: (reload: boolean) => void;
+
+  listOfIdOfCategories: number[];
+  setListOfIdOfCategories: (listOfIdOfCategories: number[]) => void;
+
+  idsRecents: string[];
+  setIdsRecents: (idsRecents: string[]) => void;
+
+  postsRecents: Post[];
+  setPostsRecents: (postsRecents: Post[]) => void;
 }
 
 interface PostProviderProps {
@@ -86,6 +104,32 @@ export function PostsProvider({ children }: PostProviderProps) {
   // String a ser pesquisada
   const [palavra, setPalavra] = useState(sessionStorage.getItem('palavra'));
   const [valorInput, setValorInput] = useState('');
+
+  const [listOfCategories, setListOfCategories] = useState<Category[]>([]);
+
+  const [listOfIdOfCategories, setListOfIdOfCategories] = useState<number[]>([]);
+
+  const [idsRecents, setIdsRecents] = useState<string[]>([]);
+  const [postsRecents, setPostsRecents] = useState<Post[]>([]);
+
+  const [reloadContext, setReloadContext] = useState(false);
+  const [reloadContextPostsVisited, setReloadContextPostsVisited] = useState(false);
+
+  useEffect(() => {
+    async function getAllCategories() {
+
+      const allCategories = await api.getAllCategories();
+
+      setListOfCategories(allCategories)
+    }
+
+    getAllCategories();
+
+  }, [reloadContext]);
+
+  /*   console.log("Categories: ", listOfCategories);
+    console.log("idsRecents: ", idsRecents);
+   */
 
   // Envia a palava para fazer a pesquisa
   const handleSubmit = async (e: any) => {
@@ -173,8 +217,6 @@ export function PostsProvider({ children }: PostProviderProps) {
     paginacaoDePosts = totalDePosts.slice(indexDoPrimeiroPost, indexDoUltimoPost)
   }
 
-  //console.log('paginação de posts', paginacaoDePosts)
-
   return (
     <PostesContext.Provider
       value={{
@@ -192,6 +234,20 @@ export function PostsProvider({ children }: PostProviderProps) {
         palavra,
         handleSubmit,
         handleChange,
+
+        listOfCategories,
+        setListOfCategories,
+        reloadContext,
+        setReloadContext,
+        listOfIdOfCategories,
+        setListOfIdOfCategories,
+        idsRecents,
+        setIdsRecents,
+        postsRecents,
+        setPostsRecents,
+        reloadContextPostsVisited,
+        setReloadContextPostsVisited,
+
       } as PostContextType}
     >
       {children}

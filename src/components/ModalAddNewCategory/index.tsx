@@ -1,15 +1,20 @@
-import { styled, keyframes } from '@stitches/react';
-import { blackA, red, mauve } from '@radix-ui/colors';
-import { MagnifyingGlass, PlusCircle, X } from "phosphor-react"
-import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
-import { InputSearchResults, AreaLinsRealations, LiAddLink, UlLink, AreaAddNewCategories, CancelButton, ConfirmationButton, ManegerButton, AreaButtonsAddNewCategories } from "./styles";
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 import { api } from '../../lib/Api';
-
-
-//Chamando outro modal;
+import { PlusCircle, X } from "phosphor-react"
+import { blackA, mauve } from '@radix-ui/colors';
 import * as Dialog from '@radix-ui/react-dialog';
-import { ManageCategoryModal } from '../ManageCategoryModal';
+import { styled, keyframes } from '@stitches/react';
+import { useContextSelector } from "use-context-selector";
+import { PostesContext } from "../../contexts/PostsContext";
+import { ModalManageCategory } from '../ModalManageCategory';
+import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
+import {
+  CancelButton,
+  ConfirmationButton,
+  InputSearchResults,
+  AreaAddNewCategories,
+  AreaButtonsAddNewCategories
+} from "./styles";
 
 const overlayShow = keyframes({
   '0%': { opacity: 0 },
@@ -74,13 +79,13 @@ const StyledDescription = styled(AlertDialogPrimitive.Description, {
 });
 
 // Exports
-export const AlertDialog = AlertDialogPrimitive.Root;
-export const AlertDialogTrigger = AlertDialogPrimitive.Trigger;
 export const AlertDialogContent = Content;
 export const AlertDialogTitle = StyledTitle;
+export const AlertDialog = AlertDialogPrimitive.Root;
 export const AlertDialogDescription = StyledDescription;
 export const AlertDialogAction = AlertDialogPrimitive.Action;
 export const AlertDialogCancel = AlertDialogPrimitive.Cancel;
+export const AlertDialogTrigger = AlertDialogPrimitive.Trigger;
 
 // Your app...
 const Flex = styled('div', { display: 'flex' });
@@ -127,60 +132,33 @@ const Button = styled('button', {
   },
 });
 
-/*     async function handleCriarNovaCategoria(nomeDaNovaCategoria) {
-        nomeDaNovaCategoria[0]['id_pai'] = idCategoriaPai;
-        setNovaCategoria(nomeDaNovaCategoria);
-
-        const json = await api.criarNovaCat(nomeDaNovaCategoria[0]);
-
-        if (error) {
-            setError(error)
-            //setDisabled(false)
-        } else {
-            sessionStorage.removeItem('categorias');
-            sessionStorage.removeItem('idCategorias');
-            setCategoria(json);
-        }
-    }
-    
-    */
-
-/* 
-    const handleChangeInputNovaCategoria = async (id_cat, event) => {
-    const values = [...nomeDaNovaCategoria];
-    values[id_cat][event.target.name] = event.target.value;
-    setNomeDaNovaCategoria(values);
-}
-
- 
-*/
-
 interface ListaDeCategoriesPaiProps {
   id: string;
   descricao: string;
 }
 
-
 interface AddNewCategoryModalProps {
-  reload: boolean;
-  setReload: (value: boolean) => void;
   idCategoriaPai: string;
   setIdCategoriaPai: (id: string) => void;
   listaDeCategoriasPai: ListaDeCategoriesPaiProps[];
 }
 
-export function AddNewCategoryModal(
+export function ModalAddNewCategory(
   {
     idCategoriaPai,
     setIdCategoriaPai,
     listaDeCategoriasPai,
-    reload,
-    setReload,
   }: AddNewCategoryModalProps) {
 
+  const {
+    reloadContext,
+    setReloadContext,
+  } = useContextSelector(PostesContext, (context) => {
+    return context
+  });
 
-  const [newCategory, setNewCategory] = useState('');
   const [error, setError] = useState('');
+  const [newCategory, setNewCategory] = useState('');
 
   async function handleAddNewCategory() {
 
@@ -200,14 +178,13 @@ export function AddNewCategoryModal(
         setError(response.message);
         console.log("ERROR: ", error);
       } else {
-
-        setReload(!reload);
-
         localStorage.removeItem('idRecentes');
         localStorage.removeItem('postRecentes');
 
         sessionStorage.removeItem('allCategories');
         sessionStorage.removeItem('listOfIdOfCategories');
+
+        setReloadContext(!reloadContext);
       }
     } else {
       console.log("ERROR: Digite o nome de uma categoria!");
@@ -275,7 +252,7 @@ export function AddNewCategoryModal(
 
           {/* BUTTON OF MODAL OF MANAGE CATEGORIES */}
           <Dialog.Root>
-            <ManageCategoryModal />
+            <ModalManageCategory />
           </Dialog.Root>
           {/* FIM OF MODAL OF MANAGE CATEGORIES */}
 

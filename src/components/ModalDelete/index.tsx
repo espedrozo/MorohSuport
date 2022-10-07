@@ -125,7 +125,7 @@ interface DeleteModalProps {
   handleDetele: () => void;
 }
 
-export function DeleteModal({ handleDetele }: DeleteModalProps) {
+export function ModalDelete({ handleDetele }: DeleteModalProps) {
 
   return (
     <AlertDialog>

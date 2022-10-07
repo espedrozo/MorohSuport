@@ -1,8 +1,13 @@
+import { X } from "phosphor-react"
+import { api } from '../../lib/Api';
+import { RowOfTable } from './RowOfTable';
+import { useEffect, useState } from 'react';
 import { styled, keyframes } from '@stitches/react';
 import { blackA, red, mauve } from '@radix-ui/colors';
-import { MagnifyingGlass, PlusCircle, X } from "phosphor-react"
+import { ManegerButton, TableOfCategories } from "./styles";
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
-import { InputSearchResults, AreaLinsRealations, LiAddLink, UlLink } from "./styles";
+import { useContextSelector } from "use-context-selector";
+import { PostesContext } from "../../contexts/PostsContext";
 
 const overlayShow = keyframes({
   '0%': { opacity: 0 },
@@ -31,8 +36,8 @@ const StyledContent = styled(AlertDialogPrimitive.Content, {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  /*   width: '900px',
-    maxWidth: '450px',
+  width: '900px',
+  /*  maxWidth: '450px',
     maxHeight: '350px', */
   padding: 20,
   '@media (prefers-reduced-motion: no-preference)': {
@@ -92,7 +97,7 @@ const Button = styled('button', {
 
   variants: {
     variant: {
-      addLink: {
+      addNewCategory: {
         backgroundColor: 'transparent',
         color: '#005693',
         '&:hover': { cursor: 'pointer' },
@@ -120,34 +125,64 @@ const Button = styled('button', {
   },
 });
 
-interface DeleteModalProps {
-  palavra: string;
-  listOfLinksWithRelations: any[];
-  handleAddNewRelationOfLinks: (linkRelation: any) => void;
-  handleSearchOfLinksWithRelations: (event: any) => Promise<void>;
-  handleChangeInputOfLinksWithRelations: (palavraPesquizada: string) => void;
-}
+export function ModalManageCategory() {
 
-export function AddLinkRelationModal(
-  {
-    palavra,
-    listOfLinksWithRelations,
-    handleAddNewRelationOfLinks,
-    handleSearchOfLinksWithRelations,
-    handleChangeInputOfLinksWithRelations,
-  }: DeleteModalProps) {
+  const {
+    reloadContext,
+    setReloadContext,
+  } = useContextSelector(PostesContext, (context) => {
+    return context
+  });
+
+  const [listaDeCategorias, setListaDeCategorias] = useState([]);
+  const [listaDeCategoriasPai, setListaDeCategoriasPai] = useState([]);
+
+  // Exibi as categorias e subcategorias da aplicação
+  useEffect(() => {
+    const getAllCategories = async () => {
+
+      const response = await api.getNewCategories();
+
+      if (response) {
+        setListaDeCategorias(response);
+        setListaDeCategoriasPai(response);
+      }
+    }
+
+    getAllCategories();
+  }, [reloadContext]);
+
+
+  async function handleIdCategoryDelete(id: string) {
+
+    if (id) {
+      const response = await api.deleteCategory(id);
+      console.log("RESPONSE: USAR TOSKT INFORMATIVO ", response);
+
+      localStorage.removeItem('idRecentes');
+      localStorage.removeItem('postRecentes');
+
+      sessionStorage.removeItem('allCategories');
+      sessionStorage.removeItem('listOfIdOfCategories');
+
+      setReloadContext(!reloadContext);
+
+      //window.location.href = "/home";
+      //window.location.reload();
+    } else {
+      console.log('Error: Não foi possível excluir categoria!')
+    }
+  }
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="addLink">
-          <PlusCircle size={34} weight="fill" className="add_links" /> Links
-        </Button>
+        <ManegerButton>Gerenciar</ManegerButton>
       </AlertDialogTrigger>
       <AlertDialogContent >
-        <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
 
-          <AlertDialogTitle>ADICIONAR TÓPICOS RELACIONADOS</AlertDialogTitle>
+        <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
+          <AlertDialogTitle>EDITAR CATEGORIAS</AlertDialogTitle>
           <Flex css={{ cursor: 'pointer' }}>
             <AlertDialogCancel asChild>
               <Button variant="cancel">
@@ -157,36 +192,35 @@ export function AddLinkRelationModal(
           </Flex>
         </Flex>
 
-        <Flex css={{ justifyContent: 'space-between', alignItems: 'center', marginTop: '15px' }} >
-          <InputSearchResults
-            type="search"
-            name="search"
-            id="search"
-            placeholder="Digite sua pesquisa..."
-            onChange={(e) => handleChangeInputOfLinksWithRelations(e.target.value)}
-          />
+        <Flex css={
+          {
+            marginTop: '15px',
+            marginBottom: '10px',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }
+        }
+        >
 
-          <Button variant="search" onClick={handleSearchOfLinksWithRelations}>
-            <MagnifyingGlass size={34} />
-          </Button>
+          <TableOfCategories>
+            <thead>
+              <tr>
+                <th>DESCRIÇÃO</th>
+                <th>CATEGORIAS PAI</th>
+                <th>EDITAR</th>
+              </tr>
+            </thead>
+            <tbody>
+              <RowOfTable
+                listaDeCategorias={listaDeCategorias}
+                listaDeCategoriasPai={listaDeCategoriasPai}
+                handleIdCategoryDelete={handleIdCategoryDelete}
+              />
+            </tbody>
+          </TableOfCategories>
 
         </Flex>
 
-        {palavra &&
-          <AreaLinsRealations>
-            <UlLink>
-              {listOfLinksWithRelations?.map((linkRelation) => (
-                <LiAddLink
-                  key={linkRelation.id_post}
-                  value={linkRelation.id_post}
-                  onClick={() => handleAddNewRelationOfLinks(linkRelation)}
-                >
-                  <PlusCircle /><span>{linkRelation.titulo}</span>
-                </LiAddLink>
-              ))}
-            </UlLink>
-          </AreaLinsRealations>
-        }
       </AlertDialogContent>
     </AlertDialog>
   );

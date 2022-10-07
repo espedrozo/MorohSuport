@@ -1,122 +1,64 @@
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent } from "react";
+import { api } from '../../lib/Api'
 import { Link } from "react-router-dom";
 import { Container, Li } from "./styles";
-import { api } from '../../lib/Api'
-import Cookies from "js-cookie";
 import { useContextSelector } from "use-context-selector";
 import { PostesContext } from "../../contexts/PostsContext";
 
-type SubProps = {
-  id: string;
-  tipo: string;
-  descricao: string;
-  lk_categoria: string;
-}
-
-type SubcategoriaProps = {
-  id_pai: string;
-  id: string;
-  tipo: string;
-  descricao: string
-  lk_categoria: string;
-  sub?: SubProps[];
-}
-
-type Category = {
-  id: string;
-  descricao: string;
-  id_pai: string;
-  tipo: string;
-  subcategoria?: SubcategoriaProps[]
-}
-
-/* 
-type IdCategoria = {
-  find(arg0: (element: number) => boolean);
-  push(idCat: number): void;
-  array: number
-}
-
-type GetCategoriesResponse = {
-  data: Category[];
-}; */
-
-var listOfIdOfCategories: any = JSON.parse(sessionStorage.getItem('listOfIdOfCategories')) || [];
-
-
 export function CategoriesList() {
 
-  const [listOfCategories, setListOfCategories] = useState<Category[]>([]);
+  const {
+    listOfCategories,
+    setListOfCategories,
+    listOfIdOfCategories,
+    setListOfIdOfCategories
+  } = useContextSelector(PostesContext, (context) => {
+    return context
+  });
 
-  useEffect(() => {
-    async function getAllCategoires() {
+  const LoadingAllCategories = (id: string, event: MouseEvent<HTMLLIElement, globalThis.MouseEvent>) => {
 
-      const categories = await api.getAllCategories();
+    const idCategory = Number(id);
 
-      //console.log(categories)
-
-      if (sessionStorage.getItem('allCategories') === null) {
-        sessionStorage.setItem('allCategories', JSON.stringify(categories));
-        setListOfCategories(JSON.parse(sessionStorage.getItem('allCategories')))
-      } else {
-        setListOfCategories(JSON.parse(sessionStorage.getItem('allCategories')))
-      }
-    }
-    getAllCategoires();
-  }, []);
-
-  // Monitorando o ID das categorias, subcategorias e subs.
-  const CarregarCategorias = (id: string, event: any) => {
-
-    const idCat = Number(id);
+    const target = event.target as Element;
 
     event.stopPropagation();
 
     document.querySelector('.has-children');
-    event.target.classList.toggle('open');
+    target.classList.toggle('open');
 
-    if (typeof (idCat) == 'number') {
+    if (typeof (idCategory) == 'number') {
 
-      // Faz a busca do idCat, dentro da lista idCategorias se não encontrar o retorno é undefined
-      const idEncontrado = listOfIdOfCategories.find((element: number) => element === idCat);
+      const idEncontrado = listOfIdOfCategories.find((element) => element === idCategory);
 
-      if (!idEncontrado && idCat !== 0) {
+      if (!idEncontrado && idCategory !== 0) {
 
-        listOfIdOfCategories.push(idCat)
+        listOfIdOfCategories.push(idCategory);
 
-        // Salvando a Lista de IDs no sessionStorage
-        sessionStorage.setItem('listOfIdOfCategories', JSON.stringify(listOfIdOfCategories));
-        listOfIdOfCategories = JSON.parse(sessionStorage.getItem('listOfIdOfCategories'));
+        setListOfIdOfCategories(listOfIdOfCategories)
 
-        const subCategory = async (idCat: number) => {
-          const response = await api.getAllSubCategories(String(idCat));
+        const subCategory = async (idCategory: number) => {
+          const response = await api.getAllSubCategories(String(idCategory));
 
-          let newCat = [...listOfCategories];
+          let newCategory = [...listOfCategories];
 
-          newCat.forEach(cat => {
-
+          newCategory.forEach(cat => {
             if (cat.subcategoria) {
-              cat.subcategoria.forEach((elementoSub: SubcategoriaProps) => {
-                if (elementoSub['id'] === String(idCat) && elementoSub['tipo'] == "0") {
-                  elementoSub.sub = response
+              cat.subcategoria.forEach((elementoSubcategory) => {
+                if (elementoSubcategory['id'] === String(idCategory) && elementoSubcategory['tipo'] == "0") {
+                  elementoSubcategory.sub = response
                 }
               });
-            } else if (cat['id'] === String(idCat) && cat['tipo'] == "0") {
+            } else if (cat['id'] === String(idCategory) && cat['tipo'] == "0") {
               cat.subcategoria = response
             }
           });
-
-          if (sessionStorage.getItem('allCategories') !== null) {
-            sessionStorage.setItem('allCategories', JSON.stringify(newCat));
-          }
-          setListOfCategories(newCat);
+          setListOfCategories(newCategory);
         }
-        subCategory(idCat);
+        subCategory(idCategory);
       }
     }
   };
-
-  // console.log("CAT: ", listOfIdOfCategories);
 
   return (
     <Container>
@@ -125,7 +67,7 @@ export function CategoriesList() {
           listOfCategories?.map((category) => (
             <Li key={category.id}
               value={category.id}
-              onClick={(event) => CarregarCategorias(category.id, event)}
+              onClick={(event) => LoadingAllCategories(category.id, event)}
               className={category.tipo == '0' ? "has-children" : ''}
             >
               {category.tipo === '0' && category.descricao}
@@ -140,7 +82,7 @@ export function CategoriesList() {
                     category.subcategoria?.map((subcategory, index) => (
                       <Li key={subcategory.id}
                         value={subcategory.id}
-                        onClick={(event) => CarregarCategorias(subcategory.id, event)}
+                        onClick={(event) => LoadingAllCategories(subcategory.id, event)}
                         className={subcategory.id_pai == category.id ? "has-children" : ''}
                       >
                         {subcategory.id_pai == category.id && subcategory.descricao}
