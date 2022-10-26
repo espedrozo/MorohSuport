@@ -1,76 +1,49 @@
-import { darken } from "polished";
 import styled from "styled-components";
+import { tablet } from "../../../../styles/responsive";
 
-import { mobile } from '../../../../styles/responsive';
-
-export const AreaPagination = styled.div`
-  width: 100%;
-  display: flex;
-  padding: 2px;
-  margin: 0 auto;
-  margin-top: 10px;
-  align-items: center;
-  border-radius: 20px;
-  justify-content: space-around;
-  align-items: center;
-  border: 1px solid ${({ theme }) => theme["bg-primary"]};
-  
-  ${mobile({ flexDirection: 'column-reverse', padding: '10px', margin: '20px 0' })}
-`;
-
-export const Box = styled.div`
-  width: 300px;
+export const ContainerPagination = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  ${tablet({ margin: '10px 0' })};
   
-  strong{
-    margin: 0 5px;
+  a{
+    width: 40px;
+    height: 40px;
+    display: flex;
+    cursor: pointer;
+    padding: 8px 14px;
+    margin-right: 5px;
+    border-radius: 50%;
+    align-items: center;
+    text-decoration: none;
+    text-decoration: none;
+    justify-content: center;
+    transition: background-color .2s;
+    color: ${({ theme }) => theme.white};
+    background-color: ${({ theme }) => theme["blue-200"]};
+    border: 1px solid ${({ theme }) => theme["blue-200"]};
+
+    ${tablet({
+  width: '30px ',
+  height: '30px',
+  fontSize: '12px',
+  padding: '4px',
+})};
   }
-  ${mobile({ paddingTop: '10px' })}
-`;
 
-export const Stack = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-export const Text = styled.p`
-  width: 30px;
-  height: 30px;
-  font-weight: 600;
-  text-align: center;
-`;
-
-export const Button = styled.button`
-  width: 30px;
-  height: 30px;
-  border: none;
-  margin: 0 5px;
-  font-weight: 600;
-  border-radius: 15px;
-  color: ${({ theme }) => theme["gray-700"]};
-  background-color: ${({ theme }) => theme["gray-300"]};
-  &:hover{
-    background-color: ${({ theme }) => darken(0.1, theme["gray-300"])};
+ a.active {
+   border: 1px solid #7cbddb;
+   color: ${({ theme }) => theme.white};
+   background-color: ${({ theme }) => theme["blue-900"]};
   }
-`;
+   a.disabled { 
+    opacity: 0.2;
+  }
+   a:hover:not(.active) {
+    background-color: ${({ theme }) => theme["blue-200"]}; 
+    box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["blue-900"]};
+  }
 
-export const ButtonActived = styled.button`
-  width: 30px;
-  height: 30px;
-  border: none;
-  margin: 0 5px;
-  cursor: default;
-  font-weight: 600;
-  border-radius: 15px;
-  color: ${({ theme }) => theme.white};
-  background-color: ${({ theme }) => theme["bg-primary"]};
- `;
-
-
-export const Image = styled.img`
-  width: 200px;
-  height: 200px;
-  object-fit: cover;
 `;

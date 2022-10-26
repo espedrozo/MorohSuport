@@ -1,5 +1,5 @@
-import styled from "styled-components";
 import { darken, lighten } from "polished";
+import styled from "styled-components";
 import { tablet } from "../../../../styles/responsive";
 
 export const Container = styled.div`
@@ -25,8 +25,8 @@ export const Container = styled.div`
   form{ 
     gap: 0.5rem;
     display: flex;
-    flex-direction: column;
-
+    flex-direction: column; 
+    
     input, textarea {
       padding: 10px;
       border-radius: 5px;
@@ -35,7 +35,7 @@ export const Container = styled.div`
       &:focus {
         box-shadow: 0 0 2px ${({ theme }) => theme['blue-200']};
       }
-
+      
       ${tablet({ fontSize: '14px' })};
     }
 
@@ -62,6 +62,7 @@ export const BaseAreaContainer = styled.div`
 `;
 
 export const AreaCategory = styled(BaseAreaContainer)`
+
   align-items: center;
   justify-content: space-between;
 
@@ -86,7 +87,8 @@ export const AreaCategory = styled(BaseAreaContainer)`
   }
 `;
 
-export const AreaNewPost = styled(BaseAreaContainer)`
+
+export const AreaEditPost = styled(BaseAreaContainer)`
   flex-direction: column;
 `;
 
@@ -133,6 +135,7 @@ export const AreaPostsRelacionados = styled.div`
 
       ${tablet({ fontSize: '12px' })};
 
+
       svg{
         color: ${({ theme }) => theme["blue-200"]};
       }
@@ -171,7 +174,8 @@ export const AreaOfPassos = styled(BaseAreaContainer)`
     color: ${({ theme }) => theme["blue-900"]};
 
     ${tablet({ fontSize: '12px' })};
-
+    
+    
     .add_passos{
       color: ${({ theme }) => theme["green-700"]};
 
@@ -259,6 +263,7 @@ export const ImageDetails = styled.img`
   box-shadow: 0px 0px 1px 0.2px ${({ theme }) => theme["blue-900"]};
 `;
 
+
 export const LinkImagemInput = styled.input`
     width: 100%;
     border: 1px solid ${({ theme }) => theme["gray-200"]};
@@ -286,5 +291,14 @@ export const LinkVideoInput = styled.input`
     &:focus{
         border: 1px solid ${({ theme }) => theme['blue-200']};
         box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme['blue-200']};
+    }
+`;
+
+
+export const TH = styled.th`
+
+    @media only screen and (max-width: 600px) {
+        font-size: 11px;
+        padding: 5px !important;
     }
 `;

@@ -10,13 +10,13 @@ export const Container = styled.div`
     border-radius: 4px;     
     text-decoration: none;
     flex-direction: column;
-    color: ${({ theme }) => theme["color-secondary"]};
+    color: ${({ theme }) => theme["blue-200"]};
     border: 1px solid ${({ theme }) => theme["gray-100"]} !important;
 
     &:hover{
       cursor: pointer;
       color: ${({ theme }) => theme.white};
-      background-color: ${({ theme }) => theme["color-secondary"]};
+      background-color: ${({ theme }) => theme["blue-200"]};
     }
   }
 `;

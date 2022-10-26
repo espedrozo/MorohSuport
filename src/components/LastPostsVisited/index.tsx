@@ -23,7 +23,7 @@ export function LastPostsVisited() {
 
   useEffect(() => {
 
-    let response = localStorage.getItem('postRecentes');
+    let response = localStorage.getItem('@moroh-suport-v1.0.1:postRecentes');
     resultOfListOfLocalStorage = response !== null ? (JSON.parse(response)) : [];
 
     resultOfListOfLocalStorage?.reverse();
@@ -32,10 +32,14 @@ export function LastPostsVisited() {
 
   return (
     <Container>
-      {
-        listaPosts?.map((post, k) =>
+      {listaPosts &&
+        listaPosts.map((post) =>
           <NavLink key={post.id_post} to={`/postdetails/${post.id_post}`} className="lista">
-            {post.titulo}
+            {
+              post.titulo.length > 80 ?
+                post.titulo.substring(0, 80).toLocaleUpperCase() + "..."
+                : post.titulo.toUpperCase()
+            }
           </NavLink>
         )
       }

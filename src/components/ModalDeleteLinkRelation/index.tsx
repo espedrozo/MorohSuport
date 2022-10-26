@@ -1,8 +1,7 @@
 import { styled, keyframes } from '@stitches/react';
 import { blackA, red, mauve } from '@radix-ui/colors';
-import { MagnifyingGlass, PlusCircle, X } from "phosphor-react"
+import { LinkSimple, Trash } from "phosphor-react"
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
-import { InputSearchResults, AreaLinsRealations, LiAddLink, UlLink, ButtonAddLink } from "./styles";
 
 const overlayShow = keyframes({
   '0%': { opacity: 0 },
@@ -31,9 +30,6 @@ const StyledContent = styled(AlertDialogPrimitive.Content, {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  /*   width: '900px',
-    maxWidth: '450px',
-    maxHeight: '350px', */
   padding: 20,
   '@media (prefers-reduced-motion: no-preference)': {
     animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
@@ -88,22 +84,29 @@ const Button = styled('button', {
   fontSize: 16,
   lineHeight: 1,
   fontWeight: 500,
+  height: 40,
+  width: 90,
   border: 'none',
 
   variants: {
     variant: {
-      search: {
-        backgroundColor: 'transparent',
-        color: '#7C7C8A',
-        '&:hover': { cursor: 'pointer', color: '#005693' },
+      violet: {
+        backgroundColor: '#dc3545',
+        color: '#fff',
+        boxShadow: `0 2px 10px ${blackA.blackA7}`,
+        '&:hover': { backgroundColor: '#ca2b3b', cursor: 'pointer' },
         '&:focus': { outline: 'none' },
       },
-      cancel: {
-        backgroundColor: 'transparent',
-        border: '1px solid transparent',
-        color: '#7C7C8A',
-        padding: 0,
-        '&:hover': { cursor: 'pointer', color: '#202024', border: '1px solid #7C7C8A', },
+      red: {
+        backgroundColor: red.red4,
+        color: red.red11,
+        '&:hover': { backgroundColor: red.red5, cursor: 'pointer' },
+        '&:focus': { outline: 'none' },
+      },
+      mauve: {
+        backgroundColor: '#dddd',
+        color: '#202024',
+        '&:hover': { backgroundColor: '#cecece', cursor: 'pointer' },
         '&:focus': { outline: 'none' },
       },
     },
@@ -114,73 +117,41 @@ const Button = styled('button', {
   },
 });
 
-interface AddNewRelationsLinsModalProps {
-  palavra: string;
-  listOfLinksWithRelations: any[];
-  handleAddNewRelationOfLinks: (linkRelation: any) => void;
-  handleSearchOfLinksWithRelations: (event: any) => Promise<void>;
-  handleChangeInputOfLinksWithRelations: (palavraPesquizada: string) => void;
+interface DeleteRelationsLinsModalProps {
+  id: number;
+  handleRemoveLinkOfPostWithRelation: (id: any) => void;
+  handleCapturaIdLink: (id: number) => void;
 }
 
-export function ModalAddLinkRelation(
+export function ModalDeleteLinkRelation(
   {
-    palavra,
-    listOfLinksWithRelations,
-    handleAddNewRelationOfLinks,
-    handleSearchOfLinksWithRelations,
-    handleChangeInputOfLinksWithRelations,
-  }: AddNewRelationsLinsModalProps) {
+    id,
+    handleCapturaIdLink,
+    handleRemoveLinkOfPostWithRelation,
+  }: DeleteRelationsLinsModalProps) {
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <ButtonAddLink>
-          <PlusCircle size={34} weight="fill" className="add_links" /> Links
-        </ButtonAddLink>
+        <div>
+          <Trash className="trash-link" onClick={() => handleCapturaIdLink(id)} />
+        </div>
       </AlertDialogTrigger>
       <AlertDialogContent >
-        <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
-
-          <AlertDialogTitle>ADICIONAR TÓPICOS RELACIONADOS</AlertDialogTitle>
-          <Flex css={{ cursor: 'pointer' }}>
-            <AlertDialogCancel asChild>
-              <Button variant="cancel">
-                <X size={24} />
-              </Button>
-            </AlertDialogCancel>
-          </Flex>
+        <AlertDialogTitle>COFIRMAÇÃO DE EXCLUSÃO</AlertDialogTitle>
+        <AlertDialogDescription>
+          Deseja realmente excluir?.
+        </AlertDialogDescription>
+        <Flex css={{ justifyContent: 'center' }}>
+          <AlertDialogCancel asChild>
+            <Button variant="mauve" css={{ marginRight: 25 }}>
+              Cancel
+            </Button>
+          </AlertDialogCancel>
+          <AlertDialogAction asChild>
+            <Button variant="red" onClick={() => handleRemoveLinkOfPostWithRelation(id)}>Sim</Button>
+          </AlertDialogAction>
         </Flex>
-
-        <Flex css={{ justifyContent: 'space-between', alignItems: 'center', marginTop: '15px' }} >
-          <InputSearchResults
-            type="search"
-            name="search"
-            id="search"
-            placeholder="Digite sua pesquisa..."
-            onChange={(e) => handleChangeInputOfLinksWithRelations(e.target.value)}
-          />
-
-          <Button variant="search" onClick={handleSearchOfLinksWithRelations}>
-            <MagnifyingGlass size={34} />
-          </Button>
-
-        </Flex>
-
-        {palavra &&
-          <AreaLinsRealations>
-            <UlLink>
-              {listOfLinksWithRelations?.map((linkRelation) => (
-                <LiAddLink
-                  key={linkRelation.id_post}
-                  value={linkRelation.id_post}
-                  onClick={() => handleAddNewRelationOfLinks(linkRelation)}
-                >
-                  <PlusCircle /><span>{linkRelation.titulo}</span>
-                </LiAddLink>
-              ))}
-            </UlLink>
-          </AreaLinsRealations>
-        }
       </AlertDialogContent>
     </AlertDialog>
   );

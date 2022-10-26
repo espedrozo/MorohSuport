@@ -2,6 +2,7 @@ import React from 'react';
 import { styled, keyframes } from '@stitches/react';
 import { blackA, red, mauve } from '@radix-ui/colors';
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
+import { DeleteButton } from '../../pages/PostDetails/components/Post/styles';
 
 const overlayShow = keyframes({
   '0%': { opacity: 0 },
@@ -130,7 +131,7 @@ export function ModalDelete({ handleDetele }: DeleteModalProps) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button>Excluir Post</Button>
+        <DeleteButton>Excluir Post</DeleteButton>
       </AlertDialogTrigger>
       <AlertDialogContent >
         <AlertDialogTitle>COFIRMAÇÃO DE EXCLUSÃO</AlertDialogTitle>

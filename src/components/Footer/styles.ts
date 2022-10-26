@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
 export const ContainerFooter = styled.div`
-  color: #fff;
-  height: 3rem;
-  width: 100vw;
+  width: 100%;
+  height: 2rem;
   display: flex;
   align-items: center;
+  font-size: 0.875rem;
   justify-content: center;
-  background-color: #005693;
- 
+  color: ${({ theme }) => theme.white};
+  background-color: ${({ theme }) => theme["blue-900"]}; 
 `;
 
 export const TextFooter = styled.p`

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { tablet } from "../../styles/responsive";
 
 export const Container = styled.div`
   width: 100%;
@@ -16,13 +17,21 @@ export const LoginForm = styled.form`
   border-radius: 10px;
   box-shadow: 0px 0px 10px #cecece;
   color: ${({ theme }) => theme.white};
-  background: ${({ theme }) => theme["bg-primary"]};
+  background: ${({ theme }) => theme["blue-900"]};
+
+  ${tablet({ width: '95%', maxWidth: '20rem', height: '100%', margin: '10px' })};
+
+  label{
+    ${tablet({ fontSize: '0.875rem' })};
+  }
 
   h1{
     padding: 2px;
     font-size: 2rem;
     text-align: center;
     border-bottom: 1px solid ${({ theme }) => theme.white};
+
+    ${tablet({ fontSize: '1.5rem' })};
   }
 `;
 
@@ -36,6 +45,8 @@ export const AreaInput = styled.div`
     border: none;
     padding: 0.5rem;
     border-radius: 5px;
+
+    ${tablet({ fontSize: '0.875rem' })};
   }
 `;
 
@@ -91,9 +102,11 @@ export const LoginButton = styled.button`
   color: ${({ theme }) => theme.white};
   border: 1px solid ${({ theme }) => theme.white};
 
+  ${tablet({ width: '85px', height: '35px', fontSize: '0.875rem' })};
+
   &:hover{
     transition: background-color 0.3s;
-    color: ${({ theme }) => theme["bg-primary"]};
+    color: ${({ theme }) => theme["blue-900"]};
     background-color: ${({ theme }) => theme.white};
   }
 `;

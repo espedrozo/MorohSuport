@@ -159,16 +159,14 @@ export function ModalManageCategory() {
       const response = await api.deleteCategory(id);
       console.log("RESPONSE: USAR TOSKT INFORMATIVO ", response);
 
-      localStorage.removeItem('idRecentes');
-      localStorage.removeItem('postRecentes');
+      localStorage.removeItem('@moroh-suport-v1.0.1:idRecentes');
+      localStorage.removeItem('@moroh-suport-v1.0.1:postRecentes');
 
-      sessionStorage.removeItem('allCategories');
-      sessionStorage.removeItem('listOfIdOfCategories');
+      localStorage.removeItem('@moroh-suport-v1.0.1:allCategories');
+      localStorage.removeItem('@moroh-suport-v1.0.1:listOfIdOfCategories');
 
       setReloadContext(!reloadContext);
 
-      //window.location.href = "/home";
-      //window.location.reload();
     } else {
       console.log('Error: Não foi possível excluir categoria!')
     }

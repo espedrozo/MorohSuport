@@ -1,60 +1,120 @@
 import LogoSuport from '../../assets/logo.svg';
 import { NavLink, useNavigate } from "react-router-dom";
+import { useContextSelector } from 'use-context-selector';
+import { PostesContext } from '../../contexts/PostsContext';
 import { fazerLogout, isLogged } from "../../lib/authHandler";
-import { AreaLogo, ButtonCreatePost, ButtonLogin, ButtonLogout, ContainerHeader } from "./styles";
+import { AreaUser, AvatarUser, AreaLogo, AreaNav, ButtonCreatePost, ButtonLogin, ButtonLogout, ContainerHeader, ContainerHeaderBurguer } from "./styles";
+import { List, UserCircle } from 'phosphor-react';
+import { MenuBurger } from '../MenuBurger';
+
 
 export function Header() {
 
-  let navigate = useNavigate();
+  const {
+    palavra,
+    handleSubmit,
+    handleChangeSearcWord,
+    userName,
+  } = useContextSelector(PostesContext, (context) => {
+    return context
+  });
 
   let user = isLogged();
+  let navigate = useNavigate();
 
   const handleLogout = () => {
     fazerLogout();
-    localStorage.removeItem('idRecentes');
-    localStorage.removeItem('postRecentes');
 
-    sessionStorage.removeItem('allCategories');
-    sessionStorage.removeItem('listOfIdOfCategories');
+    localStorage.removeItem('@moroh-suport-v1.0.1:idRecentes');
+    sessionStorage.removeItem('@moroh-suport-v1.0.1:allCategories');
+    sessionStorage.removeItem('@moroh-suport-v1.0.1:listOfIdOfCategories');
 
-    window.location.href = "/home";
-    //navigate('/home');
+    navigate('/home');
   }
 
   return (
     <>
       {user ?
-        <ContainerHeader>
-          <AreaLogo>
+        <>
+          <ContainerHeaderBurguer>
+            <AreaLogo>
+              <MenuBurger user={user} />
+            </AreaLogo>
+          </ContainerHeaderBurguer>
+
+          <ContainerHeader>
+            <AreaLogo>
+              <AreaUser>
+                <NavLink to="/home" >
+                  <img src={LogoSuport} alt="" />
+                </NavLink>
+                <AvatarUser>
+                  <UserCircle size={32} weight="fill" />
+                  <span>
+                    Bem vindo:
+                    <strong>
+                      {userName}
+                    </strong>
+                  </span>
+                </AvatarUser>
+              </AreaUser>
+            </AreaLogo>
             <NavLink to="/home" >
-              <img src={LogoSuport} alt="" />
+              <ButtonLogin>Início</ButtonLogin>
             </NavLink>
-          </AreaLogo>
-          <NavLink to="/home" >
-            <ButtonLogin>Início</ButtonLogin>
-          </NavLink>
-          <NavLink to="/postcreate" >
-            <ButtonCreatePost>Criar post</ButtonCreatePost>
-          </NavLink>
+            <form onSubmit={handleSubmit}>
+              <input
+                autoFocus
+                type="text"
+                defaultValue={palavra || ""}
+                placeholder="Digite sua pesquisa"
+                onChange={(e) => handleChangeSearcWord(e.target.value)}
+              />
+              <button>Pesquisar</button>
+            </form>
+            <NavLink to="/postcreate" >
+              <ButtonCreatePost>Criar post</ButtonCreatePost>
+            </NavLink>
 
-          <ButtonLogout onClick={handleLogout}>Sair</ButtonLogout>
+            <ButtonLogout onClick={handleLogout}>Sair</ButtonLogout>
 
-        </ContainerHeader>
+          </ContainerHeader>
+
+        </>
+
         :
-        <ContainerHeader>
-          <AreaLogo>
+        <>
+          <ContainerHeaderBurguer>
+            <AreaLogo>
+              <MenuBurger user={user} />
+            </AreaLogo>
+          </ContainerHeaderBurguer>
+
+          <ContainerHeader>
+            <AreaLogo>
+              <NavLink to="/home" >
+                <img src={LogoSuport} alt="" />
+              </NavLink>
+            </AreaLogo>
+
             <NavLink to="/home" >
-              <img src={LogoSuport} alt="" />
+              <ButtonLogin>Início</ButtonLogin>
             </NavLink>
-          </AreaLogo>
-          <form>
-            <input type="text" placeholder="Digite sua pesquisa" />
-            <button>Pesquisar</button>
-          </form>
-          <NavLink to="/login" >
-            <ButtonLogin>Login</ButtonLogin>
-          </NavLink>
-        </ContainerHeader>
+            <form onSubmit={handleSubmit}>
+              <input
+                autoFocus
+                type="text"
+                defaultValue={palavra || ""}
+                placeholder="Digite sua pesquisa"
+                onChange={(e) => handleChangeSearcWord(e.target.value)}
+              />
+              <button>Pesquisar</button>
+            </form>
+            <NavLink to="/login" >
+              <ButtonLogin>Login</ButtonLogin>
+            </NavLink>
+          </ContainerHeader>
+        </>
       }
     </>
   )

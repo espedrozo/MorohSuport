@@ -11,7 +11,6 @@ export function DefaultLayout() {
     <LayoutContainer>
       <Header />
       <div className="main">
-
         <div className="esquerda">
           <h4>CATEGORIAS</h4>
           <div className='categoria'>
@@ -23,7 +22,6 @@ export function DefaultLayout() {
             <LastPostsVisited />
           </div>
         </div>
-
         <Outlet />
       </div>
       <Footer />

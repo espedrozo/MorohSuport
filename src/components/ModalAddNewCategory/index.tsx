@@ -178,11 +178,11 @@ export function ModalAddNewCategory(
         setError(response.message);
         console.log("ERROR: ", error);
       } else {
-        localStorage.removeItem('idRecentes');
-        localStorage.removeItem('postRecentes');
+        localStorage.removeItem('@moroh-suport-v1.0.1:idRecentes');
+        localStorage.removeItem('@moroh-suport-v1.0.1:postRecentes');
 
-        sessionStorage.removeItem('allCategories');
-        sessionStorage.removeItem('listOfIdOfCategories');
+        sessionStorage.removeItem('@moroh-suport-v1.0.1:allCategories');
+        sessionStorage.removeItem('@moroh-suport-v1.0.1:listOfIdOfCategories');
 
         setReloadContext(!reloadContext);
       }

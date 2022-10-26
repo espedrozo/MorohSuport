@@ -20,8 +20,8 @@ export const AreaAddNewCategories = styled.div`
     outline: 0;
     
     &:focus{
-        border: 0.5px solid ${({ theme }) => theme["color-secondary"]};
-        box-shadow: 0px 0px 1px 0.3px ${({ theme }) => theme["color-secondary"]};
+        border: 0.5px solid ${({ theme }) => theme["blue-200"]};
+        box-shadow: 0px 0px 1px 0.3px ${({ theme }) => theme["blue-200"]};
     }
   }
 `;
@@ -36,8 +36,8 @@ export const InputSearchResults = styled.input`
   outline: 0;
       
   &:focus{
-      border: 0.5px solid ${({ theme }) => theme["color-secondary"]};
-      box-shadow: 0px 0px 1px 0.3px ${({ theme }) => theme["color-secondary"]};
+      border: 0.5px solid ${({ theme }) => theme["blue-200"]};
+      box-shadow: 0px 0px 1px 0.3px ${({ theme }) => theme["blue-200"]};
   }
 `;
 
@@ -48,8 +48,8 @@ export const AreaLinsRealations = styled.div`
   overflow: auto;
   white-space:nowrap;
   border-radius: 5px;
-  border: 1px solid ${({ theme }) => theme["bg-primary"]};
-  box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["bg-primary"]};
+  border: 1px solid ${({ theme }) => theme["blue-900"]};
+  box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["blue-900"]};
 `;
 
 export const UlLink = styled.ul`
@@ -65,7 +65,7 @@ export const LiAddLink = styled.li`
   &:hover {
       border-radius: 2px;
       color: ${({ theme }) => theme.white};
-      background-color: ${({ theme }) => theme["color-secondary"]};
+      background-color: ${({ theme }) => theme["blue-200"]};
     }
 
   svg{
@@ -112,14 +112,14 @@ export const CancelButton = styled(BaseButton)`
 `;
 
 export const ConfirmationButton = styled(BaseButton)`
-  background-color: ${({ theme }) => theme["bg-primary"]};
+  background-color: ${({ theme }) => theme["blue-900"]};
 
   &:disabled {
     opacity: 0.6;
     cursor: not-allowed;
   }
   &:not(:disabled):hover {
-    background: ${({ theme }) => theme["color-secondary"]};
+    background: ${({ theme }) => theme["blue-200"]};
     transition: background-color 0.2s;
   }
 `;
@@ -145,8 +145,8 @@ export const TableOfCategories = styled.table`
   thead{
     border-radius: 4px;
     color: ${({ theme }) => theme.white};
-    background: ${({ theme }) => theme["bg-primary"]};
-    border: 0.1px solid ${({ theme }) => theme["bg-primary"]};
+    background: ${({ theme }) => theme["blue-900"]};
+    border: 0.1px solid ${({ theme }) => theme["blue-900"]};
   }
   
   tbody{
@@ -180,8 +180,8 @@ export const LinhaTB = styled(BaseTabela)`
     border: 1px solid ${({ theme }) => theme["gray-200"]};
     
     &:focus{
-        border: 0.5px solid ${({ theme }) => theme["color-secondary"]};
-        box-shadow: 0px 0px 1px 0.3px ${({ theme }) => theme["color-secondary"]};
+        border: 0.5px solid ${({ theme }) => theme["blue-200"]};
+        box-shadow: 0px 0px 1px 0.3px ${({ theme }) => theme["blue-200"]};
     }
   }
 `;
@@ -208,12 +208,12 @@ export const LinhaTableButton = styled(BaseTabela)`
       cursor:pointer;
       border-radius: 2px;
       border: 1px solid transparent;
-      color: ${({ theme }) => theme["bg-primary"]};
+      color: ${({ theme }) => theme["blue-900"]};
     
       &:hover{
         transition: 0.3s;
-        color: ${({ theme }) => theme["color-secondary"]};
-        border: 1px solid ${({ theme }) => theme["color-secondary"]};
+        color: ${({ theme }) => theme["blue-200"]};
+        border: 1px solid ${({ theme }) => theme["blue-200"]};
       }
     }
     .save-category{

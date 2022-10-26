@@ -50,16 +50,15 @@ interface ListCategoriesProps {
   sub?: SubProps[];
 }
 
-interface RetalationLinksProps {
-  id_post: string;
-  titulo: string;
-}
-
 interface ListaDeCategoriesPaiProps {
   id: string;
   descricao: string;
 }
 
+interface RetalationLinksProps {
+  id_post: string;
+  titulo: string;
+}
 
 import { useContextSelector } from "use-context-selector";
 import { PostesContext } from "../../../../contexts/PostsContext";
@@ -483,6 +482,8 @@ export function NewPostForm() {
   return (
     <Container>
       <form encType="multipart/form-data" method="POST">
+
+        {/* ADICIONAR NOVAS CATEGORIAS */}
         <AreaCategory>
           <div>
             <label> Escolha uma Categoria:</label>
@@ -608,20 +609,17 @@ export function NewPostForm() {
               />
 
               {urlsImagens[index] ?
-                <img
-                  alt=''
-                  width='300px'
-                  height='200px'
-                  src={urlsImagens[index]}
-                />
+                <div>
+                  <ImageDetails src={urlsImagens[index]} alt="" />
+                </div>
                 : ''
               }
 
               <label>Adicionar um arquivo de vídeo:</label>
-
               <LabelFile htmlFor={`inputVideo${index}`}>
                 <PlusCircle size={30} />
               </LabelFile>
+
               <InputFile
                 type="file"
                 name="video"
@@ -632,13 +630,16 @@ export function NewPostForm() {
 
               {
                 videos[index] &&
-                <Player
-                  playsInline
-                  width={300}
-                  height={200}
-                  fluid={false}
-                  src={videos[index]}
-                />
+                <div className="video">
+                  <iframe
+                    id="player"
+                    title="video"
+                    frameBorder="0"
+                    allow="fullscreen"
+                    src={videos[index]}
+                  >
+                  </iframe>
+                </div>
               }
 
               <label>Adicionar um Link de Video</label>
@@ -651,24 +652,23 @@ export function NewPostForm() {
 
               {
                 urlsVideos[index] ?
-                  <iframe
-                    id="player"
-                    width="300"
-                    height="200"
-                    title="video"
-                    frameBorder="0"
-                    allowFullScreen
-                    typeof="text/html"
-                    src={urlsVideos[index]}
-                  >
-                  </iframe>
+                  <div className="video">
+                    <iframe
+                      id="player"
+                      title="video"
+                      frameBorder="0"
+                      allow="fullscreen"
+                      src={urlsVideos[index]}
+                    >
+                    </iframe>
+                  </div>
 
-                  : ''
+                  : ""
               }
 
-              <label id="conteudo">Observações:</label>
+              <label id="observacao">Observações:</label>
               <textarea
-                id="conteudo"
+                id="observacao"
                 name="observacao"
                 value={pItem.observacao || ''}
                 onChange={event => handleChangeInputPostItem(index, event)}
@@ -718,9 +718,9 @@ export function NewPostForm() {
               <ModalAddLinkRelation
                 palavra={palavra}
                 listOfLinksWithRelations={listOfLinksWithRelations}
+                handleAddNewRelationOfLinks={handleAddNewRelationOfLinks}
                 handleSearchOfLinksWithRelations={handleSearchOfLinksWithRelations}
                 handleChangeInputOfLinksWithRelations={handleChangeInputOfLinksWithRelations}
-                handleAddNewRelationOfLinks={handleAddNewRelationOfLinks}
               />
             </Dialog.Root>
           </span>

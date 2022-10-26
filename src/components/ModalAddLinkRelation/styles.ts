@@ -1,17 +1,18 @@
 import styled from "styled-components";
+import { tablet } from "../../styles/responsive";
 
 export const InputSearchResults = styled.input`
-  width: 100%;
-  border: 1px solid ${({ theme }) => theme["gray-200"]};
-  border-radius: 5px;
-  padding: 10px;
-  margin: 5px 0 5px 0;
-  font-size: 14px;
   outline: 0;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  margin: 5px 0 5px 0;
+  border: 1px solid ${({ theme }) => theme["gray-200"]};
       
   &:focus{
-      border: 1px solid ${({ theme }) => theme["color-secondary"]};
-      box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["color-secondary"]};
+    border: 1px solid ${({ theme }) => theme["blue-200"]};
+    box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["blue-200"]};
   }
 `;
 
@@ -22,8 +23,8 @@ export const AreaLinsRealations = styled.div`
   overflow: auto;
   white-space:nowrap;
   border-radius: 5px;
-  border: 1px solid ${({ theme }) => theme["bg-primary"]};
-  box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["bg-primary"]};
+  border: 1px solid ${({ theme }) => theme["blue-900"]};
+  box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["blue-900"]};
 `;
 
 export const UlLink = styled.ul`
@@ -37,14 +38,29 @@ export const LiAddLink = styled.li`
   align-items: center;
 
   &:hover {
-      border-radius: 2px;
-      color: ${({ theme }) => theme.white};
-      background-color: ${({ theme }) => theme["color-secondary"]};
-    }
+    border-radius: 2px;
+    color: ${({ theme }) => theme.white};
+    background-color: ${({ theme }) => theme["blue-200"]};
+  }
 
   svg{
     width: 20px;
     height: 20px;
     margin-right: 5px;
   }
+`;
+
+export const ButtonAddLink = styled.button`
+  border: none;
+  height: 40px;
+  width: 100px;
+  display: flex;
+  cursor: pointer;
+  border-radius: 5px;
+  align-items: center;
+  justify-content: center; 
+  background-color: transparent;
+  color: ${({ theme }) => theme["blue-900"]};
+
+  ${tablet({ width: '80px', height: '30px', fontSize: '12px' })};
 `;

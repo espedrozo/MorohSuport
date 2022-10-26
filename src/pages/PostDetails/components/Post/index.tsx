@@ -1,10 +1,10 @@
-import React, { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { Link, NavLink, useNavigate, useParams } from 'react-router-dom';
+
 import {
   AreaButton,
   BackButton,
   Container,
-  DeleteButton,
   EditeButton,
   FormGroup,
   FormPost,
@@ -15,22 +15,22 @@ import {
   TextPostItem
 } from './styles';
 
-import { api } from '../../lib/Api';
 //import { Player } from "video-react";
 
-import { isLogged } from "../../lib/authHandler";
 
 import * as Dialog from '@radix-ui/react-dialog';
-import { ModalDelete } from "../ModalDelete";
 import { Player } from "video-react";
 import { LinkSimple } from "phosphor-react";
 import { useContextSelector } from "use-context-selector";
-import { PostesContext } from "../../contexts/PostsContext";
+import { PostesContext } from "../../../../contexts/PostsContext";
+import { isLogged } from "../../../../lib/authHandler";
+import { api } from "../../../../lib/Api";
+import { ModalDelete } from "../../../../components/ModalDelete";
 
-var idRecentesLocal = localStorage.getItem('idRecentes');
+var idRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.1:idRecentes');
 var idRecentes = idRecentesLocal !== null ? JSON.parse(idRecentesLocal) : [];
 
-var postRecentesLocal = localStorage.getItem('postRecentes');
+var postRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.1:postRecentes');
 var postRecentes = postRecentesLocal !== null ? JSON.parse(postRecentesLocal) : [];
 
 interface PostItemProps {
@@ -69,18 +69,16 @@ export function Post() {
     return context
   });
 
-
   let logado = isLogged();
   const { id_post } = useParams();
   const navigate = useNavigate();
 
-  // Sessão de States ou estados
   const [postInfo, setPostInfo] = useState({} as PostDetailsProps);
-
-  // Função que exibe um post pelo ID
   useEffect(() => {
 
     const getOnePostForIdInfo = async (id_post: string | undefined) => {
+
+
       const response = await api.getOnePostForId(id_post);
       setPostInfo(response);
 
@@ -92,9 +90,9 @@ export function Post() {
 
           idRecentes.push(id_post)
 
-          localStorage.setItem('idRecentes', JSON.stringify(idRecentes));
+          localStorage.setItem('@moroh-suport-v1.0.1:idRecentes', JSON.stringify(idRecentes));
 
-          const idRecentesLocal = localStorage.getItem('idRecentes');
+          const idRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.1:idRecentes');
           idRecentes = idRecentesLocal !== null ? JSON.parse(idRecentesLocal) : [];
 
           const idPostRecentEncontrado = postRecentes.find((element: { id_post: string; }) => element.id_post === id_post);
@@ -107,7 +105,7 @@ export function Post() {
             postRecentes?.push(response);
           } else {
             postRecentes?.push(response);
-            localStorage.setItem('postRecentes', JSON.stringify(postRecentes.slice(-5)));
+            localStorage.setItem('@moroh-suport-v1.0.1:postRecentes', JSON.stringify(postRecentes.slice(-5)));
           }
         } else {
           var index = idRecentes.indexOf(id_post);
@@ -117,9 +115,9 @@ export function Post() {
           }
           idRecentes.push(id_post)
 
-          localStorage.setItem('idRecentes', JSON.stringify(idRecentes));
+          localStorage.setItem('@moroh-suport-v1.0.1:idRecentes', JSON.stringify(idRecentes));
 
-          const idRecentesLocal = localStorage.getItem('idRecentes');
+          const idRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.1:idRecentes');
           idRecentes = idRecentesLocal !== null ? JSON.parse(idRecentesLocal) : [];
 
           const postRecentEncontrado = postRecentes.find((element: { id_post: string; }) => element.id_post === id_post);
@@ -130,10 +128,10 @@ export function Post() {
               postRecentes.splice(indexPostRecente, 1);
             }
             postRecentes?.push(response);
-            localStorage.setItem('postRecentes', JSON.stringify(postRecentes.slice(-5)));
+            localStorage.setItem('@moroh-suport-v1.0.1:postRecentes', JSON.stringify(postRecentes.slice(-5)));
           } else {
             postRecentes?.push(response);
-            localStorage.setItem('postRecentes', JSON.stringify(postRecentes.slice(-5)));
+            localStorage.setItem('@moroh-suport-v1.0.1:postRecentes', JSON.stringify(postRecentes.slice(-5)));
           }
         }
       }
@@ -159,9 +157,9 @@ export function Post() {
     }
 
     // Salvando a Lista de IDs no localStorage
-    localStorage.setItem('idRecentes', JSON.stringify(idRecentes));
+    localStorage.setItem('@moroh-suport-v1.0.1:idRecentes', JSON.stringify(idRecentes));
 
-    const idRecentesLocal = localStorage.getItem('idRecentes');
+    const idRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.1:idRecentes');
     idRecentes = idRecentesLocal !== null ? JSON.parse(idRecentesLocal) : [];
 
     // Localizando objeto dentro do Array de PostsRecentes
@@ -172,28 +170,24 @@ export function Post() {
       if (indexPostRecente > -1) {
         postRecentes.splice(indexPostRecente, 1);
       }
-      localStorage.setItem('postRecentes', JSON.stringify(postRecentes.slice(-5)));
+      localStorage.setItem('@moroh-suport-v1.0.1:postRecentes', JSON.stringify(postRecentes.slice(-5)));
 
-      postRecentesLocal = localStorage.getItem('postRecentes');
+      postRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.1:postRecentes');
       postRecentes = postRecentesLocal !== null ? JSON.parse(postRecentesLocal) : [];
     }
 
-    localStorage.removeItem('idRecentes');
-    //localStorage.removeItem('postRecentes');
+    localStorage.removeItem('@moroh-suport-v1.0.1:idRecentes');
 
     setReloadContext(!reloadContext);
     setReloadContextPostsVisited(!reloadContextPostsVisited);
 
-    //window.location.href = "/home";
-
-    //window.location.href = '/';
     navigate("/home");
   }
 
   return (
     <Container>
 
-      <FormPost onSubmit={handleDetele}>
+      <FormPost>
         <h2 className="text-center">{postInfo.titulo}</h2>
         <Resume>
           <strong>Resumo: </strong>{postInfo.resumo}
@@ -219,32 +213,30 @@ export function Post() {
                 }
                 {postItem.url_imagem &&
                   <div>
-                    <img src={postItem.url_imagem} className="img-fluid img-detalhes" alt="" />
+                    <ImageDetails src={postItem.url_imagem} alt="" />
                   </div>
                 }
                 {postItem.video &&
-                  <div>
-                    <Player
-                      playsInline
+                  <div className="video">
+                    <iframe
+                      id="player"
+                      title="video"
+                      frameBorder="0"
+                      allow="fullscreen"
                       src={postItem.video}
-                      fluid={false}
-                      width={400}
-                      height={300}
-                    />
-
+                    >
+                    </iframe>
                   </div>
 
                 }
                 {postItem.url_video &&
-                  <div>
+                  <div className="video">
                     <iframe
                       id="player"
                       title="video"
-                      width="400"
-                      height="300"
                       frameBorder="0"
-                      src={postItem.url_video}
                       allow="fullscreen"
+                      src={postItem.url_video}
                     >
                     </iframe>
                   </div>
@@ -283,10 +275,9 @@ export function Post() {
 
           <AreaButton>
 
-            <BackButton onClick={() => navigate('/home')}>Voltar</BackButton>
-            {/*  <button onClick={() => navigate(-1)}>Go 1 pages back</button> */}
+            <BackButton type="button" onClick={() => navigate(-1)}>Voltar</BackButton>
 
-            <Link to={`/atualizar/${id_post}`}>
+            <Link to={`/postedit/${id_post}`}>
               <EditeButton>Editar Post</EditeButton>
             </Link>
 
@@ -299,10 +290,10 @@ export function Post() {
           </AreaButton>
           :
           <AreaButton>
-            <BackButton onClick={() => navigate('/home')}>Voltar</BackButton>
+            <BackButton type="button" onClick={() => navigate(-1)}>Voltar</BackButton>
           </AreaButton>
         }
       </FormPost>
-    </Container>
+    </Container >
   );
 }

@@ -8,8 +8,8 @@ export const ContainerPagination = styled.div`
   justify-content: center;
   
   a{
-    width: 7vh;
-    height: 7vh;
+    width: 40px;
+    height: 40px;
     display: flex;
     cursor: pointer;
     padding: 8px 14px;
@@ -21,21 +21,21 @@ export const ContainerPagination = styled.div`
     justify-content: center;
     transition: background-color .2s;
     color: ${({ theme }) => theme.white};
-    background-color: ${({ theme }) => theme["color-secondary"]};
-    border: 1px solid ${({ theme }) => theme["color-secondary"]};
+    background-color: ${({ theme }) => theme["blue-200"]};
+    border: 1px solid ${({ theme }) => theme["blue-200"]};
   }
 
  a.active {
    border: 1px solid #7cbddb;
    color: ${({ theme }) => theme.white};
-   background-color: ${({ theme }) => theme["bg-primary"]};
+   background-color: ${({ theme }) => theme["blue-900"]};
   }
    a.disabled { 
     opacity: 0.2;
   }
    a:hover:not(.active) {
-    background-color: ${({ theme }) => theme["color-secondary"]}; 
-    box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["bg-primary"]};
+    background-color: ${({ theme }) => theme["blue-200"]}; 
+    box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["blue-900"]};
   }
 
 `;

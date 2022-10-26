@@ -1,57 +1,14 @@
 import styled from "styled-components";
 import { tablet } from "../../styles/responsive";
 
-export const ContainerHeaderBurguer = styled.div`
-  gap: 1rem;
-  height: 4rem;
-  display: none;
-  padding: 0 1rem;
-  align-items: center;
-  background-color: ${({ theme }) => theme["blue-900"]};
-  
-  ${tablet({ flexDirection: 'column', height: 'auto', gap: '0.2rem', padding: '0.5rem', display: 'block' })}
-
-  form{
-    flex: 1;
-    display: flex;
-    
-    input{
-      flex: 1;
-      border: none;
-      padding: 0 1rem;
-      border-radius: 6px 0 0 6px;
-    }
-
-    button{
-      width: 100px;
-      height: 40px;
-      cursor: pointer;
-      border-radius: 0 6px 6px 0;
-      color: ${({ theme }) => theme.white};
-      border: 1px solid ${({ theme }) => theme["green-500"]};
-      background-color: ${({ theme }) => theme["green-500"]};
-
-      &:hover{
-        transition: background-color 0.2s;
-        background-color: ${({ theme }) => theme["green-700"]};
-      }    
-    }
-  }
-`;
-
 export const ContainerHeader = styled.div`
-  gap: 1rem;
-  height: 4rem;
-  display: flex;
-  padding: 0 1rem;
-  align-items: center;
   background-color: ${({ theme }) => theme["blue-900"]};
-  
-  ${tablet({ flexDirection: 'column', height: 'auto', gap: '0.2rem', padding: '0.5rem', display: 'none' })};
 
   form{
     flex: 1;
     display: flex;
+    
+    margin-bottom: 5px;
     
     input{
       flex: 1;
@@ -77,41 +34,10 @@ export const ContainerHeader = styled.div`
   }
 `;
 
-export const AreaLogo = styled.div`
-  width: 250px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  ${tablet({ width: '100%', justifyContent: 'space-between' })};
-  
-  img{
-    width: 150px;
-    border-radius: 50px;
-  }
-  
-  svg{
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    border-radius: 5px;
-    color: ${({ theme }) => theme.white};
-    border: 1px solid ${({ theme }) => theme["gray-500"]};
-
-    &:hover{
-      transition: background-color 0.3s;
-      border: 1px solid ${({ theme }) => theme.white};
-    }
-  }
-`;
-
-export const AreaNav = styled.div`
-  display: flex;
-  width: 100%;
-`;
 
 export const BaseButton = styled.button`
-  width: 100px;
+  width: 100%;
+  margin-bottom: 5px;
   height: 40px;
   cursor: pointer;
   border-radius: 6px;
@@ -166,7 +92,6 @@ export const AvatarUser = styled.div`
       border: none;
     }
   }
-
   span{
     display: flex;
     flex-direction: column;

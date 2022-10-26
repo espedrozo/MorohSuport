@@ -22,7 +22,7 @@ export const TitlePost = styled.h4`
 export const SectionScroll = styled.div`
   height: 96.2%;
   margin: auto;
-  padding: 10px;
+  padding: 5px;
   border-radius: 5px;
   overflow-y: scroll;
   scrollbar-color: rebeccapurple green;

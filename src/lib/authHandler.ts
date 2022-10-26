@@ -1,36 +1,19 @@
 import Cookies from 'js-cookie';
 
-// Verifica se o o usuario esta logado
 export const isLogged = () => {
-  let token = Cookies.get('@moroh-suport:token-1.0.0');
+  let token = Cookies.get('@moroh-suport-v1.0.1:token');
   return (token) ? true : false;
 }
 
-// Processo de Login
 export const fazerLogin = (token: string, rememberPassword = false) => {
+
   if (rememberPassword) {
-    Cookies.set('@moroh-suport:token-1.0.0', token, { expires: 90 })
+    Cookies.set('@moroh-suport-v1.0.1:token', token, { expires: 90 })
   } else {
-    Cookies.set('@moroh-suport:token-1.0.0', token);
+    Cookies.set('@moroh-suport-v1.0.1:token', token);
   }
 }
 
-// Faz o processo de deslogar
 export const fazerLogout = () => {
-  Cookies.remove('@moroh-suport:token-1.0.0');
+  Cookies.remove('@moroh-suport-v1.0.1:token');
 }
-
-
-
-
-/* 
-
-
-  const storedStateAsJSON = localStorage.getItem(
-        '@ignite-timer:cycles-state-1.0.0',
-      )
-
-      if (storedStateAsJSON !== null) {
-        return JSON.parse(storedStateAsJSON)
-      }
-*/

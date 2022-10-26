@@ -15,7 +15,8 @@ import {
 import * as z from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { fazerLogin } from "../../lib/authHandler";
+import { useContextSelector } from "use-context-selector";
+import { PostesContext } from "../../contexts/PostsContext";
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Digite um email válido!" }),
@@ -28,6 +29,12 @@ type loginFormInputs = z.infer<typeof loginFormSchema>
 export function Login() {
 
   let navigate = useNavigate();
+
+  const {
+    setUserName,
+  } = useContextSelector(PostesContext, (context) => {
+    return context
+  });
 
   const [errorLogin, setErrorLogin] = useState('');
 
@@ -47,12 +54,10 @@ export function Login() {
 
     const response = await api.login(email, password, rememberPassword);
 
-    // setUsuario(response);
-
     if (response.status === 'error') {
       setErrorLogin(response.message);
     } else {
-      fazerLogin(response.token, rememberPassword); // falta implementar o token na API
+      setUserName(response.usuario.nome);
       navigate("/home");
     }
     //reset(); os dados do formulário

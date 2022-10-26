@@ -15,13 +15,13 @@ export const Li = styled.li`
 
   a{
     text-decoration: none;
-    color: ${({ theme }) => theme["color-secondary"]};
+    color: ${({ theme }) => theme["blue-200"]};
    
     &:hover {
       padding: 2px;
       border-radius: 2px;
       color: ${({ theme }) => theme.white};
-      background-color: ${({ theme }) => theme["color-secondary"]};
+      background-color: ${({ theme }) => theme["blue-200"]};
     }
   }
 
@@ -40,12 +40,12 @@ export const Li = styled.li`
   
   &.has-children.open {
     font-weight: bold;
-    color: ${({ theme }) => theme["bg-primary"]};
+    color: ${({ theme }) => theme["blue-900"]};
   }
 
   &.has-children:not(.open) {
     font-weight: normal;
-    color: ${({ theme }) => theme["bg-primary"]};
+    color: ${({ theme }) => theme["blue-900"]};
   }
 
   &.has-children::before {
@@ -53,7 +53,7 @@ export const Li = styled.li`
     font-size: 20px;
     margin-right: 5px;
     font-family: Arial, Helvetica, sans-serif;
-    color: ${({ theme }) => theme["bg-primary"]};
+    color: ${({ theme }) => theme["blue-900"]};
   }
 
   &.has-children.open::before {
@@ -61,7 +61,7 @@ export const Li = styled.li`
     font-size: 20px;
     margin-right: 10px;
     font-family: Arial, Helvetica, sans-serif;
-    color: ${({ theme }) => theme["bg-primary"]};
+    color: ${({ theme }) => theme["blue-900"]};
   }
 
   & > ul {

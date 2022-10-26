@@ -100,19 +100,12 @@ export const api = {
   },
 
   login: async (email: string, senha: string, rememberPassword: boolean) => {
-    const response = await apiAxiosPost('/usuario', { email, senha });
+    const response = await apiAxiosPost('/login', { email, senha });
 
-
-    /*   if (!response.data.token) {
-        let token = Cookies.get('@token:morohsuporte:1.0.0');
-        if (token) {
-          response.data.token = token;
-        }
-      } */
-
-    const token = 'algumtokenqualquer';
-
-    fazerLogin(token, rememberPassword);
+    if (response.status === 'sucesso') {
+      const token = response.usuario.token;
+      fazerLogin(token, rememberPassword);
+    }
 
     return response;
   },

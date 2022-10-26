@@ -1,45 +1,37 @@
 import styled from "styled-components";
-
-export const AreaDoPost = styled.div`
-
-/* 
-width: 90%;
-max-width: 980px;
-margin: auto;
-
-display: grid;
-grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-grid-gap: 20px; 
-*/
-
-
-`;
+import { tablet } from "../../../../styles/responsive";
 
 export const CardBoder = styled.div`
+    width: 20vw;
+    height: 60vh;
+    margin: auto;
     padding: 0px;
-    margin: 25px;
-    width: 16rem;
     display: flex;
-    height: 22rem;
     text-align: center;
     border-radius: 5px;
     flex-direction: column;
     justify-content: space-between;
-    border-color: ${({ theme }) => theme["color-secondary"]};
-    border: 1px solid ${({ theme }) => theme["color-secondary"]};
+    border-color: ${({ theme }) => theme["blue-200"]};
+    border: 1px solid ${({ theme }) => theme["blue-200"]};
+
+    ${tablet({ width: "250px", margin: "20px", })};
 
     &:hover {
-        border: 1px solid ${({ theme }) => theme["color-secondary"]};
-        box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["color-secondary"]};
+        border: 1px solid ${({ theme }) => theme["blue-200"]};
+        box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["blue-200"]};
     }
 `;
 
 export const CardHeader = styled.div`
     margin: 0px;
     padding: 0px;
-    max-height: 20vh;
+    max-height: 15vh;
+    min-height: 15vh;
     border-radius: 3px 3px 0 0;
-    background-color: ${({ theme }) => theme["color-secondary"]};
+    background-color: ${({ theme }) => theme["blue-200"]};
+    display: flex;
+    align-items: center;
+    justify-content: center;
  `;
 
 export const CardTitle = styled.h5`
@@ -47,22 +39,27 @@ export const CardTitle = styled.h5`
     padding: 5px;
     font-size: 18px;
     color: ${({ theme }) => theme.white};
-    
-@media only screen and (max-width: 600px){
-    margin: 0px;
-    padding: 5px;
-    font-size: 14px;
-    color: ${({ theme }) => theme.white};
-}
+
+    ${tablet({ fontSize: '14px' })};
 `;
 
 export const CardBody = styled.div`
-    flex: 1;
     padding: 10px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
 `;
+
+export const CardText = styled.p`
+    font-size: 16px;
+    text-align:justify;
+    
+    ${tablet({ fontSize: '14px' })}; 
+
+    max-height: 20vh;
+    min-height: 20vh;
+`;
+
 
 export const ButtonDetalhe = styled.button`
     width: 90px;
@@ -71,7 +68,7 @@ export const ButtonDetalhe = styled.button`
     font-size: 15px;
     border-radius: 5px;
     color: ${({ theme }) => theme.white};
-    background-color: ${({ theme }) => theme["color-secondary"]};
+    background-color: ${({ theme }) => theme["blue-200"]};
 
     &:focus {
         outline: 0;
@@ -82,18 +79,8 @@ export const ButtonDetalhe = styled.button`
     border-style: none;
     transition: background-color 0.2s;
     color: ${({ theme }) => theme.white};
-    background-color: ${({ theme }) => theme["bg-primary"]};;
+    background-color: ${({ theme }) => theme["blue-900"]};
     }    
-`;
-
-export const CardText = styled.p`
-    font-size: 16px;
-    text-align:justify;
-    
-    @media only screen and (max-width: 600px){
-    font-size: 14px;
-    text-align:justify;
-}   
 `;
 
 export const CardFooter = styled.div`
@@ -101,14 +88,11 @@ export const CardFooter = styled.div`
     font-size: 14px;
     text-align: right;
     margin-bottom: 2px;
-    background-color: #f7f7f7;
+    background-color: ${({ theme }) => theme["gray-050"]};
     border-radius: 0 0 3px 3px;
-    border-top: 1px solid ${({ theme }) => theme["color-secondary"]};
-
-@media only screen and (max-width: 600px){
-    font-size: 12px;
-} 
+    border-top: 1px solid ${({ theme }) => theme["blue-200"]};
     
+    ${tablet({ fontSize: '12px' })};
 `;
 
 export const CardSmall = styled.small`
@@ -117,8 +101,6 @@ export const CardSmall = styled.small`
     font-style: italic;
     color: ${({ theme }) => theme["gray-400"]};
 
-@media only screen and (max-width: 600px){
-    font-size: 10px;
-} 
+    ${tablet({ fontSize: '10px' })};
 `;
 

@@ -1,37 +1,36 @@
 import styled from "styled-components";
-
-export const Container = styled.div`
-  flex: 1;
-
-  h3{
-    margin: 5px 0;
-    font-weight: bold;
-    text-align: center;
-    color: ${({ theme }) => theme["bg-primary"]};
-  }
-`;
-
+import { tablet } from "../../styles/responsive";
 
 export const SectionRight = styled.div`
+  flex: 1;
   margin: 5px;
   padding: 5px;
+  display: flex;
   border-radius: 3px;
-  height: calc(100vh - 7.6rem);
+  flex-direction: column;
+  justify-content: center;
   background-color: ${({ theme }) => theme.white};
-  border: 1px solid ${({ theme }) => theme["bg-primary"]};
+  border: 1px solid ${({ theme }) => theme["blue-900"]};
+`;
+
+export const TitlteSection = styled.h3`
+  margin: 5px 0;
+  font-weight: bold;
+  text-align: center;
+  color: ${({ theme }) => theme["blue-900"]};
 `;
 
 export const SectionScroll = styled.div`
-  height: 83%;
-  margin: auto;
-  padding: 10px;
+  width: 100%;
+  height: 98%;
   display: flex;
   flex-wrap: wrap;
-  border-radius: 5px;
   overflow-y: scroll;
+  border-radius: 5px;
   align-items: center;
   justify-content: center;
+  margin: 0 auto 5px auto;
   scrollbar-color: rebeccapurple green;
-  border: 1px solid ${({ theme }) => theme["bg-primary"]};
-  box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["bg-primary"]};
+  border: 1px solid ${({ theme }) => theme["blue-900"]};
+  box-shadow: 0 0 2px ${({ theme }) => theme['blue-900']};
 `;

@@ -1,6 +1,6 @@
-import { Context, ReactNode, useCallback, useEffect, useState } from 'react';
-import { createContext } from 'use-context-selector'
 import { api } from '../lib/Api';
+import { createContext } from 'use-context-selector'
+import { ReactNode, useEffect, useState } from 'react';
 
 interface Post {
   id_post: string;
@@ -33,13 +33,6 @@ type Category = {
   subcategoria?: SubCategoriaProps[]
 }
 
-interface CreatePostInput {
-  id_post: string;
-  titulo: string;
-  resumo: string;
-  data_publicacao: string;
-}
-
 interface PostContextType {
   totalDePosts: Post[];
   totalPaginas: number;
@@ -54,7 +47,7 @@ interface PostContextType {
   paginacaoDePostsComBusca: Post[] | undefined;
   palavra: string | null
   handleSubmit: (e: any) => Promise<void>;
-  handleChange: (e: any) => void;
+  handleChangeSearcWord: (e: any) => void;
 
   posts: Post[];
   categories: Category[];
@@ -76,6 +69,9 @@ interface PostContextType {
 
   postsRecents: Post[];
   setPostsRecents: (postsRecents: Post[]) => void;
+
+  userName: string;
+  setUserName: (userName: string) => void;
 }
 
 interface PostProviderProps {
@@ -84,137 +80,106 @@ interface PostProviderProps {
 
 export const PostesContext = createContext({} as PostContextType);
 
-
 export function PostsProvider({ children }: PostProviderProps) {
 
-  const [posts, setPosts] = useState<Post[]>([])
-  const [categories, setCategories] = useState<Category[]>([])
-  const [subCategories, setSubCategories] = useState<SubCategoriaProps[]>([])
+  var palavraLocalStorage = localStorage.getItem('@moroh-suport-v1.0.1:palavra');
 
-
-  const [carregando, setCarregando] = useState(true);
-  const [totalDePosts, setTotalDePosts] = useState<Post[]>([]);
-  const [novosPostsComBusca, setNovosPostsComBusca] = useState([]);
-  const [limitePaginacao, setlimitePaginacao] = useState(3);
+  const limitePaginacao = 3;
   const [limiteApi, setLimiteApi] = useState(15);
-  const [totalPaginas, setTotalPaginas] = useState(0);
-  const [paginaAtual, setPaginaAtual] = useState(1);
-  const [paginaAtualDaPaginacao, setPaginaAtualDaPaginacao] = useState(1);
-
-  // String a ser pesquisada
-  const [palavra, setPalavra] = useState(sessionStorage.getItem('palavra'));
   const [valorInput, setValorInput] = useState('');
-
-  const [listOfCategories, setListOfCategories] = useState<Category[]>([]);
-
-  const [listOfIdOfCategories, setListOfIdOfCategories] = useState<number[]>([]);
-
+  const [paginaAtual, setPaginaAtual] = useState(1);
+  const [totalPaginas, setTotalPaginas] = useState(0);
+  const [reloadContext, setReloadContext] = useState(false);
   const [idsRecents, setIdsRecents] = useState<string[]>([]);
   const [postsRecents, setPostsRecents] = useState<Post[]>([]);
-
-  const [reloadContext, setReloadContext] = useState(false);
+  const [totalDePosts, setTotalDePosts] = useState<Post[]>([]);
+  const [paginaAtualDaPaginacao, setPaginaAtualDaPaginacao] = useState(1);
+  const [novosPostsComBusca, setNovosPostsComBusca] = useState<Post[]>([]);
+  const [listOfCategories, setListOfCategories] = useState<Category[]>([]);
+  const [listOfIdOfCategories, setListOfIdOfCategories] = useState<number[]>([]);
   const [reloadContextPostsVisited, setReloadContextPostsVisited] = useState(false);
+  const [palavra, setPalavra] = useState(palavraLocalStorage !== null ? palavraLocalStorage : "");
+
+  const [userName, setUserName] = useState('');
 
   useEffect(() => {
     async function getAllCategories() {
-
       const allCategories = await api.getAllCategories();
-
       setListOfCategories(allCategories)
     }
-
     getAllCategories();
-
   }, [reloadContext]);
 
-  /*   console.log("Categories: ", listOfCategories);
-    console.log("idsRecents: ", idsRecents);
-   */
 
-  // Envia a palava para fazer a pesquisa
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-    if (e !== '') {
+  const handleSubmit = async (event: any) => {
+    event.preventDefault();
+    if (event !== '') {
       setPalavra(valorInput);
-      sessionStorage.setItem('palavra', valorInput);
+      localStorage.setItem('@moroh-suport-v1.0.1:palavra', valorInput);
+
       window.location.reload();
     } else {
-      sessionStorage.removeItem('palavra');
+      localStorage.removeItem('@moroh-suport-v1.0.1:palavra');
       setPalavra('');
     }
   };
 
-  // Recebe as informações passadas pelo input
-  const handleChange = (e: any) => {
+  const handleChangeSearcWord = (e: any) => {
     if (e !== '') {
       setValorInput(e);
     } else {
-      sessionStorage.removeItem('palavra');
+      localStorage.removeItem('@moroh-suport-v1.0.1:palavra');
       setValorInput('');
       setPalavra('')
       setPaginaAtualDaPaginacao(1)
       setNovosPostsComBusca([]);
-      window.location.reload();
+      //window.location.reload();
     }
   };
 
-  // Mostrando todas as postagens do banco de dado.
   useEffect(() => {
     const getTotalDePosts = async () => {
 
-      if (palavra !== null) {
-        const json = await api.getAllPosts({
+      if (palavra.trim() !== "") {
+        console.log("Aqui!")
+        const response = await api.getAllPosts({
           paginaAtual: paginaAtualDaPaginacao,
           limiteApi,
           palavra
         });
 
-        if (json) {
-          setNovosPostsComBusca(novosPostsComBusca.concat(json));
-          const paginasComBusca = Math.ceil(novosPostsComBusca.concat(json).length / limitePaginacao);
+        if (response) {
+          setNovosPostsComBusca(novosPostsComBusca.concat(response));
+          const paginasComBusca = Math.ceil(novosPostsComBusca.concat(response).length / limitePaginacao);
           setTotalPaginas(paginasComBusca);
         }
       } else {
-        const json = await api.getAllPosts({
+        const response = await api.getAllPosts({
           paginaAtual: paginaAtualDaPaginacao,
           limiteApi
         });
 
-        if (json) {
-          setTotalDePosts(totalDePosts.concat(json));
-          const paginasSemBusca = Math.ceil(totalDePosts.concat(json).length / limitePaginacao);
+        if (response) {
+          setTotalDePosts(totalDePosts.concat(response));
+          const paginasSemBusca = Math.ceil(totalDePosts.concat(response).length / limitePaginacao);
           setTotalPaginas(paginasSemBusca);
         }
       }
-      setCarregando(false);
     }
     getTotalDePosts();
   }, [palavra, paginaAtualDaPaginacao]);
-
-  // Exibe Carregando enquanto os posts não são exibidas
-  if (novosPostsComBusca) {
-    if (carregando && novosPostsComBusca.length === 0) {
-      return <h2>Carregando...</h2>
-    }
-  } else if (totalDePosts) {
-    if (carregando && totalDePosts.length === 0) {
-      return <h2>Carregando...</h2>
-    }
-  }
 
   // Paginação dos posts por Index
   const indexDoUltimoPost = paginaAtual * limitePaginacao;
   const indexDoPrimeiroPost = indexDoUltimoPost - limitePaginacao;
 
-  let paginacaoDePostsComBusca;
   let paginacaoDePosts;
+  let paginacaoDePostsComBusca;
 
   if (novosPostsComBusca.length > 0) {
-    paginacaoDePostsComBusca = novosPostsComBusca.slice(indexDoPrimeiroPost, indexDoUltimoPost)
-
+    paginacaoDePostsComBusca = novosPostsComBusca.slice(indexDoPrimeiroPost, indexDoUltimoPost);
   } else if (totalDePosts) {
-
-    paginacaoDePosts = totalDePosts.slice(indexDoPrimeiroPost, indexDoUltimoPost)
+    paginacaoDePosts = totalDePosts.slice(indexDoPrimeiroPost, indexDoUltimoPost);
   }
 
   return (
@@ -233,7 +198,7 @@ export function PostsProvider({ children }: PostProviderProps) {
         paginacaoDePostsComBusca,
         palavra,
         handleSubmit,
-        handleChange,
+        handleChangeSearcWord,
 
         listOfCategories,
         setListOfCategories,
@@ -247,6 +212,8 @@ export function PostsProvider({ children }: PostProviderProps) {
         setPostsRecents,
         reloadContextPostsVisited,
         setReloadContextPostsVisited,
+        userName,
+        setUserName
 
       } as PostContextType}
     >
