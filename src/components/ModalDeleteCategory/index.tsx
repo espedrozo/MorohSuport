@@ -31,10 +31,10 @@ const StyledContent = styled(AlertDialogPrimitive.Content, {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '900px',
+  width: '90%',
   maxWidth: '300px',
   maxHeight: '250px',
-  padding: 20,
+  padding: 10,
   '@media (prefers-reduced-motion: no-preference)': {
     animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
   },
@@ -54,7 +54,7 @@ const StyledTitle = styled(AlertDialogPrimitive.Title, {
   margin: 0,
   color: '#005693',
   textAlign: 'center',
-  fontSize: 17,
+  fontSize: 16,
   fontWeight: 700,
 });
 
@@ -86,11 +86,11 @@ const Button = styled('button', {
   justifyContent: 'center',
   borderRadius: 4,
   padding: '0 5px',
-  fontSize: 16,
+  fontSize: 14,
   lineHeight: 1,
   fontWeight: 500,
-  height: 40,
-  width: 90,
+  height: 30,
+  width: 80,
   border: 'none',
 
   variants: {

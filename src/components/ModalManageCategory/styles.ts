@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { tablet } from "../../styles/responsive";
 
 
 export const AreaAddNewCategories = styled.div`
@@ -100,6 +101,8 @@ export const ManegerButton = styled(BaseButton)`
     transition: 0.3s;
     background-color: ${({ theme }) => theme["green-700"]};
   }
+
+  ${tablet({ width: '70px', height: '25px', fontSize: '12px', marginRight: '5px' })};
 `;
 
 export const CancelButton = styled(BaseButton)`
@@ -138,10 +141,14 @@ export const ConfirmationButton = styled(BaseButton)`
 export const TableOfCategories = styled.table`
   width: 100%;
 
-  thead, tbody{
-    display: block;  
-  }
+  ${tablet({ fontSize: '12px' })};
 
+  thead, tbody{
+    width: 100%;
+    display: block;  
+
+  }
+  
   thead{
     border-radius: 4px;
     color: ${({ theme }) => theme.white};
@@ -150,8 +157,9 @@ export const TableOfCategories = styled.table`
   }
   
   tbody{
-    height: 300px;
+    height: 250px;
     overflow-y: auto;
+    overflow-x: auto;
   }
 
   th{
@@ -163,8 +171,8 @@ export const TableOfCategories = styled.table`
 
 
 export const BaseTabela = styled.td`
-  padding: 5px;
   width: 300px;
+  padding: 5px;
   text-align: center;
   border: 1px solid ${({ theme }) => theme["gray-200"]};
 `;
@@ -183,6 +191,8 @@ export const LinhaTB = styled(BaseTabela)`
         border: 0.5px solid ${({ theme }) => theme["blue-200"]};
         box-shadow: 0px 0px 1px 0.3px ${({ theme }) => theme["blue-200"]};
     }
+
+    ${tablet({ fontSize: '12px' })};
   }
 `;
 
@@ -190,6 +200,9 @@ export const LinhaTableButton = styled(BaseTabela)`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  width: 150px;
+
+  ${tablet({ width: '110px', })}
 
   button{
     display: flex;
@@ -199,9 +212,13 @@ export const LinhaTableButton = styled(BaseTabela)`
     border: none;   
     font-size: 1rem;
 
+
+
     svg{
       width: 26px;
       height: 26px;
+
+      ${tablet({ width: '20px', height: '20px' })}
     }
 
     .update-category{

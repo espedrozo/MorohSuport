@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { tablet } from "../../styles/responsive";
 
 export const ContainerHeader = styled.div`
   background-color: ${({ theme }) => theme["blue-900"]};
@@ -7,7 +6,6 @@ export const ContainerHeader = styled.div`
   form{
     flex: 1;
     display: flex;
-    
     margin-bottom: 5px;
     
     input{
@@ -85,13 +83,17 @@ export const AvatarUser = styled.div`
   font-size: 12px;
   
   svg{
+    width: 30px;
+    height: 30px;
     border: none;
     cursor: unset;
+    margin-left: 5px;
 
     &:hover{
       border: none;
     }
   }
+
   span{
     display: flex;
     flex-direction: column;

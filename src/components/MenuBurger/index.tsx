@@ -1,15 +1,14 @@
 
 import React from 'react';
-import { keyframes, styled } from '@stitches/react';
-import { violet, blackA } from '@radix-ui/colors';
-import * as CollapsiblePrimitive from '@radix-ui/react-collapsible';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { List, UserCircle, X } from 'phosphor-react';
-import { AreaUser, AvatarUser, ButtonCreatePost, ButtonLogin, ButtonLogout, ContainerHeader } from './styles';
 import LogoSuport from '../../assets/logo.svg';
 import { fazerLogout } from '../../lib/authHandler';
+import { keyframes, styled } from '@stitches/react';
+import { List, UserCircle, X } from 'phosphor-react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useContextSelector } from 'use-context-selector';
 import { PostesContext } from '../../contexts/PostsContext';
+import * as CollapsiblePrimitive from '@radix-ui/react-collapsible';
+import { AreaUser, AvatarUser, ButtonCreatePost, ButtonLogin, ButtonLogout, ContainerHeader } from './styles';
 
 const open = keyframes({
   from: { height: '4rem' },
@@ -66,7 +65,6 @@ export function MenuBurger({ user }: UserProps) {
     navigate('/home');
   }
 
-
   console.log(userName);
   const [open, setOpen] = React.useState(false);
 
@@ -81,7 +79,7 @@ export function MenuBurger({ user }: UserProps) {
             user &&
 
             <AvatarUser>
-              <UserCircle size={32} weight="fill" />
+              <UserCircle weight="fill" />
               <span>
                 Bem vindo:
                 <strong>

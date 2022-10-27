@@ -11,7 +11,7 @@ export const Container = styled.div`
 
 export const Li = styled.li`
 
-  margin: 5px 0;
+  padding: 5px 0;
 
   a{
     text-decoration: none;

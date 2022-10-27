@@ -129,18 +129,32 @@ export const AreaPostsRelacionados = styled.div`
     padding-top: 5px;
 
     li{ 
+      padding: 2px;
       display: flex;
-      padding-bottom: 5px;
+      margin-bottom: 5px;
       align-items: center;
+      justify-content: space-between;
+      border: 1px solid transparent;
 
       ${tablet({ fontSize: '12px' })};
 
+      &:hover {
+        border-radius: 2px;
+        border: 1px solid ${({ theme }) => theme["blue-200"]};
+      }
+
+      div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
       svg{
         color: ${({ theme }) => theme["blue-200"]};
       }
 
       span{
+        flex: 1;
         margin: 0 5px;
       }
 

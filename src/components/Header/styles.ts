@@ -80,8 +80,8 @@ export const ContainerHeader = styled.div`
 export const AreaLogo = styled.div`
   width: 250px;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 
   ${tablet({ width: '100%', justifyContent: 'space-between' })};
   
@@ -106,8 +106,8 @@ export const AreaLogo = styled.div`
 `;
 
 export const AreaNav = styled.div`
-  display: flex;
   width: 100%;
+  display: flex;
 `;
 
 export const BaseButton = styled.button`
@@ -153,14 +153,17 @@ export const AreaUser = styled.div`
 
 export const AvatarUser = styled.div`
   display: flex;
+  font-size: 12px;
   align-items: center;
   justify-content: center;
   color: ${({ theme }) => theme.white};
-  font-size: 12px;
   
   svg{
+    width: 30px;
+    height: 30px;
     border: none;
     cursor: unset;
+    margin-left: 5px;
 
     &:hover{
       border: none;

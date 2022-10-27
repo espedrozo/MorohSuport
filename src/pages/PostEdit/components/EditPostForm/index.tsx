@@ -879,7 +879,9 @@ export function FormEdit() {
             {
               relacao?.map((item, index) =>
                 <li key={item.id}>
-                  <LinkSimple size={20} />
+                  <div>
+                    <LinkSimple size={20} />
+                  </div>
                   <span >{item.titulo}</span>
                   <Dialog.Root>
                     <ModalDeleteLinkRelation
@@ -895,9 +897,13 @@ export function FormEdit() {
             {novarelacao &&
               novarelacao.map((item, index) =>
                 <li key={index}>
-                  <LinkSimple size={20} />
+                  <div>
+                    <LinkSimple size={20} />
+                  </div>
                   <span >{item.titulo}</span>
-                  <Trash onClick={() => handleRemoveLinkDaNovaRelacao(index)} className="trash-link" />
+                  <div>
+                    <Trash onClick={() => handleRemoveLinkDaNovaRelacao(index)} className="trash-link" />
+                  </div>
                 </li>
               )
             }

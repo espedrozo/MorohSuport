@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { tablet } from "../../styles/responsive";
 
 
 export const AreaAddNewCategories = styled.div`
@@ -18,12 +19,16 @@ export const AreaAddNewCategories = styled.div`
   margin: 5px 0 5px 0;
   font-size: 14px;
   outline: 0;
+
+  ${tablet({ padding: '5px', fontSize: '12px' })};
   
   &:focus{
       border: 0.5px solid ${({ theme }) => theme["blue-200"]};
       box-shadow: 0px 0px 1px 0.3px ${({ theme }) => theme["blue-200"]};
   }
   }
+
+  ${tablet({ fontSize: '12px' })};
 `;
 
 export const InputSearchResults = styled.input`
@@ -39,6 +44,7 @@ export const InputSearchResults = styled.input`
       border: 0.5px solid ${({ theme }) => theme["blue-200"]};
       box-shadow: 0px 0px 1px 0.3px ${({ theme }) => theme["blue-200"]};
   }
+  ${tablet({ fontSize: '12px', padding: '5px' })};
 `;
 
 export const AreaLinsRealations = styled.div`
@@ -50,6 +56,8 @@ export const AreaLinsRealations = styled.div`
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme["blue-900"]};
   box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["blue-900"]};
+
+  ${tablet({ fontSize: '12px' })};
 `;
 
 export const UlLink = styled.ul`
@@ -73,12 +81,16 @@ export const LiAddLink = styled.li`
     height: 20px;
     margin-right: 5px;
   }
+
+  ${tablet({ fontSize: '12px' })};
 `;
 
 export const AreaButtonsAddNewCategories = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  ${tablet({ fontSize: '12px' })};
 `;
 
 export const BaseButton = styled.button`
@@ -91,6 +103,8 @@ export const BaseButton = styled.button`
   cursor: pointer;
   border-radius: 5px;
   color: ${({ theme }) => theme.white};
+
+  ${tablet({ width: '70px', height: '25px', fontSize: '12px', marginRight: '5px' })};
 `;
 
 export const ManegerButton = styled(BaseButton)`

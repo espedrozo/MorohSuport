@@ -1,12 +1,20 @@
+import { MenuBurger } from '../MenuBurger';
+import { UserCircle } from 'phosphor-react';
 import LogoSuport from '../../assets/logo.svg';
 import { NavLink, useNavigate } from "react-router-dom";
 import { useContextSelector } from 'use-context-selector';
 import { PostesContext } from '../../contexts/PostsContext';
 import { fazerLogout, isLogged } from "../../lib/authHandler";
-import { AreaUser, AvatarUser, AreaLogo, AreaNav, ButtonCreatePost, ButtonLogin, ButtonLogout, ContainerHeader, ContainerHeaderBurguer } from "./styles";
-import { List, UserCircle } from 'phosphor-react';
-import { MenuBurger } from '../MenuBurger';
-
+import {
+  AreaUser,
+  AvatarUser,
+  AreaLogo,
+  ButtonCreatePost,
+  ButtonLogin,
+  ButtonLogout,
+  ContainerHeader,
+  ContainerHeaderBurguer
+} from "./styles";
 
 export function Header() {
 
@@ -49,9 +57,9 @@ export function Header() {
                   <img src={LogoSuport} alt="" />
                 </NavLink>
                 <AvatarUser>
-                  <UserCircle size={32} weight="fill" />
+                  <UserCircle weight="fill" />
                   <span>
-                    Bem vindo:
+                    Bem vindo!
                     <strong>
                       {userName}
                     </strong>
@@ -83,6 +91,7 @@ export function Header() {
         </>
 
         :
+
         <>
           <ContainerHeaderBurguer>
             <AreaLogo>

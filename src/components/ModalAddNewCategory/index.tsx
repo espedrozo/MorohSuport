@@ -43,10 +43,10 @@ const StyledContent = styled(AlertDialogPrimitive.Content, {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  /*   width: '900px',
-    maxWidth: '450px',
-    maxHeight: '350px', */
-  padding: 20,
+  width: '95%',
+  maxWidth: '400px',
+  maxHeight: '350px',
+  padding: 10,
   '@media (prefers-reduced-motion: no-preference)': {
     animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
   },
@@ -201,7 +201,7 @@ export function ModalAddNewCategory(
       <AlertDialogContent >
 
         <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
-          <AlertDialogTitle>ADICIONAR NOVA CATEGORIA</AlertDialogTitle>
+          <AlertDialogTitle css={{ justifyContent: 'space-between', alignItems: 'center', fontSize: '14px', width: '100%' }}>ADICIONAR NOVA CATEGORIA</AlertDialogTitle>
           <Flex css={{ cursor: 'pointer' }}>
             <AlertDialogCancel asChild>
               <Button variant="cancel">

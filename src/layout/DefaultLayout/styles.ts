@@ -28,7 +28,7 @@ export const LayoutContainer = styled.div`
         color: ${({ theme }) => theme["blue-900"]};
       }
 
-      ${tablet({ width: '98%' })};
+      ${tablet({ width: '98%', fontSize: '14px' })};
       
     }
     .categoria {

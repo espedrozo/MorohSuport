@@ -31,10 +31,10 @@ const StyledContent = styled(AlertDialogPrimitive.Content, {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  /*   width: '900px',
-    maxWidth: '450px',
-    maxHeight: '350px', */
-  padding: 20,
+  width: '95%',
+  maxWidth: '500px',
+  maxHeight: '350px',
+  padding: '10px 5px',
   '@media (prefers-reduced-motion: no-preference)': {
     animation: `${contentShow} 150ms cubic-bezier(0.16, 1, 0.3, 1)`,
   },
@@ -84,8 +84,8 @@ const Button = styled('button', {
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: 4,
-  padding: '0 5px',
-  fontSize: 16,
+  padding: '0',
+  fontSize: 15,
   lineHeight: 1,
   fontWeight: 500,
   border: 'none',
@@ -141,11 +141,11 @@ export function ModalAddLinkRelation(
       <AlertDialogContent >
         <Flex css={{ justifyContent: 'space-between', alignItems: 'center' }}>
 
-          <AlertDialogTitle>ADICIONAR TÓPICOS RELACIONADOS</AlertDialogTitle>
+          <AlertDialogTitle css={{ justifyContent: 'space-between', alignItems: 'center', fontSize: '15px', width: '100%' }}>ADICIONAR TÓPICOS RELACIONADOS</AlertDialogTitle>
           <Flex css={{ cursor: 'pointer' }}>
             <AlertDialogCancel asChild>
               <Button variant="cancel">
-                <X size={24} />
+                <X size={22} />
               </Button>
             </AlertDialogCancel>
           </Flex>
@@ -161,7 +161,7 @@ export function ModalAddLinkRelation(
           />
 
           <Button variant="search" onClick={handleSearchOfLinksWithRelations}>
-            <MagnifyingGlass size={34} />
+            <MagnifyingGlass size={30} />
           </Button>
 
         </Flex>
@@ -175,7 +175,10 @@ export function ModalAddLinkRelation(
                   value={linkRelation.id_post}
                   onClick={() => handleAddNewRelationOfLinks(linkRelation)}
                 >
-                  <PlusCircle /><span>{linkRelation.titulo}</span>
+                  <span>
+                    <PlusCircle />
+                    {linkRelation.titulo}
+                  </span>
                 </LiAddLink>
               ))}
             </UlLink>

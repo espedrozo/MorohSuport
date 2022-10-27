@@ -14,6 +14,8 @@ export const InputSearchResults = styled.input`
     border: 1px solid ${({ theme }) => theme["blue-200"]};
     box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["blue-200"]};
   }
+
+  ${tablet({ padding: '8px 5px' })}
 `;
 
 export const AreaLinsRealations = styled.div`
@@ -25,6 +27,20 @@ export const AreaLinsRealations = styled.div`
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme["blue-900"]};
   box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["blue-900"]};
+
+  span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg{
+      width: 20px;
+      height: 20px;
+      margin-right: 5px;
+    }
+
+    ${tablet({ fontSize: '13px' })};
+  }
 `;
 
 export const UlLink = styled.ul`
@@ -41,12 +57,6 @@ export const LiAddLink = styled.li`
     border-radius: 2px;
     color: ${({ theme }) => theme.white};
     background-color: ${({ theme }) => theme["blue-200"]};
-  }
-
-  svg{
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
   }
 `;
 

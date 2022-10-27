@@ -698,9 +698,13 @@ export function NewPostForm() {
             {
               relacao?.map((item, index) =>
                 <li key={index}>
-                  <LinkSimple size={20} />
-                  <span >{item.titulo}</span>
-                  <Trash onClick={() => handleRemoveLinkOfPostWithRelation(index)} className="trash-link" />
+                  <div>
+                    <LinkSimple size={20} />
+                  </div>
+                  <span>{item.titulo}</span>
+                  <div>
+                    <Trash onClick={() => handleRemoveLinkOfPostWithRelation(index)} className="trash-link" />
+                  </div>
                 </li>
               )
             }

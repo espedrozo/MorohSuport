@@ -262,7 +262,10 @@ export function Post() {
                   key={item.id_relacao}
                   to={`/postdetails/${item.id_relacao}`}
                 >
-                  <LinkSimple /><span>{item.titulo}</span>
+                  <div>
+                    <LinkSimple />
+                  </div>
+                  <span>{item.titulo}</span>
                 </NavLink>
               )
             }
