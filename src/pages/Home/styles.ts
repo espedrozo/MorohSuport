@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { tablet } from "../../styles/responsive";
 
 export const SectionRight = styled.div`
   flex: 1;

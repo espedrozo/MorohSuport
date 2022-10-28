@@ -1,5 +1,5 @@
 import { api } from '../lib/Api';
-import { createContext } from 'use-context-selector'
+import { createContext } from 'use-context-selector';
 import { ReactNode, useEffect, useState } from 'react';
 
 interface Post {
@@ -34,44 +34,38 @@ type Category = {
 }
 
 interface PostContextType {
-  totalDePosts: Post[];
-  totalPaginas: number;
-  limitePaginacao: number;
-  limiteApi: number;
-  paginaAtual: number;
-  setPaginaAtual: (item: number) => void;
-  paginaAtualDaPaginacao: number;
-  setPaginaAtualDaPaginacao: (item: number) => void;
-  setLimiteApi: (item: number) => void;
-  paginacaoDePosts: Post[] | undefined;
-  paginacaoDePostsComBusca: Post[] | undefined;
-  palavra: string | null
-  handleSubmit: (e: any) => Promise<void>;
-  handleChangeSearcWord: (e: any) => void;
-
-  posts: Post[];
-  categories: Category[];
-
-  listOfCategories: Category[];
-  setListOfCategories: (newCategory: Category[]) => void;
-
-  reloadContext: boolean;
-  setReloadContext: (reload: boolean) => void;
-
-  reloadContextPostsVisited: boolean;
-  setReloadContextPostsVisited: (reload: boolean) => void;
-
-  listOfIdOfCategories: number[];
-  setListOfIdOfCategories: (listOfIdOfCategories: number[]) => void;
-
-  idsRecents: string[];
-  setIdsRecents: (idsRecents: string[]) => void;
-
-  postsRecents: Post[];
-  setPostsRecents: (postsRecents: Post[]) => void;
 
   userName: string;
-  setUserName: (userName: string) => void;
+  limiteApi: number;
+  paginaAtual: number;
+  totalPaginas: number;
+  palavra: string | null;
+  reloadContext: boolean;
+  limitePaginacao: number;
+  paginaAtualDaPaginacao: number;
+  reloadContextPostsVisited: boolean;
+
+  posts: Post[];
+  idsRecents: string[];
+  totalDePosts: Post[];
+  postsRecents: Post[];
+  categories: Category[];
+  listOfCategories: Category[];
+  listOfIdOfCategories: number[];
+  paginacaoDePosts: Post[] | undefined;
+  paginacaoDePostsComBusca: Post[] | undefined;
+
+  setLimiteApi: (item: number) => void;
+  setPaginaAtual: (item: number) => void;
+  handleSubmit: (e: any) => Promise<void>;
+  handleChangeSearcWord: (e: any) => void;
+  setReloadContext: (reload: boolean) => void;
+  setIdsRecents: (idsRecents: string[]) => void;
+  setPostsRecents: (postsRecents: Post[]) => void;
+  setPaginaAtualDaPaginacao: (item: number) => void;
+  setListOfCategories: (newCategory: Category[]) => void;
+  setReloadContextPostsVisited: (reload: boolean) => void;
+  setListOfIdOfCategories: (listOfIdOfCategories: number[]) => void;
 }
 
 interface PostProviderProps {
@@ -85,6 +79,7 @@ export function PostsProvider({ children }: PostProviderProps) {
   var palavraLocalStorage = localStorage.getItem('@moroh-suport-v1.0.1:palavra');
 
   const limitePaginacao = 3;
+  const [userName, setUserName] = useState('');
   const [limiteApi, setLimiteApi] = useState(15);
   const [valorInput, setValorInput] = useState('');
   const [paginaAtual, setPaginaAtual] = useState(1);
@@ -100,8 +95,6 @@ export function PostsProvider({ children }: PostProviderProps) {
   const [reloadContextPostsVisited, setReloadContextPostsVisited] = useState(false);
   const [palavra, setPalavra] = useState(palavraLocalStorage !== null ? palavraLocalStorage : "");
 
-  const [userName, setUserName] = useState('');
-
   useEffect(() => {
     async function getAllCategories() {
       const allCategories = await api.getAllCategories();
@@ -110,6 +103,12 @@ export function PostsProvider({ children }: PostProviderProps) {
     getAllCategories();
   }, [reloadContext]);
 
+  useEffect(() => {
+    var userNameLocalStorage = localStorage.getItem('@moroh-suport-v1.0.1:userName');
+
+    setUserName(userNameLocalStorage !== null ? userNameLocalStorage : "")
+
+  }, [userName]);
 
   const handleSubmit = async (event: any) => {
     event.preventDefault();
@@ -133,7 +132,6 @@ export function PostsProvider({ children }: PostProviderProps) {
       setPalavra('')
       setPaginaAtualDaPaginacao(1)
       setNovosPostsComBusca([]);
-      //window.location.reload();
     }
   };
 
@@ -185,36 +183,34 @@ export function PostsProvider({ children }: PostProviderProps) {
   return (
     <PostesContext.Provider
       value={{
+        palavra,
+        userName,
+        limiteApi,
+        idsRecents,
+        paginaAtual,
+        handleSubmit,
         totalDePosts,
         totalPaginas,
-        limitePaginacao,
-        paginaAtual,
-        setPaginaAtual,
-        paginaAtualDaPaginacao,
-        setPaginaAtualDaPaginacao,
-        limiteApi,
-        setLimiteApi,
-        paginacaoDePosts,
-        paginacaoDePostsComBusca,
-        palavra,
-        handleSubmit,
-        handleChangeSearcWord,
-
-        listOfCategories,
-        setListOfCategories,
-        reloadContext,
-        setReloadContext,
-        listOfIdOfCategories,
-        setListOfIdOfCategories,
-        idsRecents,
-        setIdsRecents,
         postsRecents,
-        setPostsRecents,
+        reloadContext,
+        limitePaginacao,
+        listOfCategories,
+        paginacaoDePosts,
+        listOfIdOfCategories,
+        handleChangeSearcWord,
+        paginaAtualDaPaginacao,
+        paginacaoDePostsComBusca,
         reloadContextPostsVisited,
-        setReloadContextPostsVisited,
-        userName,
-        setUserName
 
+        setLimiteApi,
+        setIdsRecents,
+        setPaginaAtual,
+        setPostsRecents,
+        setReloadContext,
+        setListOfCategories,
+        setListOfIdOfCategories,
+        setPaginaAtualDaPaginacao,
+        setReloadContextPostsVisited,
       } as PostContextType}
     >
       {children}

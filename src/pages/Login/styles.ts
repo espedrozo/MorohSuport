@@ -15,9 +15,9 @@ export const LoginForm = styled.form`
   padding: 10px;
   font-size: 1rem;
   border-radius: 10px;
-  box-shadow: 0px 0px 10px #cecece;
   color: ${({ theme }) => theme.white};
   background: ${({ theme }) => theme["blue-900"]};
+  box-shadow: 0px 0px 10px ${({ theme }) => theme["gray-100"]};
 
   ${tablet({ width: '95%', maxWidth: '20rem', height: '100%', margin: '10px' })};
 
@@ -81,8 +81,8 @@ export const ErrorMessage = styled.span`
 
 export const AreaCheckBox = styled.div` 
   label{
-    margin-left: 5px;
     cursor: pointer;
+    margin-left: 5px;
   }
 `;
 

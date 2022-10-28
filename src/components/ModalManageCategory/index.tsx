@@ -4,10 +4,10 @@ import { RowOfTable } from './RowOfTable';
 import { useEffect, useState } from 'react';
 import { styled, keyframes } from '@stitches/react';
 import { blackA, red, mauve } from '@radix-ui/colors';
-import { ManegerButton, TableOfCategories } from "./styles";
-import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 import { useContextSelector } from "use-context-selector";
 import { PostesContext } from "../../contexts/PostsContext";
+import { ManegerButton, TableOfCategories } from "./styles";
+import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 
 const overlayShow = keyframes({
   '0%': { opacity: 0 },
@@ -137,7 +137,6 @@ export function ModalManageCategory() {
   const [listaDeCategorias, setListaDeCategorias] = useState([]);
   const [listaDeCategoriasPai, setListaDeCategoriasPai] = useState([]);
 
-  // Exibi as categorias e subcategorias da aplicação
   useEffect(() => {
     const getAllCategories = async () => {
 

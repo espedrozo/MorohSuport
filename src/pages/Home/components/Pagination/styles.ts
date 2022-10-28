@@ -28,8 +28,8 @@ export const ContainerPagination = styled.div`
     ${tablet({
   width: '30px ',
   height: '30px',
-  fontSize: '12px',
   padding: '4px',
+  fontSize: '12px',
 })};
   }
 
@@ -45,5 +45,4 @@ export const ContainerPagination = styled.div`
     background-color: ${({ theme }) => theme["blue-200"]}; 
     box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["blue-900"]};
   }
-
 `;

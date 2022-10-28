@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { api } from '../../lib/Api';
-import { PlusCircle, X } from "phosphor-react"
+import { PlusCircle, X } from "phosphor-react";
 import { blackA, mauve } from '@radix-ui/colors';
 import * as Dialog from '@radix-ui/react-dialog';
 import { styled, keyframes } from '@stitches/react';
@@ -180,9 +180,6 @@ export function ModalAddNewCategory(
       } else {
         localStorage.removeItem('@moroh-suport-v1.0.1:idRecentes');
         localStorage.removeItem('@moroh-suport-v1.0.1:postRecentes');
-
-        sessionStorage.removeItem('@moroh-suport-v1.0.1:allCategories');
-        sessionStorage.removeItem('@moroh-suport-v1.0.1:listOfIdOfCategories');
 
         setReloadContext(!reloadContext);
       }

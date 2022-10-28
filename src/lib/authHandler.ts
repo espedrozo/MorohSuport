@@ -16,4 +16,6 @@ export const fazerLogin = (token: string, rememberPassword = false) => {
 
 export const fazerLogout = () => {
   Cookies.remove('@moroh-suport-v1.0.1:token');
+  localStorage.removeItem('@moroh-suport-v1.0.1:userName');
+  localStorage.removeItem('@moroh-suport-v1.0.1:idRecentes');
 }

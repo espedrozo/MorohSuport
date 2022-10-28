@@ -32,11 +32,6 @@ export function Header() {
 
   const handleLogout = () => {
     fazerLogout();
-
-    localStorage.removeItem('@moroh-suport-v1.0.1:idRecentes');
-    sessionStorage.removeItem('@moroh-suport-v1.0.1:allCategories');
-    sessionStorage.removeItem('@moroh-suport-v1.0.1:listOfIdOfCategories');
-
     navigate('/home');
   }
 

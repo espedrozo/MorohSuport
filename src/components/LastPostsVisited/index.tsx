@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { Container } from "./styles";
 import { NavLink } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useContextSelector } from "use-context-selector";
 import { PostesContext } from "../../contexts/PostsContext";
-import { Container } from "./styles";
 
 interface PostsRecentsProps {
   id_post: string;

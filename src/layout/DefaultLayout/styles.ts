@@ -10,15 +10,14 @@ export const LayoutContainer = styled.div`
 
     ${tablet({ flexDirection: 'column-reverse' })};
 
-
     .esquerda{
-      width: 260px;
-      height: calc(100vh - 6.65rem);
       margin: 5px;
+      width: 260px;
       padding: 5px;
       display: flex;
       border-radius: 3px;
       flex-direction: column;
+      height: calc(100vh - 6.65rem);
       justify-content: space-between;
       background-color: ${({ theme }) => theme.white};
       border: 1px solid ${({ theme }) => theme["blue-900"]};

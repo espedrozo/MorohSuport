@@ -7,9 +7,7 @@ export function PostCreate() {
       <SectionRight>
         <TitlePost>CRIAR UM POST</TitlePost>
         <SectionScroll>
-
           <NewPostForm />
-
         </SectionScroll>
       </SectionRight>
     </Container>

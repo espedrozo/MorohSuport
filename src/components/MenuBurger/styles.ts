@@ -35,10 +35,10 @@ export const ContainerHeader = styled.div`
 
 export const BaseButton = styled.button`
   width: 100%;
-  margin-bottom: 5px;
   height: 40px;
   cursor: pointer;
   border-radius: 6px;
+  margin-bottom: 5px;
   background-color: transparent;
   color: ${({ theme }) => theme.white};
   border: 1px solid ${({ theme }) => theme.white};
@@ -77,10 +77,10 @@ export const AreaUser = styled.div`
 
 export const AvatarUser = styled.div`
   display: flex;
+  font-size: 12px;
   align-items: center;
   justify-content: center;
   color: ${({ theme }) => theme.white};
-  font-size: 12px;
   
   svg{
     width: 30px;

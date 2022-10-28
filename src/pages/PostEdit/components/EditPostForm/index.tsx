@@ -68,13 +68,30 @@ interface ValoresProps {
   obs: string;
   data_publicacao: string;
   postitem: PostItemProps[];
-  relacao: string;
+  relacao: RelacaoProps[];
   categoria: {
     id: string;
     descricao: string;
   }[]
 }
 
+interface IObjectKeys {
+  [index: number]: string | number;
+}
+
+interface PostagemProps extends IObjectKeys {
+  id_post_item: string;
+  lk_post: string;
+  ordem: string;
+  titulo_passo: string;
+  conteudo: string;
+  observacao: string;
+  imagem: string;
+  url_imagem: string;
+  video: string;
+  url_video: string;
+  data_hora: string;
+}
 
 export function FormEdit() {
 
@@ -83,21 +100,7 @@ export function FormEdit() {
   const id = id_post !== undefined && parseInt(id_post);
 
   const [valores, setValores] = useState<ValoresProps>({} as ValoresProps);
-  const [postagem, setPostagem] = useState([
-    {
-      id_post_item: '',
-      lk_post: id_post,
-      ordem: '',
-      titulo_passo: '',
-      conteudo: '',
-      observacao: '',
-      imagem: '',
-      url_imagem: '',
-      video: '',
-      url_video: '',
-      data_hora: ''
-    }
-  ]);
+  const [postagem, setPostagem] = useState<PostagemProps[]>([]);
 
   const [urlsImagens, setUrlsImagens] = useState([""]);
 
@@ -140,7 +143,7 @@ export function FormEdit() {
   const [posicaoPostItem, setPosicaoPostItem] = useState(0);
   const [posicaoLinkRelacao, setPosicaoLinkRelacao] = useState(0);
 
-  const [imagem2, setImagem2] = useState([{ name: "" }]);
+  const [imagem2, setImagem2] = useState<any[]>([{ name: "" }]);
 
   const [videos, setVideos] = useState([""]);
 
@@ -232,7 +235,7 @@ export function FormEdit() {
 
     if (event.target.name === 'imagem') {
       const file = event.target.files[0];
-      const base64 = await converterBase64(file);
+      const base64: any = await converterBase64(file);
       postagem[index].imagem = base64;
 
       let nomeDasImagens = [...imagem2]
@@ -241,7 +244,7 @@ export function FormEdit() {
 
     } else if (event.target.name === 'url_imagem') {
       const url = event.target.value;
-      const base64 = await getDataBlob(url);
+      const base64: any = await getDataBlob(url);
       postagem[index].url_imagem = base64;
 
       let NewUrlListImages = [...urlsImagens]
@@ -250,7 +253,7 @@ export function FormEdit() {
 
     } else if (event.target.name === 'video') {
       const file = event.target.files[0];
-      const base64 = await converterBase64(file);
+      const base64: any = await converterBase64(file);
       postagem[index].video = base64;
 
       var reader = new FileReader();
@@ -303,8 +306,8 @@ export function FormEdit() {
     var reader = new FileReader();
     reader.readAsDataURL(uri);
     return new Promise((resolve, reject) => {
-      reader.onload = (e) => {
-        resolve(e.target.result!)
+      reader.onload = (event: any) => {
+        resolve(event.target.result)
       }
     })
   }
@@ -327,7 +330,7 @@ export function FormEdit() {
     setPostagem([...postagem,
     {
       id_post_item: "",
-      lk_post: id_post,
+      lk_post: id_post ? id_post : "",
       ordem: "",
       titulo_passo: "",
       conteudo: "",
@@ -509,7 +512,6 @@ export function FormEdit() {
       setError(response.message);
     } else {
 
-      //console.log("ATT: ", valores2);
       navigate(`/postDetails/${id_post}`);
     }
   }

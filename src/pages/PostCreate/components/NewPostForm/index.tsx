@@ -1,8 +1,9 @@
-import { Player } from "video-react";
 import { api } from "../../../../lib/Api";
 import * as Dialog from '@radix-ui/react-dialog';
 import { Fragment, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { useContextSelector } from "use-context-selector";
+import { PostesContext } from "../../../../contexts/PostsContext";
 import { ModalAddNewCategory } from "../../../../components/ModalAddNewCategory";
 import { ModalAddLinkRelation } from "../../../../components/ModalAddLinkRelation";
 import {
@@ -30,7 +31,6 @@ import {
   LinkImagemInput
 } from "./styles";
 
-/* TIPAGENS */
 interface RelacaoProps {
   id: string;
   id_relacao: string;
@@ -60,8 +60,23 @@ interface RetalationLinksProps {
   titulo: string;
 }
 
-import { useContextSelector } from "use-context-selector";
-import { PostesContext } from "../../../../contexts/PostsContext";
+interface IObjectKeys {
+  [index: number]: string | number;
+}
+
+interface PostItemProps extends IObjectKeys {
+  id_post_item: string;
+  lk_post: string;
+  ordem: string;
+  titulo_passo: string;
+  conteudo: string;
+  observacao: string;
+  imagem: string;
+  url_imagem: string;
+  video: string;
+  url_video: string;
+  data_hora: string;
+}
 
 export function NewPostForm() {
 
@@ -105,10 +120,10 @@ export function NewPostForm() {
   const [valorInput, setValorInput] = useState('');
 
   // Salva os dados dos passos, para ser enviado como um objeto.
-  const [postitem, setPostItem] = useState([
+  const [postitem, setPostItem] = useState<PostItemProps[]>([
     {
       id_post_item: '',
-      lk_post: id_post,
+      lk_post: '',
       ordem: '',
       titulo_passo: '',
       conteudo: '',
@@ -121,7 +136,7 @@ export function NewPostForm() {
     }
   ]);
 
-  const [imagem2, setImagem2] = useState([{ name: "" }]);
+  const [imagem2, setImagem2] = useState<any[]>([{ name: "" }]);
 
   useEffect(() => {
     const getAllPostsForLinksRelations = async () => {
@@ -147,15 +162,15 @@ export function NewPostForm() {
   }, [categoria, reloadContext]);
 
   const handleChangeInputPostItem = async (index: number, event: any) => {
-    const values = [...postitem];
 
+    const values = [...postitem];
     values[index][event.target.name] = event.target.value;
 
     //const values = [...postitem.filter(item => item === event.target.name ? event.target.value : "")]
 
     if (event.target.name === 'imagem') {
       const file = event.target.files[0];
-      const base64 = await convertionForBase64(file);
+      const base64: any = await convertionForBase64(file);
       postitem[index].imagem = base64;
 
       let nomeDasImagens = [...imagem2]
@@ -165,7 +180,7 @@ export function NewPostForm() {
     } else if (event.target.name === 'url_imagem') {
 
       const url = event.target.value;
-      const base64 = await getDataBlob(url);
+      const base64: any = await getDataBlob(url);
 
       postitem[index].url_imagem = base64;
       let NewUrlListImages = [...urlsImagens]
@@ -175,8 +190,8 @@ export function NewPostForm() {
 
     } else if (event.target.name === 'video') {
 
-      const file = event.target.files[0];
-      const base64 = await convertionForBase64(file);
+      const file: Blob = event.target.files[0];
+      const base64: any = await convertionForBase64(file);
 
       postitem[index].video = base64;
 
@@ -217,8 +232,8 @@ export function NewPostForm() {
     var reader = new FileReader();    /* https://developer.mozilla.org/en-US/docs/Web/API/FileReader */
     reader.readAsDataURL(uri);          /* https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL */
     return new Promise((resolve, reject) => {  /* https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise */
-      reader.onload = (e) => {        /* https://developer.mozilla.org/en-US/docs/Web/API/FileReader/onload */
-        resolve(e.target.result)
+      reader.onload = (event: any) => {        /* https://developer.mozilla.org/en-US/docs/Web/API/FileReader/onload */
+        resolve(event.target.result)
       }
     })
   }
@@ -232,7 +247,7 @@ export function NewPostForm() {
 
   const convertionForBase64 = (file: Blob) => {
     if (file) {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve: any, reject: any) => {
         const fileReader = new FileReader();
         fileReader.readAsDataURL(file);
 

@@ -15,7 +15,7 @@ export const InputSearchResults = styled.input`
     box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme["blue-200"]};
   }
 
-  ${tablet({ padding: '8px 5px' })}
+  ${tablet({ padding: '8px 5px' })};
 `;
 
 export const AreaLinsRealations = styled.div`

@@ -16,8 +16,8 @@ export const SectionRight = styled.div`
 
 export const SectionScroll = styled.div`
   height: 100%;
-  margin: auto;
   padding: 5px;
+  margin: auto;
   border-radius: 5px;
   overflow-y: scroll;
   scrollbar-color: rebeccapurple green;

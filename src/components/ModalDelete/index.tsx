@@ -1,4 +1,3 @@
-import React from 'react';
 import { styled, keyframes } from '@stitches/react';
 import { blackA, red, mauve } from '@radix-ui/colors';
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';

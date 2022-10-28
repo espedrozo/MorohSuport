@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useContextSelector } from 'use-context-selector';
 import { PostesContext } from '../../../../contexts/PostsContext';
-
 import {
   CardBoder,
   CardHeader,

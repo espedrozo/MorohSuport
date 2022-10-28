@@ -1,4 +1,3 @@
-
 import { Post } from "./components/Post";
 import { Container, SectionRight, SectionScroll } from "./styles";
 

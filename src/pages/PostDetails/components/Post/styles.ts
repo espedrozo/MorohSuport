@@ -43,7 +43,7 @@ export const Container = styled.div`
     color: ${({ theme }) => theme["gray-700"]};
 
     ${tablet({ fontSize: '12px' })};
- }
+  }
 `;
 
 export const Spacer = styled.hr`
@@ -138,6 +138,7 @@ export const BaseButton = styled.button`
 
 export const BackButton = styled(BaseButton)`
   background-color: ${({ theme }) => theme["blue-200"]};
+  
   &:hover{
     background-color: ${({ theme }) => theme["blue-100"]};
   }

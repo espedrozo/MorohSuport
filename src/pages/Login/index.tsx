@@ -1,6 +1,9 @@
+import * as z from 'zod';
 import { useState } from "react";
 import { api } from "../../lib/Api";
+import { useForm } from 'react-hook-form';
 import { useNavigate } from "react-router-dom";
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   LoginForm,
   AreaButton,
@@ -11,12 +14,6 @@ import {
   ErrorMessage,
   TextRecoverPassword
 } from "./styles";
-
-import * as z from 'zod';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useContextSelector } from "use-context-selector";
-import { PostesContext } from "../../contexts/PostsContext";
 
 const loginFormSchema = z.object({
   email: z.string().email({ message: "Digite um email válido!" }),
@@ -29,12 +26,6 @@ type loginFormInputs = z.infer<typeof loginFormSchema>
 export function Login() {
 
   let navigate = useNavigate();
-
-  const {
-    setUserName,
-  } = useContextSelector(PostesContext, (context) => {
-    return context
-  });
 
   const [errorLogin, setErrorLogin] = useState('');
 
@@ -57,7 +48,7 @@ export function Login() {
     if (response.status === 'error') {
       setErrorLogin(response.message);
     } else {
-      setUserName(response.usuario.nome);
+      localStorage.setItem('@moroh-suport-v1.0.1:userName', response.usuario.nome);
       navigate("/home");
     }
     //reset(); os dados do formulário

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { tablet } from "../../styles/responsive";
 
-
 export const AreaAddNewCategories = styled.div`
   display: flex;
   flex-direction: column;
@@ -12,33 +11,33 @@ export const AreaAddNewCategories = styled.div`
     margin-right: 15px;
   }
   .select-category{
-  width: 100%;
-  border: 1px solid ${({ theme }) => theme["gray-200"]};
-  border-radius: 5px;
-  padding: 10px;
-  margin: 5px 0 5px 0;
-  font-size: 14px;
-  outline: 0;
+    outline: 0;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    margin: 5px 0 5px 0;
+    border: 1px solid ${({ theme }) => theme["gray-200"]};
 
-  ${tablet({ padding: '5px', fontSize: '12px' })};
+    ${tablet({ padding: '5px', fontSize: '12px' })};
   
-  &:focus{
+    &:focus{
       border: 0.5px solid ${({ theme }) => theme["blue-200"]};
       box-shadow: 0px 0px 1px 0.3px ${({ theme }) => theme["blue-200"]};
-  }
+    }
   }
 
   ${tablet({ fontSize: '12px' })};
 `;
 
 export const InputSearchResults = styled.input`
-  width: 100%;
-  border: 1px solid ${({ theme }) => theme["gray-200"]};
-  border-radius: 5px;
-  padding: 10px;
-  margin: 5px 0 5px 0;
-  font-size: 14px;
   outline: 0;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  margin: 5px 0 5px 0;
+  border: 1px solid ${({ theme }) => theme["gray-200"]};
       
   &:focus{
       border: 0.5px solid ${({ theme }) => theme["blue-200"]};
@@ -48,8 +47,8 @@ export const InputSearchResults = styled.input`
 `;
 
 export const AreaLinsRealations = styled.div`
-  padding: 5px;
   width: 100%;
+  padding: 5px;
   height: 200px;
   overflow: auto;
   white-space:nowrap;
@@ -99,9 +98,9 @@ export const BaseButton = styled.button`
   padding: 2px;
   border: none;
   padding: 6px;
-  font-size: 0.875rem;
   cursor: pointer;
   border-radius: 5px;
+  font-size: 0.875rem;
   color: ${({ theme }) => theme.white};
 
   ${tablet({ width: '70px', height: '25px', fontSize: '12px', marginRight: '5px' })};
@@ -130,8 +129,9 @@ export const ConfirmationButton = styled(BaseButton)`
     opacity: 0.6;
     cursor: not-allowed;
   }
+  
   &:not(:disabled):hover {
-    background: ${({ theme }) => theme["blue-200"]};
     transition: background-color 0.2s;
+    background: ${({ theme }) => theme["blue-200"]};
   }
 `;

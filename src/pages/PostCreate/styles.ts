@@ -20,11 +20,11 @@ export const TitlePost = styled.h4`
 `;
 
 export const SectionScroll = styled.div`
-  height: 96.2%;
   margin: auto;
+  height: 96.2%;
   padding: 10px;
-  border-radius: 5px;
   overflow-y: scroll;
+  border-radius: 5px;
   scrollbar-color: rebeccapurple green;
   border: 1px solid ${({ theme }) => theme["blue-900"]};
   box-shadow: 0 0 2px ${({ theme }) => theme["blue-900"]};

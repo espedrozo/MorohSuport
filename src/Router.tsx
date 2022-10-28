@@ -1,10 +1,10 @@
-import { Home } from './pages/Home'
-import { Login } from './pages/Login'
-import { PostEdit } from './pages/PostEdit'
-import { PostCreate } from './pages/PostCreate'
-import { Routes, Route } from 'react-router-dom'
-import { PostDetails } from './pages/PostDetails'
-import { DefaultLayout } from './layout/DefaultLayout'
+import { Home } from './pages/Home';
+import { Login } from './pages/Login';
+import { PostEdit } from './pages/PostEdit';
+import { PostCreate } from './pages/PostCreate';
+import { Routes, Route } from 'react-router-dom';
+import { PostDetails } from './pages/PostDetails';
+import { DefaultLayout } from './layout/DefaultLayout';
 
 export function Router() {
   return (

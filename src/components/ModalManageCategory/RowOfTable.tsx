@@ -1,11 +1,11 @@
 import { api } from '../../lib/Api';
 import * as Dialog from '@radix-ui/react-dialog';
 import { ChangeEvent, Fragment, useState } from 'react';
+import { useContextSelector } from 'use-context-selector';
 import { ClipboardText, FloppyDisk } from 'phosphor-react';
+import { PostesContext } from '../../contexts/PostsContext';
 import { ModalDeleteCategory } from '../ModalDeleteCategory';
 import { LinhaTableButton, LinhaTB, LinhaTR } from './styles';
-import { useContextSelector } from 'use-context-selector';
-import { PostesContext } from '../../contexts/PostsContext';
 
 interface EditeCategoryProps {
   id: string;
@@ -49,7 +49,6 @@ export function RowOfTable(
     return context
   });
 
-
   const [nenhuma] = useState('');
   const [idAtualizarCategoriaPai, setIdAtualizarCategoriaPai] = useState('');
   const [atualizarCategoria, setAtualizarCategoria] = useState<ListaDeCategoriesProps[]>([]);
@@ -92,7 +91,6 @@ export function RowOfTable(
     localStorage.removeItem('@moroh-suport-v1.0.1:listOfIdOfCategories');
 
     setReloadContext(!reloadContext);
-
   }
 
   return (

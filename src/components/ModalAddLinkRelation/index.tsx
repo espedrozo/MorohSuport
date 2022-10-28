@@ -1,5 +1,5 @@
+import { blackA, mauve } from '@radix-ui/colors';
 import { styled, keyframes } from '@stitches/react';
-import { blackA, red, mauve } from '@radix-ui/colors';
 import { MagnifyingGlass, PlusCircle, X } from "phosphor-react"
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 import { InputSearchResults, AreaLinsRealations, LiAddLink, UlLink, ButtonAddLink } from "./styles";

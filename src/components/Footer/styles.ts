@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { mobile } from "../../styles/responsive";
 
 export const ContainerFooter = styled.div`
   width: 100%;
@@ -12,9 +13,7 @@ export const ContainerFooter = styled.div`
 `;
 
 export const TextFooter = styled.p`
-    margin: 0;
-    
-    @media only screen and (max-width: 600px) {    
-        font-size: 12px
-    }
+  margin: 0;
+      
+  ${mobile({ fontSize: '12px' })};
 `;

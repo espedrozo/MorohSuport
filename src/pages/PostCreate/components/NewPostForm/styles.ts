@@ -80,6 +80,7 @@ export const AreaCategory = styled(BaseAreaContainer)`
 
   svg{
     color: ${({ theme }) => theme["blue-900"]};
+
     &:hover{
       cursor: pointer;
     }
@@ -275,31 +276,31 @@ export const ImageDetails = styled.img`
 `;
 
 export const LinkImagemInput = styled.input`
-    width: 100%;
-    border: 1px solid ${({ theme }) => theme["gray-200"]};
-    border-radius: 5px;
-    padding: 10px;
-    margin: 5px 0;
-    font-size: 14px;
-    outline: 0;
-        
-    &:focus{
-        border: 1px solid ${({ theme }) => theme['blue-200']};
-        box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme['blue-200']};
-    }
+  outline: 0;
+  width: 100%;
+  margin: 5px 0;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme["gray-200"]};
+      
+  &:focus{
+    border: 1px solid ${({ theme }) => theme['blue-200']};
+    box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme['blue-200']};
+  }
 `;
 
 export const LinkVideoInput = styled.input`
-    width: 100%;
-    border: 1px solid ${({ theme }) => theme["gray-200"]};
-    border-radius: 5px;
-    padding: 10px;
-    margin: 5px 0;
-    font-size: 14px;
-    outline: 0;
-        
-    &:focus{
-        border: 1px solid ${({ theme }) => theme['blue-200']};
-        box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme['blue-200']};
-    }
+  outline: 0;
+  width: 100%;
+  margin: 5px 0;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid ${({ theme }) => theme["gray-200"]};
+      
+  &:focus{
+    border: 1px solid ${({ theme }) => theme['blue-200']};
+    box-shadow: 0px 0px 5px 0.5px ${({ theme }) => theme['blue-200']};
+  }
 `;

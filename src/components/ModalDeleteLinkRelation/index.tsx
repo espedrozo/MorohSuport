@@ -1,6 +1,6 @@
+import { Trash } from "phosphor-react";
 import { styled, keyframes } from '@stitches/react';
 import { blackA, red, mauve } from '@radix-ui/colors';
-import { LinkSimple, Trash } from "phosphor-react"
 import * as AlertDialogPrimitive from '@radix-ui/react-alert-dialog';
 
 const overlayShow = keyframes({

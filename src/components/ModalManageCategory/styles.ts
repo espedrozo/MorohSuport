@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { tablet } from "../../styles/responsive";
 
-
 export const AreaAddNewCategories = styled.div`
   display: flex;
   flex-direction: column;
@@ -12,39 +11,39 @@ export const AreaAddNewCategories = styled.div`
     margin-right: 15px;
   }
   .select-category{
-    width: 100%;
-    border: 1px solid ${({ theme }) => theme["gray-200"]};
-    border-radius: 5px;
-    padding: 10px;
-    margin: 5px 0 5px 0;
-    font-size: 14px;
     outline: 0;
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    margin: 5px 0 5px 0;
+    border: 1px solid ${({ theme }) => theme["gray-200"]};
     
     &:focus{
-        border: 0.5px solid ${({ theme }) => theme["blue-200"]};
-        box-shadow: 0px 0px 1px 0.3px ${({ theme }) => theme["blue-200"]};
+      border: 0.5px solid ${({ theme }) => theme["blue-200"]};
+      box-shadow: 0px 0px 1px 0.3px ${({ theme }) => theme["blue-200"]};
     }
   }
 `;
 
 export const InputSearchResults = styled.input`
-  width: 100%;
-  border: 1px solid ${({ theme }) => theme["gray-200"]};
-  border-radius: 5px;
-  padding: 10px;
-  margin: 5px 0 5px 0;
-  font-size: 14px;
   outline: 0;
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border-radius: 5px;
+  margin: 5px 0 5px 0;
+  border: 1px solid ${({ theme }) => theme["gray-200"]};
       
   &:focus{
-      border: 0.5px solid ${({ theme }) => theme["blue-200"]};
-      box-shadow: 0px 0px 1px 0.3px ${({ theme }) => theme["blue-200"]};
+    border: 0.5px solid ${({ theme }) => theme["blue-200"]};
+    box-shadow: 0px 0px 1px 0.3px ${({ theme }) => theme["blue-200"]};
   }
 `;
 
 export const AreaLinsRealations = styled.div`
-  padding: 5px;
   width: 100%;
+  padding: 5px;
   height: 200px;
   overflow: auto;
   white-space:nowrap;
@@ -64,10 +63,10 @@ export const LiAddLink = styled.li`
   align-items: center;
 
   &:hover {
-      border-radius: 2px;
-      color: ${({ theme }) => theme.white};
-      background-color: ${({ theme }) => theme["blue-200"]};
-    }
+    border-radius: 2px;
+    color: ${({ theme }) => theme.white};
+    background-color: ${({ theme }) => theme["blue-200"]};
+  }
 
   svg{
     width: 20px;
@@ -88,9 +87,9 @@ export const BaseButton = styled.button`
   padding: 2px;
   border: none;
   padding: 4px;
-  font-size: 0.875rem;
   cursor: pointer;
   border-radius: 5px;
+  font-size: 0.875rem;
   color: ${({ theme }) => theme.white};
 `;
 
@@ -127,17 +126,6 @@ export const ConfirmationButton = styled(BaseButton)`
   }
 `;
 
-/* export const TableBody = styled.div`
-  width: 100%;
-  height: 300px;
-  overflow-y: auto; 
-
-  ::-webkit-scrollbar {
-    display: none;
-  }
-
-` */
-
 export const TableOfCategories = styled.table`
   width: 100%;
 
@@ -146,7 +134,6 @@ export const TableOfCategories = styled.table`
   thead, tbody{
     width: 100%;
     display: block;  
-
   }
   
   thead{
@@ -163,8 +150,8 @@ export const TableOfCategories = styled.table`
   }
 
   th{
-    padding: 5px;
     width: 300px;
+    padding: 5px;
     text-align: center;
   }
 `;

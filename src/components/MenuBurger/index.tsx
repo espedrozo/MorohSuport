@@ -8,7 +8,14 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useContextSelector } from 'use-context-selector';
 import { PostesContext } from '../../contexts/PostsContext';
 import * as CollapsiblePrimitive from '@radix-ui/react-collapsible';
-import { AreaUser, AvatarUser, ButtonCreatePost, ButtonLogin, ButtonLogout, ContainerHeader } from './styles';
+import {
+  AreaUser,
+  AvatarUser,
+  ButtonCreatePost,
+  ButtonLogin,
+  ButtonLogout,
+  ContainerHeader
+} from './styles';
 
 const open = keyframes({
   from: { height: '4rem' },
@@ -57,15 +64,9 @@ export function MenuBurger({ user }: UserProps) {
 
   const handleLogout = () => {
     fazerLogout();
-
-    localStorage.removeItem('@moroh-suport-v1.0.1:idRecentes');
-    sessionStorage.removeItem('@moroh-suport-v1.0.1:allCategories');
-    sessionStorage.removeItem('@moroh-suport-v1.0.1:listOfIdOfCategories');
-
     navigate('/home');
   }
 
-  console.log(userName);
   const [open, setOpen] = React.useState(false);
 
   return (

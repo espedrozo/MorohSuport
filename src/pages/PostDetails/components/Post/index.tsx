@@ -1,4 +1,11 @@
-import { useState, useEffect, Fragment } from "react";
+import { api } from "../../../../lib/Api";
+import { LinkSimple } from "phosphor-react";
+import { useState, useEffect } from "react";
+import * as Dialog from '@radix-ui/react-dialog';
+import { isLogged } from "../../../../lib/authHandler";
+import { useContextSelector } from "use-context-selector";
+import { ModalDelete } from "../../../../components/ModalDelete";
+import { PostesContext } from "../../../../contexts/PostsContext";
 import { Link, NavLink, useNavigate, useParams } from 'react-router-dom';
 
 import {
@@ -14,18 +21,6 @@ import {
   Spacer,
   TextPostItem
 } from './styles';
-
-//import { Player } from "video-react";
-
-
-import * as Dialog from '@radix-ui/react-dialog';
-import { Player } from "video-react";
-import { LinkSimple } from "phosphor-react";
-import { useContextSelector } from "use-context-selector";
-import { PostesContext } from "../../../../contexts/PostsContext";
-import { isLogged } from "../../../../lib/authHandler";
-import { api } from "../../../../lib/Api";
-import { ModalDelete } from "../../../../components/ModalDelete";
 
 var idRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.1:idRecentes');
 var idRecentes = idRecentesLocal !== null ? JSON.parse(idRecentesLocal) : [];
@@ -55,7 +50,6 @@ interface PostDetailsProps {
   obs: string;
   postitem: PostItemProps[];
   relacao: RelacaoProps[]
-
 }
 
 export function Post() {
@@ -70,16 +64,17 @@ export function Post() {
   });
 
   let logado = isLogged();
-  const { id_post } = useParams();
   const navigate = useNavigate();
+  const { id_post } = useParams();
 
   const [postInfo, setPostInfo] = useState({} as PostDetailsProps);
+
   useEffect(() => {
 
     const getOnePostForIdInfo = async (id_post: string | undefined) => {
 
-
       const response = await api.getOnePostForId(id_post);
+
       setPostInfo(response);
 
       if (typeof (id_post) === 'string') {
@@ -142,7 +137,6 @@ export function Post() {
 
   }, [id_post]);
 
-  // Função que exclui um post pelo ID
   async function handleDetele() {
 
     if (id_post) {
@@ -156,13 +150,11 @@ export function Post() {
       idRecentes.splice(index, 1);
     }
 
-    // Salvando a Lista de IDs no localStorage
     localStorage.setItem('@moroh-suport-v1.0.1:idRecentes', JSON.stringify(idRecentes));
 
     const idRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.1:idRecentes');
     idRecentes = idRecentesLocal !== null ? JSON.parse(idRecentesLocal) : [];
 
-    // Localizando objeto dentro do Array de PostsRecentes
     const postRecentEncontrado = postRecentes.find((element: { id_post: string | undefined; }) => element.id_post == id_post);
 
     if (postRecentEncontrado) {

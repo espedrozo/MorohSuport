@@ -1,7 +1,5 @@
 import qs from 'qs';
-import Cookies from 'js-cookie';
-
-import { apiRequest } from './axios'
+import { apiRequest } from './axios';
 import { fazerLogin } from './authHandler';
 import { AxiosRequestConfig } from 'axios';
 

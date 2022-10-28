@@ -18,7 +18,6 @@ export function Pagination() {
   const [botaoAtual, setBotaoAtual] = useState(1)
   const [setaDoBotaoAtual, setSetaDoBotaoAtual] = useState<any[]>([])
 
-
   for (let i = 1; i <= totalPaginas; i++) {
     numeroDePaginas.push(i)
   }
