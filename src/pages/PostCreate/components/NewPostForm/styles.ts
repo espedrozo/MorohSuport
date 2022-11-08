@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { darken, lighten } from "polished";
-import { tablet } from "../../../../styles/responsive";
+import { desktopLarge, tablet } from "../../../../styles/responsive";
 
 export const Container = styled.div`
 
@@ -8,13 +8,21 @@ export const Container = styled.div`
     width: 100%;
     padding: 5px;
     margin: 5px 0;
-    border-radius: 5px;
-    border: 1px solid ${({ theme }) => theme["blue-900"]};
-    box-shadow: 0px 0px 1px 0.2px ${({ theme }) => theme["blue-900"]};
-
+   
+          ${desktopLarge({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center"
+})};
+        
     iframe{
       width: 100%;
       height: 300px;
+      max-width: 800px;
+      border-radius: 5px;
+    border: 1px solid ${({ theme }) => theme["blue-900"]};
+    box-shadow: 0px 0px 1px 0.2px ${({ theme }) => theme["blue-900"]};
+
     }
   }
 
@@ -267,9 +275,16 @@ export const LabelFile = styled.label`
   }  
 `;
 
+export const AreaImage = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const ImageDetails = styled.img`
   width: 100%;
   padding: 2px;
+  max-width: 800px;
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme["blue-900"]};
   box-shadow: 0px 0px 1px 0.2px ${({ theme }) => theme["blue-900"]};

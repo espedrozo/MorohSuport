@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { tablet } from "../../styles/responsive";
+import { desktopLarge, tablet } from "../../styles/responsive";
 
 export const ContainerHeaderBurguer = styled.div`
   gap: 1rem;
@@ -85,6 +85,8 @@ export const AreaLogo = styled.div`
 
   ${tablet({ width: '100%', justifyContent: 'space-between' })};
   
+  ${desktopLarge({ width: "28%" })};
+
   img{
     width: 150px;
     border-radius: 50px;

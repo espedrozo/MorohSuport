@@ -28,7 +28,8 @@ import {
   LabelFile,
   ImageDetails,
   LinkVideoInput,
-  LinkImagemInput
+  LinkImagemInput,
+  AreaImage
 } from "./styles";
 
 interface RelacaoProps {
@@ -608,7 +609,9 @@ export function NewPostForm() {
 
               {
                 imagem2?.[index]?.name &&
-                <ImageDetails className="img-passos" src={URL.createObjectURL(imagem2?.[index])} />
+                <AreaImage>
+                  <ImageDetails className="img-passos" src={URL.createObjectURL(imagem2?.[index])} />
+                </AreaImage>
               }
 
               <InputFile
@@ -628,9 +631,9 @@ export function NewPostForm() {
               />
 
               {urlsImagens[index] ?
-                <div>
+                <AreaImage>
                   <ImageDetails src={urlsImagens[index]} alt="" />
-                </div>
+                </AreaImage>
                 : ''
               }
 

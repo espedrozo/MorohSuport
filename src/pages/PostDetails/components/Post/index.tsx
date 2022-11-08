@@ -10,6 +10,7 @@ import { Link, NavLink, useNavigate, useParams } from 'react-router-dom';
 
 import {
   AreaButton,
+  AreaImage,
   BackButton,
   Container,
   EditeButton,
@@ -199,14 +200,14 @@ export function Post() {
                   <strong>Passo: &nbsp; {postItem.titulo_passo} - &nbsp; </strong> {postItem.conteudo}
                 </TextPostItem>
                 {postItem.imagem &&
-                  <div>
+                  <AreaImage>
                     <ImageDetails src={postItem.imagem} alt="" />
-                  </div>
+                  </AreaImage>
                 }
                 {postItem.url_imagem &&
-                  <div>
+                  <AreaImage>
                     <ImageDetails src={postItem.url_imagem} alt="" />
-                  </div>
+                  </AreaImage>
                 }
                 {postItem.video &&
                   <div className="video">

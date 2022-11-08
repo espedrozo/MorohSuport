@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { tablet } from "../../styles/responsive";
+import { tablet, desktopLarge } from "../../styles/responsive";
 
 export const LayoutContainer = styled.div`
   width: 100%; 
@@ -28,6 +28,8 @@ export const LayoutContainer = styled.div`
       }
 
       ${tablet({ width: '98%', fontSize: '14px' })};
+
+      ${desktopLarge({ width: "28%" })};
       
     }
     .categoria {

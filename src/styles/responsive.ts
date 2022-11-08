@@ -15,3 +15,14 @@ export const tablet = (props: any) => {
     }
   `
 }
+
+export const desktopLarge = (props: any) => {
+  return css`
+    @media only screen and (min-width: 1300px) {
+      ${props}
+    }
+  `
+}
+
+
+

@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { tablet } from "../../styles/responsive";
+import { desktopLarge, tablet } from "../../styles/responsive";
 
 export const Container = styled.div`
-  width: 100%;
+  flex: 1;
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -23,7 +23,13 @@ export const LoginForm = styled.form`
 
   label{
     ${tablet({ fontSize: '0.875rem' })};
+    ${desktopLarge({ marginTop: "15px" })};
   }
+
+  ${desktopLarge({
+  width: '80%', maxWidth: '30rem', height: '100%', maxHeight: '30rem', margin: '10px', padding: '20px'
+})};
+
 
   h1{
     padding: 2px;

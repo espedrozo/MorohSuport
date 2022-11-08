@@ -22,7 +22,8 @@ import {
   AreaPostsRelacionados,
   LabelFile,
   InputFile,
-  ImageDetails
+  ImageDetails,
+  AreaImage
 } from './styles';
 
 /* TIPAGENS */
@@ -693,8 +694,13 @@ export function FormEdit() {
 
               {
                 imagem2?.[index]?.name ?
-                  <ImageDetails className="img-passos" src={URL.createObjectURL(imagem2?.[index])} />
-                  : pItem.imagem ? <ImageDetails src={pItem.imagem} className="img-passos" />
+                  <AreaImage>
+                    <ImageDetails className="img-passos" src={URL.createObjectURL(imagem2?.[index])} />
+                  </AreaImage>
+                  : pItem.imagem ?
+                    <AreaImage>
+                      <ImageDetails src={pItem.imagem} className="img-passos" />
+                    </AreaImage>
                     : ""
               }
 
@@ -715,14 +721,13 @@ export function FormEdit() {
               />
 
               {urlsImagens[index] ?
-                <div>
+                <AreaImage>
                   <ImageDetails src={urlsImagens[index]} alt="" />
-                </div>
+                </AreaImage>
                 : pItem.url_imagem ?
-                  <div>
+                  <AreaImage>
                     <ImageDetails src={pItem.url_imagem} alt="" />
-                  </div>
-
+                  </AreaImage>
                   : ""
               }
 
