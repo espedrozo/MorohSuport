@@ -136,7 +136,7 @@ export function NewPostForm() {
     }
   ]);
 
-  const [imagem2, setImagem2] = useState<any[]>([{ name: "" }]);
+  const [imagem2, setImagem2] = useState<any>([{ name: "" }]);
 
   useEffect(() => {
     const getAllPostsForLinksRelations = async () => {
@@ -204,6 +204,10 @@ export function NewPostForm() {
     } else if (event.target.name === 'url_video') {
 
       let url = event.target.value;
+
+      //https://youtu.be/NEMUJeX8Y9Q?t=3522
+
+      // https://www.youtube.com/embed/NEMUJeX8Y9Q?t=3382
 
       let url1 = url.replace("https://youtu.be/", "https://www.youtube.com/watch?v=");
       let url2 = url1.replace("watch?v=", "embed/");
@@ -644,41 +648,37 @@ export function NewPostForm() {
               />
 
               {
-                videos[index] &&
-                <div className="video">
-                  <iframe
-                    id="player"
-                    title="video"
-                    frameBorder="0"
-                    allow="fullscreen"
-                    src={videos[index]}
-                  >
-                  </iframe>
-                </div>
+                videos[index] ?
+                  <div className="video">
+                    <iframe
+                      id="player"
+                      title="video"
+                      frameBorder="0"
+                      allow="autoplay 'none'"
+                      src={videos[index]}                   >
+                    </iframe>
+                  </div> : ''
               }
 
               <label>Adicionar um Link de Video</label>
               <LinkVideoInput
                 type="text"
                 name="url_video"
-                value={urlsVideos[index] || ""}
+                value={urlsVideosFormated[index] || ""}
                 onChange={event => handleChangeInputPostItem(index, event)}
               />
-
-              {
-                urlsVideos[index] ?
-                  <div className="video">
-                    <iframe
-                      id="player"
-                      title="video"
-                      frameBorder="0"
-                      allow="fullscreen"
-                      src={urlsVideos[index]}
-                    >
-                    </iframe>
-                  </div>
-
-                  : ""
+              {urlsVideos[index] ?
+                <div className="video">
+                  <iframe
+                    id="player"
+                    title="video"
+                    frameBorder="0"
+                    allow="fullscreen"
+                    src={urlsVideos[index]}
+                  >
+                  </iframe>
+                </div>
+                : ''
               }
 
               <label id="observacao">Observações:</label>

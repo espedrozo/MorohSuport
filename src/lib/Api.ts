@@ -1,7 +1,6 @@
 import qs from 'qs';
 import { apiRequest } from './axios';
 import { fazerLogin } from './authHandler';
-import { AxiosRequestConfig } from 'axios';
 
 interface Props {
   paginaAtual?: number,
@@ -72,7 +71,7 @@ const apiAxiosPost = async (endpoint: string, body: any) => {
   }
 }
 
-const apiAxiosDelete = async (endpoint: string, body?: AxiosRequestConfig<any> | undefined) => {
+const apiAxiosDelete = async (endpoint: string, body?: any) => {
   try {
     const response = await apiRequest.delete(endpoint, body);
     return response.data;
@@ -98,39 +97,43 @@ export const api = {
   },
 
   login: async (email: string, senha: string, rememberPassword: boolean) => {
-    const response = await apiAxiosPost('/login', { email, senha });
+    try {
+      const response = await apiAxiosPost('/users/login', { email, senha });
 
-    if (response.status === 'sucesso') {
-      const token = response.usuario.token;
-      fazerLogin(token, rememberPassword);
+      if (response.status === 'sucesso') {
+        const token = response.token;
+        fazerLogin(token, rememberPassword);
+      }
+      return response;
+
+    } catch (error) {
+      console.log("LOGIN: ", error);
     }
-
-    return response;
   },
 
   getAllPosts: async (options: Props) => {
-    const response = await apiAxiosGet('/post', options);
+    const response = await apiAxiosGet('/posts/listartodos', options);
     return response;
   },
 
   getAllCategories: async (options?: any) => {
-    const response = await apiAxiosGet('/categoria', options);
+    const response = await apiAxiosGet('/categorias/listartodas', options);
     return response;
   },
 
   getNewCategories: async () => {
-    const response = await apiAxiosGet('/categ');
+    const response = await apiAxiosGet('/subcategorias/listartodas');
     return response;
   },
 
   getAllSubCategories: async (idCat: string) => {
-    const response = await apiAxiosGet(`/categoria/${idCat}`);
+    const response = await apiAxiosGet(`/categorias/listar/${idCat}`);
     return response;
   },
 
   getOnePostForId: async (id: string | undefined) => {
     const response = await apiAxiosGet(
-      `/post/${id}`
+      `/posts/listar/${id}`
     );
     return response;
   },
@@ -147,7 +150,7 @@ export const api = {
       relacao
     }: PropsCreatePost) => {
 
-    const response = await apiAxiosPost('/post',
+    const response = await apiAxiosPost('/posts/adicionar',
       {
         id_post,
         titulo,
@@ -162,47 +165,47 @@ export const api = {
   },
 
   createNewCategory: async (dataNewCategory: DataNewCategoryProps) => {
-    const response = await apiAxiosPost('/categoria', dataNewCategory);
+    const response = await apiAxiosPost('/categorias/adicionar', dataNewCategory);
     return response;
   },
 
   deletePosts: async (id: string) => {
-    const response = await apiAxiosDelete(`/post/${id}`);
+    const response = await apiAxiosDelete(`/posts/deletar/${id}`);
     return response;
   },
 
-  deletePostItem: async (iditem: any) => {
-    const response = await apiAxiosDelete(`/postitem/${iditem}`)
+  deletePostItem: async (iditem: string) => {
+    const response = await apiAxiosDelete(`/postitem/deletar/${iditem}`)
     return response;
   },
 
   deleteLinkRelation: async (idLink: any) => {
-    const response = await apiAxiosDelete(`/postrelacao/${idLink}`)
+    const response = await apiAxiosDelete(`/posts/relacao/${idLink}`)
     return response;
   },
 
   deleteCategory: async (idCat: any) => {
-    const response = await apiAxiosDelete(`/categoria/${idCat}`)
+    const response = await apiAxiosDelete(`/categorias/deletar/${idCat}`)
     return response;
   },
 
   updatePost: async (id_post: any, valores: any) => {
-    const response = await apiAxiosUpdate(`/post/${id_post}`, valores);
+    const response = await apiAxiosUpdate(`/posts/atualizar/${id_post}`, valores);
     return response;
   },
 
   updateCategories: async (id_cat: string, valoresDaCategoria: any) => {
-    const response = await apiAxiosUpdate(`/categoria/${id_cat}`, valoresDaCategoria);
+    const response = await apiAxiosUpdate(`/categorias/atualizar/${id_cat}`, valoresDaCategoria);
     return response;
   },
 
   recoveryPassword: async (email: string) => {
-    const response = await apiAxiosPost('/senha', { email })
+    const response = await apiAxiosPost('/senha/redefinir', { email })
     return response;
   },
 
   UpdatePassword: async (id: any, valores: any) => {
-    const response = await apiAxiosUpdate(`/senha/${id}`, valores);
+    const response = await apiAxiosUpdate(`/senha/atualizar/${id}`, valores);
     return response;
   }
 };

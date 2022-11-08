@@ -59,7 +59,7 @@ export function Login() {
 
       {errorLogin && <ErrorMessage>{errorLogin}</ErrorMessage>}
 
-      <LoginForm onSubmit={handleSubmit(handleLogin)}>
+      <LoginForm method="POST" onSubmit={handleSubmit(handleLogin)}>
         <h1>Login</h1>
         <AreaInput>
           <label>Endereço de email</label>

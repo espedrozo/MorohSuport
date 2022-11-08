@@ -76,19 +76,16 @@ export function MenuBurger({ user }: UserProps) {
           <NavLink to="/home" >
             <img src={LogoSuport} alt="" />
           </NavLink>
-          {
-            user &&
+          <AvatarUser>
+            <UserCircle weight="fill" />
+            <span>
+              Bem vindo!
+              {
+                user ? <strong>{userName}</strong> : <strong>Visitante</strong>
+              }
+            </span>
+          </AvatarUser>
 
-            <AvatarUser>
-              <UserCircle weight="fill" />
-              <span>
-                Bem vindo:
-                <strong>
-                  {userName}
-                </strong>
-              </span>
-            </AvatarUser>
-          }
         </AreaUser>
         <CollapsibleTrigger asChild>
           {open ? <X weight="fill" /> : <List weight="fill" />}

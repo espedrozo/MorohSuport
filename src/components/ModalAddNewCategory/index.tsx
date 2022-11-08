@@ -176,7 +176,7 @@ export function ModalAddNewCategory(
 
       if (response.status === 'error') {
         setError(response.message);
-        console.log("ERROR: ", error);
+
       } else {
         localStorage.removeItem('@moroh-suport-v1.0.1:idRecentes');
         localStorage.removeItem('@moroh-suport-v1.0.1:postRecentes');

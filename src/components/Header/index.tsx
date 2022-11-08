@@ -99,6 +99,13 @@ export function Header() {
               <NavLink to="/home" >
                 <img src={LogoSuport} alt="" />
               </NavLink>
+              <AvatarUser>
+                <UserCircle weight="fill" />
+                <span>
+                  Bem vindo!
+                  <strong>Visitante</strong>
+                </span>
+              </AvatarUser>
             </AreaLogo>
 
             <NavLink to="/home" >

@@ -1,21 +1,29 @@
-import React, { useState, useEffect, Fragment } from 'react'
-import { Link, NavLink, useNavigate, useParams } from 'react-router-dom';
-
-
-import * as Dialog from '@radix-ui/react-dialog';
-
-// Importando componentes estilizados
-import { AreaEditPost, Container, AreaCategory, LinkImagemInput, LinkVideoInput, TH, AreaNewPostItem, AreaButtonPassos, AreaOfPassos, ButtonCancel, ButtonSave, AreaPostsRelacionados, LabelFile, InputFile, ImageDetails } from './styles';
-
-
-//import "../../../node_modules/video-react/dist/video-react.css";
-import { Player } from "video-react";
 import { api } from '../../../../lib/Api';
-import { ArrowCircleDown, ArrowCircleUp, LinkSimple, MinusCircle, PlusCircle, Trash } from 'phosphor-react';
-import { ModalAddLinkRelation } from '../../../../components/ModalAddLinkRelation';
+import * as Dialog from '@radix-ui/react-dialog';
+import { useState, useEffect, Fragment } from 'react'
+import { NavLink, useNavigate, useParams } from 'react-router-dom';
 import { ModalAddNewCategory } from '../../../../components/ModalAddNewCategory';
 import { ModalDeletePostItem } from '../../../../components/ModalDeletePostItem';
+import { ModalAddLinkRelation } from '../../../../components/ModalAddLinkRelation';
 import { ModalDeleteLinkRelation } from '../../../../components/ModalDeleteLinkRelation';
+import { ArrowCircleDown, ArrowCircleUp, LinkSimple, PlusCircle, Trash } from 'phosphor-react';
+
+import {
+  AreaEditPost,
+  Container,
+  AreaCategory,
+  LinkImagemInput,
+  LinkVideoInput,
+  AreaNewPostItem,
+  AreaButtonPassos,
+  AreaOfPassos,
+  ButtonCancel,
+  ButtonSave,
+  AreaPostsRelacionados,
+  LabelFile,
+  InputFile,
+  ImageDetails
+} from './styles';
 
 /* TIPAGENS */
 interface RelacaoProps {
@@ -99,55 +107,33 @@ export function FormEdit() {
   const navigate = useNavigate();
   const id = id_post !== undefined && parseInt(id_post);
 
-  const [valores, setValores] = useState<ValoresProps>({} as ValoresProps);
-  const [postagem, setPostagem] = useState<PostagemProps[]>([]);
-
-  const [urlsImagens, setUrlsImagens] = useState([""]);
-
-  const [urlsVideos, setUrlsVideos] = useState([""]);
-  const [urlsVideosFormated, setUrlsVideosFormated] = useState([""]);
-
-  const [listaDeCategorias, setListaDeCategorias] = useState<ListCategoriesProps[]>([]);
-  const [categoria, setCategoria] = useState('');
-  const [novaCategoria, setNovaCategoria] = useState([{ id_cat: '', descricao: '', id_pai: null }])
-  const [idCategoriaPai, setIdCategoriaPai] = useState('');
-  const [idCategoriaExluir, setIdCategoriaExluir] = useState('');
-
-  const [atualizarCategoria, setAtualizarCategoria] = useState([]);
-  const [listaDeCategoriasPai, setListaDeCategoriasPai] = useState<ListaDeCategoriesPaiProps[]>([]);
-  const [nomeDaNovaCategoria, setNomeDaNovaCategoria] = useState([{ id_cat: '', descricao: '', id_pai: idCategoriaPai }]);
-
-  const [idCategoria, setIdCategoria] = useState(valores.categoria?.[0]?.id);
   const [nenhuma] = useState('');
-
-  // Responsável por mostrar o formulário de novos passos apenas quando for adicionado.
-  const [mostrar, setMostrar] = useState(true);
-
-  // Capturando o ID do PostItem para editar
-  const [idItem, setIdItem] = useState('');
-  // Capturando o ID do Link para editar
-  const [idLink, setIdLink] = useState('');
-  const [relacao, setRelacao] = useState<RelacaoProps[]>([]);
-  const [disabled, setDisabled] = useState(false);
   const [error, setError] = useState('');
-
-  // Palavra a ser pesquisada capturada pelo valor do Input
+  const [idItem, setIdItem] = useState('');
+  const [idLink, setIdLink] = useState('');
   const [palavra, setPalavra] = useState('');
+  const [categoria, setCategoria] = useState('');
   const [valorInput, setValorInput] = useState('');
-
-  // Adicionando nova relacao de links
-  const [novarelacao, setNovaRelacao] = useState<RelacaoProps[]>([]);
-  const [listaDeLinksRelacionados, setListaDeLinksRelacionados] = useState([]);
-  const [listOfLinksWithRelations, setListOfLinksWithRelations] = useState([]);
-
+  const [idCategoriaPai, setIdCategoriaPai] = useState('');
   const [posicaoPostItem, setPosicaoPostItem] = useState(0);
   const [posicaoLinkRelacao, setPosicaoLinkRelacao] = useState(0);
 
-  const [imagem2, setImagem2] = useState<any[]>([{ name: "" }]);
-
   const [videos, setVideos] = useState([""]);
+  const [urlsVideos, setUrlsVideos] = useState([""]);
+  const [urlsImagens, setUrlsImagens] = useState([""]);
+  const [relacao, setRelacao] = useState<RelacaoProps[]>([]);
+  const [postagem, setPostagem] = useState<PostagemProps[]>([]);
+  const [imagem2, setImagem2] = useState<any[]>([{ name: "" }]);
+  const [atualizarCategoria, setAtualizarCategoria] = useState([]);
+  const [urlsVideosFormated, setUrlsVideosFormated] = useState([""]);
+  const [novarelacao, setNovaRelacao] = useState<RelacaoProps[]>([]);
+  const [valores, setValores] = useState<ValoresProps>({} as ValoresProps);
+  const [idCategoria, setIdCategoria] = useState(valores.categoria?.[0]?.id);
+  const [listOfLinksWithRelations, setListOfLinksWithRelations] = useState([]);
+  const [listaDeCategorias, setListaDeCategorias] = useState<ListCategoriesProps[]>([]);
+  const [novaCategoria, setNovaCategoria] = useState([{ id_cat: '', descricao: '', id_pai: null }])
+  const [listaDeCategoriasPai, setListaDeCategoriasPai] = useState<ListaDeCategoriesPaiProps[]>([]);
 
-  // Exibi os posts que tem links relacionados através da busca por palavra
   useEffect(() => {
     const getAllPostsForLinksRelations = async () => {
       if (palavra) {
@@ -177,25 +163,11 @@ export function FormEdit() {
   };
 
   function handleAddNewRelationOfLinks(item: RetalationLinksProps) {
-    /*     let newListOfLinks = [...relacao];
-        newListOfLinks.push(
-          {
-            id: '',
-            id_relacao: item.id_post,
-            lk_post: '',
-            titulo: item.titulo
-          }
-        );
-        setRelacao(newListOfLinks); */
-    //setNovaRelacao(newListOfLinks);
-
     let novoLink = [...novarelacao];
     novoLink.push({ id: '', id_relacao: item.id_post, lk_post: id_post!, titulo: item.titulo });
     setNovaRelacao(novoLink);
   }
 
-
-  // Seleciona um post pelo ID
   useEffect(() => {
     const getOnePostForIdInfo = async (id_post: string) => {
       const response = await api.getOnePostForId(id_post);
@@ -206,9 +178,6 @@ export function FormEdit() {
     getOnePostForIdInfo(id_post!);
   }, [id_post]);
 
-  console.log(valores);
-
-  // Exibi as categorias e subcategorias da aplicação
   useEffect(() => {
     const AllCategories = async () => {
       const response = await api.getNewCategories();
@@ -220,13 +189,11 @@ export function FormEdit() {
     AllCategories();
   }, [categoria, atualizarCategoria]);
 
-  // Função que captura os dados pelo name e value, e seta em Valores para atualizar
-  function onChange(event: { target: { name: any; value: any; }; }) {
+  function onChangeValuesOfInputs(event: { target: { name: any; value: any; }; }) {
     const { name, value } = event.target;
     setValores({ ...valores, [name]: value })
   }
 
-  //Captura os novos dados vindos do INPUT, para alterar o que já existe no state (postitem)
   const handleChangeInputPostitem = async (index: number, event: any) => {
     event.preventDefault();
 
@@ -471,12 +438,6 @@ export function FormEdit() {
     }
   }
 
-  /*   const handleRemoveLinkOfPostWithRelation = (index: number) => {
-      const values = [...relacao];
-      values.splice(index, 1);
-      setRelacao(values);
-    }
-   */
   const handleRemoveLinkDaNovaRelacao = (index: number) => {
     const values = [...novarelacao];
     values.splice(index, 1);
@@ -516,21 +477,19 @@ export function FormEdit() {
     }
   }
 
-  // Essa funçao captura os ID dos postItems.
   const handleChangeIdPostitem = (index: number) => {
     setPosicaoPostItem(index)
     const id_item = postagem[index].id_post_item
     setIdItem(id_item)
   }
 
-  const handleDetelePostItem = () => {
+  async function handleDetelePostItem() {
 
-    if (idItem) {
-      const deletarPostItem = async (idItem: string) => {
-        await api.deletePostItem(idItem);
-      }
+    if (idItem !== '') {
 
-      deletarPostItem(idItem);
+      const response = await api.deletePostItem(idItem);
+      console.log("USAR TOST INFORMATIVO PRA EXIBIR NA TELA ", response);
+      console.log("PostItem a ser excluido ", idItem);
 
       const values = [...postagem];
 
@@ -589,14 +548,15 @@ export function FormEdit() {
     }
   }
 
-  const handleRemoveLinkOfPostWithRelation = (index: string) => {
+  async function handleRemoveLinkOfPostWithRelation() {
 
-    index = idLink
+    if (idLink !== '') {
 
-    const deletarLinkRelacao = async (index: string) => {
-      await api.deleteLinkRelation(index);
+      const response = await api.deleteLinkRelation(idLink);
+
+      console.log("USAR TOST INFORMATIVO PRA EXIBIR NA TELA ", response);
+      console.log("ID LINK RELAÇÂO A SER EXCLUIDO ", idLink);
     }
-    deletarLinkRelacao(index);
 
     const values = [...relacao];
     values.splice(Number(posicaoLinkRelacao), 1);
@@ -673,14 +633,14 @@ export function FormEdit() {
             type="text"
             name="titulo"
             defaultValue={valores.titulo}
-            onChange={onChange}
+            onChange={onChangeValuesOfInputs}
             className="form-control" placeholder="Digite um título">
           </input>
 
           <label>Resumo:</label>
           <textarea
             name="resumo"
-            onChange={onChange}
+            onChange={onChangeValuesOfInputs}
             value={valores.resumo}
           >
           </textarea>
@@ -688,7 +648,7 @@ export function FormEdit() {
           <label>Observações:</label>
           <textarea
             name="obs"
-            onChange={onChange}
+            onChange={onChangeValuesOfInputs}
             value={valores.obs ? valores.obs : ''}
           >
           </textarea>
@@ -786,7 +746,7 @@ export function FormEdit() {
                       id="player"
                       title="video"
                       frameBorder="0"
-                      allow="fullscreen"
+                      allow="autoplay 'none'"
                       src={videos[index]}
                     >
                     </iframe>

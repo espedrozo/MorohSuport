@@ -10,15 +10,14 @@ export const Container = styled.div`
 
 export const Li = styled.li`
 
-  padding: 5px 0;
+  padding-bottom: 2px;
 
   a{
+    border-radius: 2px;
     text-decoration: none;
     color: ${({ theme }) => theme["blue-200"]};
    
     &:hover {
-      padding: 2px;
-      border-radius: 2px;
       color: ${({ theme }) => theme.white};
       background-color: ${({ theme }) => theme["blue-200"]};
     }

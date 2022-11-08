@@ -139,7 +139,6 @@ export function PostsProvider({ children }: PostProviderProps) {
     const getTotalDePosts = async () => {
 
       if (palavra.trim() !== "") {
-        console.log("Aqui!")
         const response = await api.getAllPosts({
           paginaAtual: paginaAtualDaPaginacao,
           limiteApi,

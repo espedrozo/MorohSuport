@@ -10,11 +10,12 @@ export function Router() {
   return (
     <Routes>
       <Route path="/" element={<DefaultLayout />}  >
+        <Route index element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/postcreate" element={<PostCreate />} />
-        <Route path="/postdetails/:id_post" element={<PostDetails />} />
         <Route path="/postedit/:id_post" element={<PostEdit />} />
+        <Route path="/postdetails/:id_post" element={<PostDetails />} />
         <Route path="*" element={<h1>Pagina não encontrada ou em Manutenção!!!</h1>} />
       </Route>
     </Routes>
