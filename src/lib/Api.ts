@@ -7,6 +7,7 @@ interface Props {
   limiteApi?: number,
   palavra?: string,
   url?: string,
+  publicado?: string;
 }
 
 interface PropsPostItens {
@@ -41,6 +42,7 @@ interface PropsCreatePost {
   resumo: string;
   obs: string;
   data_publicacao: string;
+  publicado: string;
   postitem: PropsPostItens[];
   cat: PropsNewCategory[] | string;
   relacao: PropsRelacaoLinks[];
@@ -116,9 +118,13 @@ export const api = {
     return response;
   },
 
-  getAllCategories: async (options?: any) => {
-    const response = await apiAxiosGet('/categorias/listartodas', options);
-    return response;
+  getAllCategories: async (publicado?: string) => {
+
+    console.log("allCategories", publicado);
+    if (publicado !== undefined) {
+      const response = await apiAxiosGet('/categorias/listartodas', { publicado });
+      return response;
+    }
   },
 
   getNewCategories: async () => {
@@ -126,8 +132,8 @@ export const api = {
     return response;
   },
 
-  getAllSubCategories: async (idCat: string) => {
-    const response = await apiAxiosGet(`/categorias/listar/${idCat}`);
+  getAllSubCategories: async (idCat: string, publicado?: string) => {
+    const response = await apiAxiosGet(`/categorias/listar/${idCat}`, { publicado });
     return response;
   },
 
@@ -145,6 +151,7 @@ export const api = {
       resumo,
       obs,
       data_publicacao,
+      publicado,
       postitem,
       cat,
       relacao
@@ -157,6 +164,7 @@ export const api = {
         resumo,
         obs,
         data_publicacao,
+        publicado,
         postitem,
         lk_categoria: cat,
         relacao,

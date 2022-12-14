@@ -83,7 +83,15 @@ export const AreaCategory = styled(BaseAreaContainer)`
 
   > div{
     display: flex;
-    flex-direction: column;
+
+    .categories, .publicado{
+      display: flex;
+      flex-direction: column;
+    }
+
+    .publicado{
+      margin-left: 30px;
+    }
   }
 
   svg{

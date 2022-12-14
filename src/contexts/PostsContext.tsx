@@ -6,7 +6,8 @@ interface Post {
   id_post: string;
   titulo: string
   resumo: string;
-  data_publicacao: string
+  data_publicacao: string;
+  publicado: string;
 }
 
 type SubProps = {
@@ -36,6 +37,7 @@ type Category = {
 interface PostContextType {
 
   userName: string;
+  publicado: string;
   limiteApi: number;
   paginaAtual: number;
   totalPaginas: number;
@@ -56,6 +58,7 @@ interface PostContextType {
   paginacaoDePostsComBusca: Post[] | undefined;
 
   setLimiteApi: (item: number) => void;
+  setPublicado: (item: string) => void;
   setPaginaAtual: (item: number) => void;
   handleSubmit: (e: any) => Promise<void>;
   handleChangeSearcWord: (e: any) => void;
@@ -77,6 +80,8 @@ export const PostesContext = createContext({} as PostContextType);
 export function PostsProvider({ children }: PostProviderProps) {
 
   var palavraLocalStorage = localStorage.getItem('@moroh-suport-v1.0.1:palavra');
+  var publicadoLocalStorage = localStorage.getItem('@moroh-suport-v1.0.1:publicado');
+
 
   const limitePaginacao = 3;
   const [userName, setUserName] = useState('');
@@ -93,15 +98,32 @@ export function PostsProvider({ children }: PostProviderProps) {
   const [listOfCategories, setListOfCategories] = useState<Category[]>([]);
   const [listOfIdOfCategories, setListOfIdOfCategories] = useState<number[]>([]);
   const [reloadContextPostsVisited, setReloadContextPostsVisited] = useState(false);
+
   const [palavra, setPalavra] = useState(palavraLocalStorage !== null ? palavraLocalStorage : "");
+  const [publicado, setPublicado] = useState(publicadoLocalStorage !== null ? publicadoLocalStorage : "1");
+  /* 
+    useEffect(() => {
+      setPublicado(String(publicadoLocalStorage !== null ? publicadoLocalStorage : "1"));
+      console.log("publicado useEffect", publicado);
+    }, [publicado]);
+   */
 
   useEffect(() => {
-    async function getAllCategories() {
-      const allCategories = await api.getAllCategories();
-      setListOfCategories(allCategories)
+    async function getAllCategoriesListed() {
+      if (userName) {
+        console.log('UserName', userName);
+        const allCategories = await api.getAllCategories(publicado);
+        setListOfCategories(allCategories)
+      } else {
+        let publicado = "1";
+        console.log('sem UserName', publicado);
+        const allCategories = await api.getAllCategories(publicado);
+        setListOfCategories(allCategories)
+
+      }
     }
-    getAllCategories();
-  }, [reloadContext]);
+    getAllCategoriesListed();
+  }, [reloadContext, userName]);
 
   useEffect(() => {
     var userNameLocalStorage = localStorage.getItem('@moroh-suport-v1.0.1:userName');
@@ -137,34 +159,58 @@ export function PostsProvider({ children }: PostProviderProps) {
 
   useEffect(() => {
     const getTotalDePosts = async () => {
-
-      if (palavra.trim() !== "") {
-        const response = await api.getAllPosts({
-          paginaAtual: paginaAtualDaPaginacao,
-          limiteApi,
-          palavra
-        });
-
-        if (response) {
-          setNovosPostsComBusca(novosPostsComBusca.concat(response));
-          const paginasComBusca = Math.ceil(novosPostsComBusca.concat(response).length / limitePaginacao);
-          setTotalPaginas(paginasComBusca);
+      if (userName) {
+        if (palavra.trim() !== "") {
+          const response = await api.getAllPosts({
+            paginaAtual: paginaAtualDaPaginacao,
+            limiteApi,
+            palavra,
+            publicado
+          });
+          if (response) {
+            setNovosPostsComBusca(novosPostsComBusca.concat(response));
+            const paginasComBusca = Math.ceil(novosPostsComBusca.concat(response).length / limitePaginacao);
+            setTotalPaginas(paginasComBusca);
+          }
+        } else {
+          const response = await api.getAllPosts({
+            paginaAtual: paginaAtualDaPaginacao,
+            limiteApi,
+            publicado
+          });
+          if (response) {
+            setTotalDePosts(totalDePosts.concat(response));
+            const paginasSemBusca = Math.ceil(totalDePosts.concat(response).length / limitePaginacao);
+            setTotalPaginas(paginasSemBusca);
+          }
         }
       } else {
-        const response = await api.getAllPosts({
-          paginaAtual: paginaAtualDaPaginacao,
-          limiteApi
-        });
-
-        if (response) {
-          setTotalDePosts(totalDePosts.concat(response));
-          const paginasSemBusca = Math.ceil(totalDePosts.concat(response).length / limitePaginacao);
-          setTotalPaginas(paginasSemBusca);
+        if (palavra.trim() !== "") {
+          const response = await api.getAllPosts({
+            paginaAtual: paginaAtualDaPaginacao,
+            limiteApi,
+            palavra,
+          });
+          if (response) {
+            setNovosPostsComBusca(novosPostsComBusca.concat(response));
+            const paginasComBusca = Math.ceil(novosPostsComBusca.concat(response).length / limitePaginacao);
+            setTotalPaginas(paginasComBusca);
+          }
+        } else {
+          const response = await api.getAllPosts({
+            paginaAtual: paginaAtualDaPaginacao,
+            limiteApi,
+          });
+          if (response) {
+            setTotalDePosts(totalDePosts.concat(response));
+            const paginasSemBusca = Math.ceil(totalDePosts.concat(response).length / limitePaginacao);
+            setTotalPaginas(paginasSemBusca);
+          }
         }
       }
     }
     getTotalDePosts();
-  }, [palavra, paginaAtualDaPaginacao]);
+  }, [palavra, paginaAtualDaPaginacao, userName]);
 
   // Paginação dos posts por Index
   const indexDoUltimoPost = paginaAtual * limitePaginacao;
@@ -185,6 +231,7 @@ export function PostsProvider({ children }: PostProviderProps) {
         palavra,
         userName,
         limiteApi,
+        publicado,
         idsRecents,
         paginaAtual,
         handleSubmit,
@@ -202,6 +249,7 @@ export function PostsProvider({ children }: PostProviderProps) {
         reloadContextPostsVisited,
 
         setLimiteApi,
+        setPublicado,
         setIdsRecents,
         setPaginaAtual,
         setPostsRecents,

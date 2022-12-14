@@ -50,6 +50,7 @@ export function Login() {
     } else {
       localStorage.setItem('@moroh-suport-v1.0.1:userName', response.usuario.nome);
       navigate("/home");
+      window.location.reload();
     }
     //reset(); os dados do formulário
   }

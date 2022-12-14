@@ -8,6 +8,8 @@ import { PostesContext } from "../../contexts/PostsContext";
 export function CategoriesList() {
 
   const {
+    userName,
+    publicado,
     listOfCategories,
     setListOfCategories,
     listOfIdOfCategories,
@@ -38,22 +40,42 @@ export function CategoriesList() {
         setListOfIdOfCategories(listOfIdOfCategories)
 
         const subCategory = async (idCategory: number) => {
-          const response = await api.getAllSubCategories(String(idCategory));
+          if (userName) {
+            const response = await api.getAllSubCategories(String(idCategory), publicado);
 
-          let newCategory = [...listOfCategories];
+            let newCategory = [...listOfCategories];
 
-          newCategory.forEach(cat => {
-            if (cat.subcategoria) {
-              cat.subcategoria.forEach((elementoSubcategory) => {
-                if (elementoSubcategory['id'] === String(idCategory) && elementoSubcategory['tipo'] == "0") {
-                  elementoSubcategory.sub = response
-                }
-              });
-            } else if (cat['id'] === String(idCategory) && cat['tipo'] == "0") {
-              cat.subcategoria = response
-            }
-          });
-          setListOfCategories(newCategory);
+            newCategory.forEach(cat => {
+              if (cat.subcategoria) {
+                cat.subcategoria.forEach((elementoSubcategory) => {
+                  if (elementoSubcategory['id'] === String(idCategory) && elementoSubcategory['tipo'] == "0") {
+                    elementoSubcategory.sub = response
+                  }
+                });
+              } else if (cat['id'] === String(idCategory) && cat['tipo'] == "0") {
+                cat.subcategoria = response
+              }
+            });
+            setListOfCategories(newCategory);
+          } else {
+            const response = await api.getAllSubCategories(String(idCategory));
+
+            let newCategory = [...listOfCategories];
+
+            newCategory.forEach(cat => {
+              if (cat.subcategoria) {
+                cat.subcategoria.forEach((elementoSubcategory) => {
+                  if (elementoSubcategory['id'] === String(idCategory) && elementoSubcategory['tipo'] == "0") {
+                    elementoSubcategory.sub = response
+                  }
+                });
+              } else if (cat['id'] === String(idCategory) && cat['tipo'] == "0") {
+                cat.subcategoria = response
+              }
+            });
+            setListOfCategories(newCategory);
+          }
+
         }
         subCategory(idCategory);
       }

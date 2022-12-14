@@ -115,6 +115,7 @@ export function NewPostForm() {
   const [resumo, setResumo] = useState('');
   const [obs, setObs] = useState('');
   const [data_publicacao, setData_Publicacao] = useState('');
+  const [publicado, setPublicado] = useState("1");
   const [disabled, setDisabled] = useState(false);
   const [error, setError] = useState('');
   const [palavra, setPalavra] = useState('');
@@ -152,14 +153,14 @@ export function NewPostForm() {
   }, [palavra]);
 
   useEffect(() => {
-    const getAllCategories = async () => {
+    const getAllCategoriesListed = async () => {
       const response = await api.getNewCategories();
       if (response) {
         setListaDeCategorias(response);
         setListaDeCategoriasPai(response);
       }
     }
-    getAllCategories();
+    getAllCategoriesListed();
   }, [categoria, reloadContext]);
 
   const handleChangeInputPostItem = async (index: number, event: any) => {
@@ -470,6 +471,7 @@ export function NewPostForm() {
           resumo,
           obs,
           data_publicacao,
+          publicado,
           postitem,
           cat: novaCategoria,
           relacao
@@ -483,6 +485,7 @@ export function NewPostForm() {
           resumo,
           obs,
           data_publicacao,
+          publicado,
           postitem,
           cat: categoria,
           relacao
@@ -499,6 +502,8 @@ export function NewPostForm() {
     }
   }
 
+  console.log(publicado);
+
   return (
     <Container>
       <form encType="multipart/form-data" method="POST">
@@ -506,28 +511,37 @@ export function NewPostForm() {
         {/* ADICIONAR NOVAS CATEGORIAS */}
         <AreaCategory>
           <div>
-            <label> Escolha uma Categoria:</label>
-            <select value={categoria} onChange={e => setCategoria(e.target.value)}>
-              <option value=""> {novaCategoria?.[0]?.descricao ? novaCategoria?.[0]?.descricao : 'Nenhuma'} </option>
-              {listaDeCategorias &&
-                listaDeCategorias.map((category) => (
-                  <Fragment key={category.id}>
-                    <option value={category.id} className="category-pai">{category.descricao}</option>
-                    {
-                      listaDeCategorias &&
-                      category.sub?.map((subcategory) => (
-                        <option key={subcategory.id}
-                          value={subcategory.id}
-                          onChange={() => setCategoria}
-                          className="subcategory"
-                        >
-                          &nbsp;&nbsp;&nbsp;&nbsp; {subcategory.descricao && subcategory.descricao}
-                        </option>
-                      ))
-                    }
-                  </Fragment>
-                ))}
-            </select>
+            <div className="categories">
+              <label> Escolha uma Categoria:</label>
+              <select value={categoria} onChange={e => setCategoria(e.target.value)}>
+                <option value=""> {novaCategoria?.[0]?.descricao ? novaCategoria?.[0]?.descricao : 'Nenhuma'} </option>
+                {listaDeCategorias &&
+                  listaDeCategorias.map((category) => (
+                    <Fragment key={category.id}>
+                      <option value={category.id} className="category-pai">{category.descricao}</option>
+                      {
+                        listaDeCategorias &&
+                        category.sub?.map((subcategory) => (
+                          <option key={subcategory.id}
+                            value={subcategory.id}
+                            onChange={() => setCategoria}
+                            className="subcategory"
+                          >
+                            &nbsp;&nbsp;&nbsp;&nbsp; {subcategory.descricao && subcategory.descricao}
+                          </option>
+                        ))
+                      }
+                    </Fragment>
+                  ))}
+              </select>
+            </div>
+            <div className="publicado">
+              <label>Publicar</label>
+              <select onChange={(event) => setPublicado(event.target.value)}>
+                <option value='1'>Sim</option>
+                <option value='0'>Não</option>
+              </select>
+            </div>
           </div>
 
           {/* BUTTON OF MODAL OF ADD NEW CATEGORY */}

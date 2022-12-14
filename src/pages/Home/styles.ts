@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { mobile } from "../../styles/responsive";
 
 export const SectionRight = styled.div`
   flex: 1;
@@ -10,9 +11,29 @@ export const SectionRight = styled.div`
   justify-content: center;
   background-color: ${({ theme }) => theme.white};
   border: 1px solid ${({ theme }) => theme["blue-900"]};
+
+  .filtro{
+    display: flex;
+    align-items: center;
+
+    ${mobile({ flexDirection: 'column-reverse' })};
+  }
+
+  .publicado{
+    width: 40%;
+    ${mobile({ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px' })};
+  }
+`;
+
+export const TitlteSectionUser = styled.h3`
+  width: 60%;
+  margin: 5px 0;
+  font-weight: bold;
+  color: ${({ theme }) => theme["blue-900"]};
 `;
 
 export const TitlteSection = styled.h3`
+  width: 100%;
   margin: 5px 0;
   font-weight: bold;
   text-align: center;

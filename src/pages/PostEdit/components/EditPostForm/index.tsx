@@ -76,6 +76,7 @@ interface ValoresProps {
   resumo: string;
   obs: string;
   data_publicacao: string;
+  publicado: string;
   postitem: PostItemProps[];
   relacao: RelacaoProps[];
   categoria: {
@@ -118,6 +119,9 @@ export function FormEdit() {
   const [idCategoriaPai, setIdCategoriaPai] = useState('');
   const [posicaoPostItem, setPosicaoPostItem] = useState(0);
   const [posicaoLinkRelacao, setPosicaoLinkRelacao] = useState(0);
+
+  const [publicado, setPublicado] = useState("1");
+
 
   const [videos, setVideos] = useState([""]);
   const [urlsVideos, setUrlsVideos] = useState([""]);
@@ -193,6 +197,8 @@ export function FormEdit() {
   function onChangeValuesOfInputs(event: { target: { name: any; value: any; }; }) {
     const { name, value } = event.target;
     setValores({ ...valores, [name]: value })
+
+    console.log(value);
   }
 
   const handleChangeInputPostitem = async (index: number, event: any) => {
@@ -459,14 +465,16 @@ export function FormEdit() {
     var valores2 = null;
 
     if (idCategoria !== '' && categoria === '') {
-      valores2 = { id_post, titulo, resumo, obs, data_publicacao, postitem, relacao, lk_categoria: idCategoria }
+      valores2 = { id_post, titulo, resumo, obs, data_publicacao, publicado, postitem, relacao, lk_categoria: idCategoria }
 
       // Substitui o ID da categoria pelo novo ID selecionado
     } else if (categoria !== "Nenhuma") {
-      valores2 = { id_post, titulo, resumo, obs, data_publicacao, postitem, relacao, lk_categoria: categoria }
+      valores2 = { id_post, titulo, resumo, obs, data_publicacao, publicado, postitem, relacao, lk_categoria: categoria }
     } else {
-      valores2 = { id_post, titulo, resumo, obs, data_publicacao, postitem, relacao, lk_categoria: nenhuma }
+      valores2 = { id_post, titulo, resumo, obs, data_publicacao, publicado, postitem, relacao, lk_categoria: nenhuma }
     }
+
+    console.log(valores2);
 
     const response = await api.updatePost(id, valores2);
 
@@ -572,7 +580,6 @@ export function FormEdit() {
     setIdLink(id_Link)
   }
 
-
   return (
     <Container>
       <form encType="multipart/form-data" method="PUT">
@@ -580,40 +587,60 @@ export function FormEdit() {
         {/* ADD NEW CATEGORIES */}
         <AreaCategory>
           <div>
-            <label> Escolha uma Categoria:</label>
-            <select value={categoria} onChange={e => setCategoria(e.target.value)}>
-              <option value=''>
-                {novaCategoria?.[0]?.descricao ? novaCategoria?.[0]?.descricao
-                  : valores.categoria?.[0]?.descricao ? valores.categoria?.[0]?.descricao
-                    : 'Nenhuma'}
-              </option>
-              <option>Nenhuma</option>
+            <div className="categories">
+              <label> Escolha uma Categoria:</label>
+              <select value={categoria} onChange={e => setCategoria(e.target.value)}>
+                <option value=''>
+                  {novaCategoria?.[0]?.descricao ? novaCategoria?.[0]?.descricao
+                    : valores.categoria?.[0]?.descricao ? valores.categoria?.[0]?.descricao
+                      : 'Nenhuma'}
+                </option>
+                <option>Nenhuma</option>
 
-              {
-                listaDeCategorias.map((category) => (
-                  <Fragment key={category.id}>
-                    <option
-                      value={category.id}
-                      className="category-pai"
-                    >
-                      {category.descricao}
-                    </option>
-                    {
-                      listaDeCategorias &&
-                      category.sub?.map((subcategory) => (
-                        <option
-                          key={subcategory.id}
-                          value={subcategory.id}
-                          onClick={() => setCategoria}
-                          className="subcategory"
-                        >
-                          &nbsp;&nbsp;&nbsp;&nbsp; {subcategory.descricao && subcategory.descricao}
-                        </option>
-                      ))
-                    }
-                  </Fragment>
-                ))}
-            </select>
+                {
+                  listaDeCategorias.map((category) => (
+                    <Fragment key={category.id}>
+                      <option
+                        value={category.id}
+                        className="category-pai"
+                      >
+                        {category.descricao}
+                      </option>
+                      {
+                        listaDeCategorias &&
+                        category.sub?.map((subcategory) => (
+                          <option
+                            key={subcategory.id}
+                            value={subcategory.id}
+                            onClick={() => setCategoria}
+                            className="subcategory"
+                          >
+                            &nbsp;&nbsp;&nbsp;&nbsp; {subcategory.descricao && subcategory.descricao}
+                          </option>
+                        ))
+                      }
+                    </Fragment>
+                  ))}
+              </select>
+            </div>
+            <div className="publicado">
+              <label>Publicar</label>
+              <select onChange={(event) => setPublicado(event.target.value)}>
+
+                {valores.publicado === '1' ?
+                  <>
+                    <option value="1">Sim</option>
+                    <option value="0">Não</option>
+                  </>
+                  :
+
+                  <>
+                    <option value="0">Não</option>
+                    <option value="1">Sim</option>
+                  </>
+                }
+              </select>
+            </div>
           </div>
 
           {/* BUTTON OF MODAL OF ADD NEW CATEGORY */}

@@ -33,6 +33,7 @@ export function Header() {
   const handleLogout = () => {
     fazerLogout();
     navigate('/home');
+    window.location.reload();
   }
 
   return (

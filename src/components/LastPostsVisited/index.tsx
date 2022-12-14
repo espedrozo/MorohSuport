@@ -36,9 +36,9 @@ export function LastPostsVisited() {
         listaPosts.map((post) =>
           <NavLink key={post.id_post} to={`/postdetails/${post.id_post}`} className="lista">
             {
-              post.titulo.length > 80 ?
-                post.titulo.substring(0, 80).toLocaleUpperCase() + "..."
-                : post.titulo.toUpperCase()
+              post.titulo?.length > 80 ?
+                post.titulo?.substring(0, 80).toLocaleUpperCase() + "..."
+                : post.titulo?.toUpperCase()
             }
           </NavLink>
         )

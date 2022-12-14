@@ -23,20 +23,20 @@ export function Posts() {
 
   return (
     <>
-      {paginacaoDePostsComBusca !== undefined ?
+      {paginacaoDePostsComBusca !== undefined && paginacaoDePostsComBusca.length > 0 ?
         paginacaoDePostsComBusca?.map((item, index) => (
           <CardBoder key={index}>
             <CardHeader>
               <CardTitle>
                 {
-                  item.titulo.length > 80 ?
-                    item.titulo.substring(0, 80).toLocaleUpperCase() + "..."
-                    : item.titulo.toUpperCase()
+                  item.titulo?.length > 80 ?
+                    item.titulo?.substring(0, 80).toLocaleUpperCase() + "..."
+                    : item.titulo?.toUpperCase()
                 }
               </CardTitle>
             </CardHeader>
             <CardBody>
-              <CardText>{item.resumo.substring(0, 120) + "..."}</CardText>
+              <CardText>{item.resumo?.substring(0, 120) + "..."}</CardText>
               <Link to={`/postdetails/${item.id_post}`}>
                 <ButtonDetalhe>
                   Ver mais...
@@ -56,14 +56,14 @@ export function Posts() {
             <CardHeader>
               <CardTitle>
                 {
-                  item.titulo.length > 80 ?
-                    item.titulo.substring(0, 80).toLocaleUpperCase() + "..."
-                    : item.titulo.toUpperCase()
+                  item.titulo?.length > 80 ?
+                    item.titulo?.substring(0, 80).toLocaleUpperCase() + "..."
+                    : item.titulo?.toUpperCase()
                 }
               </CardTitle>
             </CardHeader>
             <CardBody>
-              <CardText>{item.resumo.substring(0, 120) + "..."}</CardText>
+              <CardText>{item.resumo?.substring(0, 120) + "..."}</CardText>
               <Link to={`/postdetails/${item.id_post}`}>
                 <ButtonDetalhe>
                   Ver mais...
@@ -72,7 +72,7 @@ export function Posts() {
             </CardBody>
             <CardFooter>
               <CardSmall>
-                Atualizado em: {item.data_publicacao.substring(8, 2)}-{item.data_publicacao.substring(5, 2)}-{item.data_publicacao.substring(0, 4)}
+                Atualizado em: {item.data_publicacao?.substring(8, 2)}-{item.data_publicacao?.substring(5, 2)}-{item.data_publicacao?.substring(0, 4)}
               </CardSmall>
             </CardFooter>
           </CardBoder>
