@@ -84,11 +84,11 @@ export function RowOfTable(
 
     await api.updateCategories(id_cat, valoresDaCategoria);
 
-    localStorage.removeItem('@moroh-suport-v1.0.1:idRecentes');
-    localStorage.removeItem('@moroh-suport-v1.0.1:postRecentes');
+    localStorage.removeItem('@moroh-suport-v1.0.2:idRecentes');
+    localStorage.removeItem('@moroh-suport-v1.0.2:postRecentes');
 
-    localStorage.removeItem('@moroh-suport-v1.0.1:allCategories');
-    localStorage.removeItem('@moroh-suport-v1.0.1:listOfIdOfCategories');
+    localStorage.removeItem('@moroh-suport-v1.0.2:allCategories');
+    localStorage.removeItem('@moroh-suport-v1.0.2:listOfIdOfCategories');
 
     setReloadContext(!reloadContext);
   }

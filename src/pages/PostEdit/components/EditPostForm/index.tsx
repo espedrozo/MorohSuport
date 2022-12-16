@@ -120,9 +120,6 @@ export function FormEdit() {
   const [posicaoPostItem, setPosicaoPostItem] = useState(0);
   const [posicaoLinkRelacao, setPosicaoLinkRelacao] = useState(0);
 
-  const [publicado, setPublicado] = useState("1");
-
-
   const [videos, setVideos] = useState([""]);
   const [urlsVideos, setUrlsVideos] = useState([""]);
   const [urlsImagens, setUrlsImagens] = useState([""]);
@@ -138,6 +135,8 @@ export function FormEdit() {
   const [listaDeCategorias, setListaDeCategorias] = useState<ListCategoriesProps[]>([]);
   const [novaCategoria, setNovaCategoria] = useState([{ id_cat: '', descricao: '', id_pai: null }])
   const [listaDeCategoriasPai, setListaDeCategoriasPai] = useState<ListaDeCategoriesPaiProps[]>([]);
+
+  const [publicado, setPublicado] = useState("");
 
   useEffect(() => {
     const getAllPostsForLinksRelations = async () => {
@@ -197,8 +196,6 @@ export function FormEdit() {
   function onChangeValuesOfInputs(event: { target: { name: any; value: any; }; }) {
     const { name, value } = event.target;
     setValores({ ...valores, [name]: value })
-
-    console.log(value);
   }
 
   const handleChangeInputPostitem = async (index: number, event: any) => {
@@ -318,35 +315,6 @@ export function FormEdit() {
     ]);
   }
 
-  const handleRemovePostItem = (index: number) => {
-    const values = [...postagem];
-
-    const valuesImg = [...imagem2];
-    const valuesUrlsImagens = [...urlsImagens];
-
-    const valuesVideos = [...videos];
-    const valuesUrlsVideos = [...urlsVideos];
-    const valuesUrlsVideosFormated = [...urlsVideosFormated];
-
-    values.splice(index, 1);
-
-    valuesImg.splice(index, 1);
-    valuesUrlsImagens.splice(index, 1);
-
-    valuesVideos.splice(index, 1);
-    valuesUrlsVideos.splice(index, 1);
-    valuesUrlsVideosFormated.splice(index, 1);
-
-    setPostagem(values);
-
-    setImagem2(valuesImg);
-    setUrlsImagens(valuesUrlsImagens);
-
-    setVideos(valuesVideos);
-    setUrlsVideos(valuesUrlsVideos);
-    setUrlsVideosFormated(valuesUrlsVideosFormated);
-  }
-
   const handleMovePostItemForUP = (index: number) => {
     const values = [...postagem];
 
@@ -459,31 +427,31 @@ export function FormEdit() {
     const resumo = valores.resumo;
     const obs = valores.obs;
     const data_publicacao = valores.data_publicacao;
+    const publicado2 = publicado !== "" ? publicado : valores.publicado;
     const postitem = postagem;
     const relacao = valores.relacao.concat(novarelacao);
 
     var valores2 = null;
 
     if (idCategoria !== '' && categoria === '') {
-      valores2 = { id_post, titulo, resumo, obs, data_publicacao, publicado, postitem, relacao, lk_categoria: idCategoria }
+      valores2 = { id_post, titulo, resumo, obs, data_publicacao, publicado: publicado2, postitem, relacao, lk_categoria: idCategoria }
 
       // Substitui o ID da categoria pelo novo ID selecionado
     } else if (categoria !== "Nenhuma") {
-      valores2 = { id_post, titulo, resumo, obs, data_publicacao, publicado, postitem, relacao, lk_categoria: categoria }
+      valores2 = { id_post, titulo, resumo, obs, data_publicacao, publicado: publicado2, postitem, relacao, lk_categoria: categoria }
     } else {
-      valores2 = { id_post, titulo, resumo, obs, data_publicacao, publicado, postitem, relacao, lk_categoria: nenhuma }
+      valores2 = { id_post, titulo, resumo, obs, data_publicacao, publicado: publicado2, postitem, relacao, lk_categoria: nenhuma }
     }
-
-    console.log(valores2);
 
     const response = await api.updatePost(id, valores2);
 
     if (response.status === 'error') {
       setError(response.message);
     } else {
-
-      navigate(`/postDetails/${id_post}`);
+      window.location.reload();
+      // navigate(`/postDetails/${id_post}`);
     }
+
   }
 
   const handleChangeIdPostitem = (index: number) => {

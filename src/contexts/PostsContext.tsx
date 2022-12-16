@@ -79,8 +79,8 @@ export const PostesContext = createContext({} as PostContextType);
 
 export function PostsProvider({ children }: PostProviderProps) {
 
-  var palavraLocalStorage = localStorage.getItem('@moroh-suport-v1.0.1:palavra');
-  var publicadoLocalStorage = localStorage.getItem('@moroh-suport-v1.0.1:publicado');
+  var palavraLocalStorage = localStorage.getItem('@moroh-suport-v1.0.2:palavra');
+  var publicadoLocalStorage = localStorage.getItem('@moroh-suport-v1.0.2:publicado');
 
 
   const limitePaginacao = 3;
@@ -111,12 +111,10 @@ export function PostsProvider({ children }: PostProviderProps) {
   useEffect(() => {
     async function getAllCategoriesListed() {
       if (userName) {
-        console.log('UserName', userName);
         const allCategories = await api.getAllCategories(publicado);
         setListOfCategories(allCategories)
       } else {
         let publicado = "1";
-        console.log('sem UserName', publicado);
         const allCategories = await api.getAllCategories(publicado);
         setListOfCategories(allCategories)
 
@@ -126,7 +124,7 @@ export function PostsProvider({ children }: PostProviderProps) {
   }, [reloadContext, userName]);
 
   useEffect(() => {
-    var userNameLocalStorage = localStorage.getItem('@moroh-suport-v1.0.1:userName');
+    var userNameLocalStorage = localStorage.getItem('@moroh-suport-v1.0.2:userName');
 
     setUserName(userNameLocalStorage !== null ? userNameLocalStorage : "")
 
@@ -136,11 +134,11 @@ export function PostsProvider({ children }: PostProviderProps) {
     event.preventDefault();
     if (event !== '') {
       setPalavra(valorInput);
-      localStorage.setItem('@moroh-suport-v1.0.1:palavra', valorInput);
+      localStorage.setItem('@moroh-suport-v1.0.2:palavra', valorInput);
 
       window.location.reload();
     } else {
-      localStorage.removeItem('@moroh-suport-v1.0.1:palavra');
+      localStorage.removeItem('@moroh-suport-v1.0.2:palavra');
       setPalavra('');
     }
   };
@@ -149,7 +147,7 @@ export function PostsProvider({ children }: PostProviderProps) {
     if (e !== '') {
       setValorInput(e);
     } else {
-      localStorage.removeItem('@moroh-suport-v1.0.1:palavra');
+      localStorage.removeItem('@moroh-suport-v1.0.2:palavra');
       setValorInput('');
       setPalavra('')
       setPaginaAtualDaPaginacao(1)

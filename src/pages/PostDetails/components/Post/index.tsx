@@ -23,10 +23,10 @@ import {
   TextPostItem
 } from './styles';
 
-var idRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.1:idRecentes');
+var idRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.2:idRecentes');
 var idRecentes = idRecentesLocal !== null ? JSON.parse(idRecentesLocal) : [];
 
-var postRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.1:postRecentes');
+var postRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.2:postRecentes');
 var postRecentes = postRecentesLocal !== null ? JSON.parse(postRecentesLocal) : [];
 
 interface PostItemProps {
@@ -86,9 +86,9 @@ export function Post() {
 
           idRecentes.push(id_post)
 
-          localStorage.setItem('@moroh-suport-v1.0.1:idRecentes', JSON.stringify(idRecentes));
+          localStorage.setItem('@moroh-suport-v1.0.2:idRecentes', JSON.stringify(idRecentes));
 
-          const idRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.1:idRecentes');
+          const idRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.2:idRecentes');
           idRecentes = idRecentesLocal !== null ? JSON.parse(idRecentesLocal) : [];
 
           const idPostRecentEncontrado = postRecentes.find((element: { id_post: string; }) => element.id_post === id_post);
@@ -101,7 +101,7 @@ export function Post() {
             postRecentes?.push(response);
           } else {
             postRecentes?.push(response);
-            localStorage.setItem('@moroh-suport-v1.0.1:postRecentes', JSON.stringify(postRecentes.slice(-5)));
+            localStorage.setItem('@moroh-suport-v1.0.2:postRecentes', JSON.stringify(postRecentes.slice(-5)));
           }
         } else {
           var index = idRecentes.indexOf(id_post);
@@ -111,9 +111,9 @@ export function Post() {
           }
           idRecentes.push(id_post)
 
-          localStorage.setItem('@moroh-suport-v1.0.1:idRecentes', JSON.stringify(idRecentes));
+          localStorage.setItem('@moroh-suport-v1.0.2:idRecentes', JSON.stringify(idRecentes));
 
-          const idRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.1:idRecentes');
+          const idRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.2:idRecentes');
           idRecentes = idRecentesLocal !== null ? JSON.parse(idRecentesLocal) : [];
 
           const postRecentEncontrado = postRecentes.find((element: { id_post: string; }) => element.id_post === id_post);
@@ -124,10 +124,10 @@ export function Post() {
               postRecentes.splice(indexPostRecente, 1);
             }
             postRecentes?.push(response);
-            localStorage.setItem('@moroh-suport-v1.0.1:postRecentes', JSON.stringify(postRecentes.slice(-5)));
+            localStorage.setItem('@moroh-suport-v1.0.2:postRecentes', JSON.stringify(postRecentes.slice(-5)));
           } else {
             postRecentes?.push(response);
-            localStorage.setItem('@moroh-suport-v1.0.1:postRecentes', JSON.stringify(postRecentes.slice(-5)));
+            localStorage.setItem('@moroh-suport-v1.0.2:postRecentes', JSON.stringify(postRecentes.slice(-5)));
           }
         }
       }
@@ -151,9 +151,9 @@ export function Post() {
       idRecentes.splice(index, 1);
     }
 
-    localStorage.setItem('@moroh-suport-v1.0.1:idRecentes', JSON.stringify(idRecentes));
+    localStorage.setItem('@moroh-suport-v1.0.2:idRecentes', JSON.stringify(idRecentes));
 
-    const idRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.1:idRecentes');
+    const idRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.2:idRecentes');
     idRecentes = idRecentesLocal !== null ? JSON.parse(idRecentesLocal) : [];
 
     const postRecentEncontrado = postRecentes.find((element: { id_post: string | undefined; }) => element.id_post == id_post);
@@ -163,13 +163,13 @@ export function Post() {
       if (indexPostRecente > -1) {
         postRecentes.splice(indexPostRecente, 1);
       }
-      localStorage.setItem('@moroh-suport-v1.0.1:postRecentes', JSON.stringify(postRecentes.slice(-5)));
+      localStorage.setItem('@moroh-suport-v1.0.2:postRecentes', JSON.stringify(postRecentes.slice(-5)));
 
-      postRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.1:postRecentes');
+      postRecentesLocal = localStorage.getItem('@moroh-suport-v1.0.2:postRecentes');
       postRecentes = postRecentesLocal !== null ? JSON.parse(postRecentesLocal) : [];
     }
 
-    localStorage.removeItem('@moroh-suport-v1.0.1:idRecentes');
+    localStorage.removeItem('@moroh-suport-v1.0.2:idRecentes');
 
     setReloadContext(!reloadContext);
     setReloadContextPostsVisited(!reloadContextPostsVisited);

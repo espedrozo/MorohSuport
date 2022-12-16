@@ -17,7 +17,7 @@ export function Home() {
     return context
   });
 
-  let publicadoLocalStorage = localStorage.getItem('@moroh-suport-v1.0.1:publicado');
+  let publicadoLocalStorage = localStorage.getItem('@moroh-suport-v1.0.2:publicado');
   const [newFilter, setNewFilter] = useState(String(publicadoLocalStorage !== null && publicadoLocalStorage));
 
   function handlerFiltered(event: ChangeEvent<HTMLSelectElement>) {
@@ -26,7 +26,7 @@ export function Home() {
   }
 
   useEffect(() => {
-    localStorage.setItem('@moroh-suport-v1.0.1:publicado', newFilter);
+    localStorage.setItem('@moroh-suport-v1.0.2:publicado', newFilter);
   }, [newFilter]);
 
   return (

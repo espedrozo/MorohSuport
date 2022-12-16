@@ -178,8 +178,8 @@ export function ModalAddNewCategory(
         setError(response.message);
 
       } else {
-        localStorage.removeItem('@moroh-suport-v1.0.1:idRecentes');
-        localStorage.removeItem('@moroh-suport-v1.0.1:postRecentes');
+        localStorage.removeItem('@moroh-suport-v1.0.2:idRecentes');
+        localStorage.removeItem('@moroh-suport-v1.0.2:postRecentes');
 
         setReloadContext(!reloadContext);
       }

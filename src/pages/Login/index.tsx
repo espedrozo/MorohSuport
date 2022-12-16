@@ -48,7 +48,7 @@ export function Login() {
     if (response.status === 'error') {
       setErrorLogin(response.message);
     } else {
-      localStorage.setItem('@moroh-suport-v1.0.1:userName', response.usuario.nome);
+      localStorage.setItem('@moroh-suport-v1.0.2:userName', response.usuario.nome);
       navigate("/home");
       window.location.reload();
     }

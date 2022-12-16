@@ -23,7 +23,7 @@ export function LastPostsVisited() {
 
   useEffect(() => {
 
-    let response = localStorage.getItem('@moroh-suport-v1.0.1:postRecentes');
+    let response = localStorage.getItem('@moroh-suport-v1.0.2:postRecentes');
     resultOfListOfLocalStorage = response !== null ? (JSON.parse(response)) : [];
 
     resultOfListOfLocalStorage?.reverse();

@@ -502,8 +502,6 @@ export function NewPostForm() {
     }
   }
 
-  console.log(publicado);
-
   return (
     <Container>
       <form encType="multipart/form-data" method="POST">

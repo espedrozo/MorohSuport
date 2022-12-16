@@ -158,11 +158,11 @@ export function ModalManageCategory() {
       const response = await api.deleteCategory(id);
       console.log("RESPONSE: USAR TOSKT INFORMATIVO ", response);
 
-      localStorage.removeItem('@moroh-suport-v1.0.1:idRecentes');
-      localStorage.removeItem('@moroh-suport-v1.0.1:postRecentes');
+      localStorage.removeItem('@moroh-suport-v1.0.2:idRecentes');
+      localStorage.removeItem('@moroh-suport-v1.0.2:postRecentes');
 
-      localStorage.removeItem('@moroh-suport-v1.0.1:allCategories');
-      localStorage.removeItem('@moroh-suport-v1.0.1:listOfIdOfCategories');
+      localStorage.removeItem('@moroh-suport-v1.0.2:allCategories');
+      localStorage.removeItem('@moroh-suport-v1.0.2:listOfIdOfCategories');
 
       setReloadContext(!reloadContext);
 

@@ -119,8 +119,6 @@ export const api = {
   },
 
   getAllCategories: async (publicado?: string) => {
-
-    console.log("allCategories", publicado);
     if (publicado !== undefined) {
       const response = await apiAxiosGet('/categorias/listartodas', { publicado });
       return response;
