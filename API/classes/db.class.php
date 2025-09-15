@@ -16,15 +16,14 @@ class Conexao
     $db_senha = "";
     $db_driver = "mysql";
 
-
     # Informações sobre o banco de dados: MOROSOFTWARE PRODUÇÃO
     /*   
-  $db_host = "localhost";
-    $db_nome = "morohs37_suporte";
-    $db_usuario = "morohs37_User1";
-    $db_senha = "aVaqOk%Ew6$8";
-    $db_driver = "mysql";
- */
+      $db_host = "localhost";
+      $db_nome = "morohs37_suporte";
+      $db_usuario = "morohs37_User1";
+      $db_senha = "aVaqOk%Ew6$8";
+      $db_driver = "mysql";
+    */
 
     try {
       # Atribui o objeto PDO à variável $db.
