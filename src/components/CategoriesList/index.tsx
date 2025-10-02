@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import type { MouseEvent } from 'react';
 import { api } from '../../lib/Api'
 import { Link } from "react-router-dom";
 import { Container, Li } from "./styles";
